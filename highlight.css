@@ -1,0 +1,180 @@
+/*
+
+XCode style (c) Angel Garcia <angelgarcia.mail@gmail.com>
+
+*/
+
+.hljs {
+    display: block;
+    overflow-x: auto;
+    /*padding: 0.5em;*/
+    padding: 0;
+    background: #0000;
+    color: black;
+}
+
+/* Gray DOCTYPE selectors like WebKit */
+.xml .hljs-meta {
+    color: #c0c0c0;
+}
+
+.hljs-comment,
+.hljs-quote {
+    color: #007400;
+}
+
+.hljs-tag,
+.hljs-attribute,
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-name {
+    color: #aa0d91;
+}
+
+.hljs-variable,
+.hljs-template-variable {
+    color: #3F6E74;
+}
+
+.hljs-code,
+.hljs-string,
+.hljs-meta-string {
+    color: #c41a16;
+}
+
+.hljs-regexp,
+.hljs-link {
+    color: #0E0EFF;
+}
+
+.hljs-title,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-number {
+    color: #1c00cf;
+}
+
+.hljs-section,
+.hljs-meta {
+    color: #643820;
+}
+
+
+.hljs-class .hljs-title,
+.hljs-type,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-params {
+    color: #5c2699;
+}
+
+.hljs-attr {
+    color: #836C28;
+}
+
+.hljs-subst {
+    color: #000;
+}
+
+.hljs-formula {
+    background-color: #eee;
+    font-style: italic;
+}
+
+.hljs-addition {
+    background-color: #baeeba;
+}
+
+.hljs-deletion {
+    background-color: #ffc8bd;
+}
+
+.hljs-selector-id,
+.hljs-selector-class {
+    color: #9b703f;
+}
+
+.hljs-doctag,
+.hljs-strong {
+    font-weight: bold;
+}
+
+.hljs-emphasis {
+    font-style: italic;
+}
+
+/* Tomorrow Night Bright Theme */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+
+/* Tomorrow Comment */
+.rightside .hljs-comment,
+.rightside .hljs-quote {
+    color: #969896;
+}
+
+/* Tomorrow Red */
+.rightside .hljs-variable,
+.rightside .hljs-template-variable,
+.rightside .hljs-tag,
+.rightside .hljs-name,
+.rightside .hljs-selector-id,
+.rightside .hljs-selector-class,
+.rightside .hljs-regexp,
+.rightside .hljs-deletion {
+    color: #d54e53;
+}
+
+/* Tomorrow Orange */
+.rightside .hljs-number,
+.rightside .hljs-built_in,
+.rightside .hljs-builtin-name,
+.rightside .hljs-literal,
+.rightside .hljs-type,
+.rightside .hljs-params,
+.rightside .hljs-meta,
+.rightside .hljs-link {
+    color: #e78c45;
+}
+
+/* Tomorrow Yellow */
+.rightside .hljs-attribute {
+    color: #e7c547;
+}
+
+/* Tomorrow Green */
+.rightside .hljs-string,
+.rightside .hljs-symbol,
+.rightside .hljs-bullet,
+.rightside .hljs-addition {
+    color: #b9ca4a;
+}
+
+/* Tomorrow Blue */
+.rightside .hljs-title,
+.rightside .hljs-section {
+    color: #7aa6da;
+}
+
+/* Tomorrow Purple */
+.rightside .hljs-keyword,
+.rightside .hljs-selector-tag {
+    color: #c397d8;
+}
+
+.rightside .hljs {
+    display: block;
+    overflow-x: auto;
+    background: black;
+    color: #eaeaea;
+    /*padding: 0.5em;*/
+}
+
+.rightside .hljs-emphasis {
+    font-style: italic;
+}
+
+.rightside .hljs-strong {
+    font-weight: bold;
+}

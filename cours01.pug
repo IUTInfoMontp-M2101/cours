@@ -1,0 +1,450 @@
+extends coursXX.pug
+
+append preamble
+  - date = "2018-01-12";
+  - title = "Cours n°1 :<br>Introduction au C";
+
+block document
+  section.single
+    h1 Généralités
+    ul
+      li Langage bas niveau (accès direct aux instructions du système)
+      li Développé par Dennis Ritchie en 1972 chez Bell Labs
+      li Langage impératif
+      li La syntaxe du C a fortement inspiré celle de nombreux langages par la suite (par exemple Java)
+
+  section.split
+    h1 Premier programme
+    .leftside
+      pre
+        code.cpp
+          | #include &lt;stdio.h>
+          |
+          | /* la fonction main est appelée automatiquement à l'exécution du programme */
+          | int main() {
+          |   printf("Hello, world!\n");
+          |   return 0; // valeur de retour
+          | }
+    .rightside Quelques remarques :
+      ul
+        li sensible à la casse
+        li caractères blancs ne sont pas significatifs
+        li commentaires sur une ligne indiqués par <code>//</code>, sur plusieurs lignes entre
+          | <code>/*</code> et <code>*/</code>
+
+  section.split
+    h1 Instructions
+    .leftside
+      pre
+        code.cpp
+          | int a = 12; int b = 5;
+          | // bloc d'instructions après if
+          | if (a > 0) {
+          |   a += 1;
+          |   b = a + b;
+          | }
+    .rightside
+      ul
+        li Les instructions se terminent par un point virgule
+        li On peut grouper plusieurs instructions entre accolades
+
+  section.split
+    h1 Compilation
+    .leftside
+      pre
+        code.plaintext
+          | $ gcc -Wall code.c -o prog
+          |
+          | $ ./prog
+          | Hello, world!
+    .rightside
+      ul
+        li Les programmes en C ne sont pas directement exécutables
+        li Il faut les compiler
+        li La compilation produit un fichier exécutable (langage machine)
+        li La compilation s'effectue en plusieurs temps :
+          ul
+            li précompilation (traîtement syntaxique)
+            li compilation (génération de code machine)
+            li édition de liens (production d'un exécutable en combinant les fonctions)
+
+  section.split
+    h1 Précompilation
+    .leftside
+      pre
+        code.cpp
+          | <span class="highlight">#include</span> &lt;stdio.h>
+          | <span class="highlight">#include</span> &lt;stdlib.h>
+          | <span class="highlight">#include</span> "fichier.h"
+          |
+          | <span class="highlight">#define</span> PI 3.14159
+          | <span class="highlight">#define</span> ever ;1;
+          |
+          | int main() {
+          |   int n = 1;
+          |   for(<span class="only highlight" data-step="0">ever</span><span class="only highlight">;1;</span>) {
+          |     if (<span class="only highlight" data-step="0">PI</span><span class="only highlight">3.14159</span>) / n &lt; 1) {
+          |       break;
+          |     }
+          |     n++;
+          |   }
+          | }
+    .rightside
+      ul
+        li.skip Inclusion de fichiers (<code>#include</code>)
+        li Remplacement de constantes et macros (<code>#define</code>)
+
+  section.split
+    h1 Fonctions
+    .leftside
+      pre
+        code.cpp
+          | #include &lt;math.h>
+          |
+          | float hyp(int, int);
+          |
+          | float hyp(int a, int b) {
+          |   float r;
+          |   r = sqrt(a * a + b * b);
+          |   return r;
+          | }
+    .rightside
+      p Chaque fonction a un <em>prototype</em> (ou <em>signature</em>) :
+      ul
+        li type de retour
+        li nom
+        li liste des arguments : type éventuellement suivi du nom
+      p Le prototype sert à définir le cadre d'utilisation de la fonction
+      p Exemple: <code>stdio.h</code>
+
+  section.split
+    h1 La fonction main
+    .leftside
+      pre
+        code.cpp
+          | int main() {
+          |   // code principal du programme
+          |   return 0;
+          | }
+          |
+          |
+          | int main(int argc, char *argv[]) {
+          |   // affiche tous les arguments :
+          |   for (int i=0; i&lt;argc; i++) {
+          |     printf("%s\n", argv[i]);
+          |   }
+          | }
+    .rightside
+      p Tout programme doit comporter une fonction <code>main</code>
+      ul
+        li C'est cette fonction qui est exécutée quand le programme est lancé
+        li la fonction <code>main</code> peut faire appel aux autres fonctions
+        li son type de retour est toujours un entier (code de retour du programme)
+        li elle peut recevoir des arguments correspondant aux options lors de l'appel :
+          ul
+            li un entier indiquant le nombre d'arguments
+            li un tableau contenant des chaînes de caractères (les arguments)
+
+  section.split
+    h1 Types de base
+    .leftside
+      pre
+        code.cpp
+          | int a = 12;
+          | unsigned int b;
+          | long int c;
+          | long long int d;
+          | unsigned long long int e;
+          |
+          | float x = -2.72;
+          | double y;
+          |
+          | char s = 'A';
+    .rightside
+      ul
+        li Chaque variable doit avoir un type défini
+        li Le type permet au compilateur de déterminer l'espace mémoire occupé par la variable et de décoder
+          |  correctement sa valeur
+        li Il existe plusieurs types de données «&nbsp;élémentaires&nbsp;» prédéfinis
+
+  section.single
+    h1 Les types de base en mémoire
+    p Les différents types de base n'occupent pas le même espace mémoire.
+    p En général&nbsp;:
+    ul
+      li <code>char</code> sur un octet (minimum 1)
+      li <code>short</code> sur 2 octets (minimum 2)
+      li <code>int</code> sur 4 octets (minimum 2)
+      li <code>long int</code> sur 8 octets (minimum 4)
+      li <code>float</code> sur 4 octets
+      li <code>double</code> sur 8 octets
+    p Cependant, l'espace occupé par chaque type peut dépendre du système d'exploitation. La norme spécifie des
+      |  tailles minimum et des relations entre les types (un <code>long int</code> doit être au moins aussi long
+      |  qu'un <code>int</code>).
+    p On peut utiliser l'instruction <code>sizeof</code> pour obtenir la taille en octets d'une variable
+
+  section.split
+    h1 Structure de contrôle
+    .leftside
+      pre
+        code.cpp.only(data-step="0")
+          | int x = 12;
+          |
+          | if (x > 0) {
+          |   x--;
+          | } else {
+          |   x++;
+          | }
+          |
+          | while (x > 1) {
+          |   x--;
+          | }
+          |
+          | for (int i=0; i &lt; 5; i++) {
+          |   x *= 2;
+          | }
+        code.cpp.only
+          | switch (x % 3) {
+          |   case 1:
+          |   x -= 1;
+          |   break;
+          | case 2:
+          |   x += 1;
+          |   break;
+          | default:
+          |   x += 3;
+          |   break;
+          | }
+
+    .rightside
+      p On peut contrôler le déroulement du programme en fonction des valeurs des variables à l'aide de
+        |  structures de contrôle&nbsp;:
+      ul
+        li <code>if</code>/<code>else</code> permet d'exécuter une instruction si une condition est vérifiée ou non
+        li <code>while</code> permet d'exécuter une instruction tant qu'une condition est vraie
+        li <code>for</code> est une syntaxe spéciale qui génère une boucle <code>while</code>
+        li <code>switch</code> permet d'exécuter des instructions en fonction de la valeur d'une expression
+
+  section.single
+    h1 Un exemple
+    p &rarr; Programme de calcul de racine d'un polynôme de degré 2
+
+  section.split
+    h1 Conversion de type
+    .leftside
+      pre
+        code.cpp
+          | char c = 'A'; // 'A' = 65
+          | int a = 3;
+          | int b = -1;
+          | unsigned int u;
+          | float x, y;
+          |
+          | x = a / b;
+          | y = <span class="highlight">(float)</span> a / b;
+          | // x = 1, y = 1.5
+          |
+          | a = <span class="highlight">(int)</span> 3.9;
+          | u = <span class="highlight">(unsigned short)</span> b;
+          | b = a + c;
+          | // a = 3, u = 65535, b = 68
+    .rightside
+      p Dans certains cas, il est possible de convertir une variable d'un type en un autre (<em>cast</em>)&nbsp;:
+      ul
+        li la plupart des types de base sont interconvertibles car ils représentent tous des nombres
+        li pour demander la conversion explicite en un type, on préfixe la variable du type entre parenthèse
+        li certaines conversions sont faites implicitement lors d'opérations entre deux types différents
+        li la conversion d'un <code>float</code> en <code>int</code> élimine la partie fractionnaire (arrondi
+          |  inférieur en positif, et supérieur en négatif)
+
+  section.split
+    h1 Tableaux
+    .leftside
+      pre
+        code.cpp
+          | /* déclarations */
+          | int tab[10];
+          | // le programme réserve 40 octets
+          | long int tab2[10];
+          | // le programme réserve 80 octets
+          | char s[20];
+          | // le programme réserve 20 octets
+          |
+          | /* utilisation */
+          | tab[0] = 0;
+          | tab[1] = 1;
+          | for (int i=2; i&lt;10; i++) {
+          |   tab[i] = tab[i-1] + tab[i-2];
+          | }
+          |
+          | // initialisation à la création
+          | int t[4] = {1, 2, 3, 4};
+    .rightside
+      ul
+        li Un tableau contient toutes les valeurs à la suite en mémoire
+        li L'espace mémoire d'un tableau est donc égal à la taille d'un élément multiplié par le nombre d'éléments
+        li La variable correspondant au tableau ne contient pas véritablement toutes les valeurs, mais simplement
+          |  l'adresse mémoire où se trouve la première case du tableau
+        li Pour trouver la valeur en position <em>i</em> dans le tableau, il faut aller à l'adresse de la première
+          |  case, et se déplacer de <em>i</em> fois la taille d'un élément
+
+  section.single
+    h1 Tableaux
+    p Suite à l'instruction<br><code style="margin-left: 5mm">int tab[4];</code>
+    ul
+      li Le programme réserve 16 octets (4 par entier) pour le tableau
+      li La variable <code>tab</code> contient l'adresse de la première case
+      li La valeur qui se trouve à l'adresse <code>tab</code> est un <code>int</code>
+      li La valeur qui se trouve à l'adresse <code>(tab+1)</code> est un <code>int</code>
+      li Rien ne marque la fin du tableau, mais le contenu des cases à l'extérieur est indéterminé (et peut être
+        |  interdit d'accès au programme courant)
+
+    br
+    img(src="cours01/cours01-tableaux.svg" style="width: 100%" alt="tableaux")
+
+  section.split
+    h1 Pointeurs
+    .leftside
+      pre
+        code.cpp
+          | int a, b, *p;
+          |
+          | a = 10;
+          | p = &amp;a;
+          |
+          | // *p vaut 10
+          |
+          | b = *p;
+          | a++;
+          |
+          | // a = 11, *p = 11, b = 10
+    .rightside
+      ul
+        li Un pointeur est une variable qui contient l'adresse mémoire d'un objet (et qui connaît le type de l'objet pointé)
+        li La notation <code>*p</code> désigne la valeur qui se trouve à l'adresse <code>p</code>
+        li La notation <code>&a</code> désigne l'adresse à laquelle est stockée la variable <code>a</code>
+        li Dès que l'on manipule des objets plus complexes que les types de base, les variables contiennent des pointeurs vers les objets et non pas les objets eux-mêmes
+
+  section.single
+    h1 Pointeurs
+    pre
+      code.cpp
+        | float a = 3.14;        (float) a : 1234
+        | <span class="uncover">float *p;              (float*) p : 1842</span>
+        | <span class="uncover">p = &amp;a;</span>                <span class="uncover">(int*) tab : 834</span>
+        | <span class="uncover" data-start="3">int tab[5];</span>            <span class="uncover">(int*) t : 2936</span>
+        | <span class="uncover" data-start="4">int *t = tab;</span>
+        | <span class="uncover">tab[2] = 10;</span>
+        | <span class="uncover">*(t+3) = 20;</span>
+        | <span class="uncover">t = p;</span>
+        | <span class="uncover">*p = 2.72;</span>
+
+    br
+    img(src="cours01/cours01-pointeurs-1.svg" class="only" data-step="0" style="width: 100%" alt="pointeurs")
+    img(src="cours01/cours01-pointeurs-2.svg" class="only" style="width: 100%" alt="pointeurs")
+    img(src="cours01/cours01-pointeurs-3.svg" class="only" style="width: 100%" alt="pointeurs")
+    img(src="cours01/cours01-pointeurs-4.svg" class="only" style="width: 100%" alt="pointeurs")
+    img(src="cours01/cours01-pointeurs-5.svg" class="only" style="width: 100%" alt="pointeurs")
+    img(src="cours01/cours01-pointeurs-6.svg" class="only" style="width: 100%" alt="pointeurs")
+    img(src="cours01/cours01-pointeurs-7.svg" class="only" style="width: 100%" alt="pointeurs")
+    img(src="cours01/cours01-pointeurs-8.svg" class="only" style="width: 100%" alt="pointeurs")
+    img(src="cours01/cours01-pointeurs-9.svg" class="only" style="width: 100%" alt="pointeurs")
+
+  section.split
+    h1 Valeur ou référence
+    .leftside
+      pre
+        code.cpp
+          | int a, b;
+          | a = 1;
+          | b = a;
+          |
+          | a = 2; <span class="uncover">// a = 2, b = 1</span>
+          |
+          | int u[3] = {0, 10, 20};
+          | int *v;
+          | v = u;
+          | u[1]++; <span class="uncover">// u[1] = 11, v[1] = 11</span>
+          | v++; <span class="uncover">// u[1] = 11, v[1] = 20</span>
+          |
+          | char *n, *m;
+          | n = "abc";
+          | m = n;
+          | n = "def"; <span class="uncover">// n = "abc", m = "def"</span>
+    .rightside
+      ul
+        li Lorsqu'on copie une variable contenant une valeur de type simple (<code>int</code>, <code>char</code>,
+          |  <code>float</code>, <em>etc</em>.), la valeur est copiée et les deux variables sont indépendantes
+        li Si deux pointeurs sont égaux, toute modification du contenu de l'un modifie également le contenu de
+          |  l'autre
+
+  section.single
+    h1 Tableaux et pointeurs
+    p Les opérations sur les tableaux reviennent à manipuler des pointeurs&nbsp;:
+    br
+    ul
+      li la déclaration <code>int t[];</code> est équivalente à <code>int *t;</code> (dans ce cas la taille du
+        |  tableau n'est pas définie et l'espace n'est pas réservé en mémoire)
+      li pour accéder à une case du tableau, <code>t[5]</code> est équivalent à <code>*(t+5)</code>
+
+  section.split
+    h1 Chaînes de caractères
+    .leftside
+      pre
+        code.cpp
+          | int longueur (char *s) {
+          |   int i = 0;
+          |   while (s[i] != '\0') {
+          |     i++;
+          | }
+          |   return i;
+          | }
+          |
+          | int main() {
+          |   char *s = "Youpi";
+          |   int l = longueur(s); // l = 5
+          |   char nom[4];
+          |   nom[0] = 'B';
+          |   nom[1] = 'o';
+          |   nom[2] = 'b';
+          |   nom[3] = '\0';
+          |   l = longueur(nom); // l = 3
+          | }
+    .rightside
+      ul
+        li Les chaînes de caractères sont des tableaux de caractères, dont la dernière case contient
+          | <code>'\0'</code>
+        li En général il n'est donc pas nécessaire de mémoriser la longueur d'une chaîne de caractères
+        li Lorsque l'on réserve l'espace mémoire manuellement, il faut faire attention à prendre une case de plus
+          | pour le caractère <code>'\0'</code>
+
+  section.split
+    h1 Structures
+    .leftside
+      pre
+        code.cpp
+          | // définition du type
+          | struct Voiture {
+          |   int nb_portes;
+          |   char *marque;
+          | };
+          |
+          | // initialisation
+          | struct Voiture v1;
+          | caisse.marque = "Peugeot";
+          | caisse.nb_portes = 5;
+          |
+          | struct Voiture v2 = {
+          |   .nb_portes = 3,
+          |   .marque = "Volvo",
+          | };
+          |
+          | struct Voiture v3 = {2, "Fiat"};
+    .rightside
+      ul
+        li Les structures sont des objets en C contenant plusieurs champs
+        li La définition d'une structure donne un type et un nom à chaque champ
+        li On accède aux champs à l'aide de la notation pointée
+        li Les valeurs des champs d'une structure sont stockés à la suite en mémoire
+        li La taille occupée en mémoire par une structure est égale à la somme des tailles des différents champs
+        li On peut utiliser <code>sizeof</code> pour trouver la taille

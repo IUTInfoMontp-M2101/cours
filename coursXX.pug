@@ -1,0 +1,15 @@
+extends myriad/myriad.pug
+
+block preamble
+  -
+    root = "myriad";
+    language = "fr";
+    context = "M2101 - Architecture et programmation bas niveau";
+    author = "Victor Poupet";
+
+append header
+  link(rel="stylesheet" href="highlight.css")
+
+prepend footer
+  script(src="highlight.pack.js")
+  script(src="coursXX.js")

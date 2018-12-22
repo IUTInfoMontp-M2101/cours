@@ -1,0 +1,368 @@
+extends coursXX.pug
+
+append preamble
+  - date = "2018-01-12";
+  - title = "Cours n°2 :<br>Appels systèmes<br>et entrée / sortie";
+
+block document
+  section.single
+    h1 Système d'exploitation
+    div
+      ul
+        li Le système d'exploitation (OS) est le premier programme exécuté au démarrage de l'ordinateur
+        li C'est l'OS qui gère toute l'activité de l'ordinateur (mémoire, utilisateurs, processeur,
+          |  périphériques, réseau, etc.)
+        li En cours&nbsp;: <em>Unix</em> (mais les autres sont similaires)
+        li Les programmes communiquent avec l'OS par l'intérmédiaire d'appels systèmes (<em>system
+          |  call</em>)
+
+  section.single
+    h1 Appels systèmes
+    div Les appels systèmes ressemblent à des procédures (appels de fonction), avec toutefois des
+      |  différences importantes&nbsp;:
+      ul
+        li Les appels systèmes sont très coûteux en ressources&nbsp;:
+          ul
+            li le système sauvegarde l'état
+            li l'OS prend le contrôle du CPU
+            li l'OS exécute une tâche spécifique
+            li l'OS sauvegarde son état
+            li le contrôle est rendu au processus qui a lancé l'appel
+        li Les appels systèmes dépendent du système d'exploitation
+        li Il ne faut pas les utiliser directement si le programme doit être portable
+        li La réalisation détaillée d'un appel système demande une connaissance précise des
+          |  registres du processeur
+        li Il faut être très prudent pour ne pas provoquer d'erreurs
+        li On utilise en général une fonction qui se charge de faire l'appel
+
+  section.split
+    h1 Entrée / Sortie
+    .leftside
+      pre
+        code.cpp
+          | int <span class="highlight">open</span>(char *path, int flags[, int mode]);
+          | int <span class="highlight">close</span>(int fd);
+          | int <span class="highlight">read</span>(int fd, char *buf, int size);
+          | int <span class="highlight">write</span>(int fd, char *buf, int size);
+          | off_t <span class="highlight">lseek</span>(int fd, off_t offset, int whence);
+
+    .rightside
+      p Il existe 5 appels systèmes principaux pour manipuler des fichiers.
+      ul
+        li ressemblent à des procédures, mais sont envoyés directement au système
+          |  souvent on utilise des fonctions qui font un appel système (ex : <code>fopen</code>
+          |  qui appelle <code>open</code>)
+        li les entrées/sorties sont gérées par l'OS pour éviter que des erreurs dans les programmes
+          |  aient des conséquences sur le système de fichiers
+        li chaque appel est décrit dans sa page de manuel (ex : <code>man 2 open</code>)
+
+  section.single
+    h1 man 2 open
+    div
+      pre
+        code.plaintext
+          | OPEN(2)                BSD System Calls Manual                OPEN(2)
+          |
+          | NAME
+          |   <span class="highlight">open</span> -- open or create a file for reading or writing
+          | SYNOPSIS
+          |   <span class="highlight">#include &lt;fcntl.h></span>
+          |   <span class="highlight">int open(const char *path, int oflag, ...);</span>
+          | DESCRIPTION
+          |   The file name specified by path is opened for reading and/or writing, as specified by the argument oflag; the file descriptor is returned to the calling process.
+          |
+          |   The oflag argument may indicate that the file is to be created if it does not exist (by specifying the O_CREAT flag).  In this case, open requires a third argument mode_t mode; the file is created with mode mode as described in chmod(2) and modified by the process' umask value (see umask(2)).
+
+  section.split
+    h1 Open
+    .leftside
+      pre
+        code.cpp
+          | int <span class="highlight">open</span>(char *path, int flags[, int mode]);
+      hr
+      pre
+        code.cpp
+          | #include &lt;fcntl.h>
+          |
+          | main() {
+          |   int fd;
+          |   fd = <span class="highlight">open</span>("test.txt", O_RDONLY);
+          |   printf("%d\n", fd);
+          | }
+    .rightside
+      p L'appel <code>open</code> sert à demander l'accès à un fichier
+      ul
+        li <code>path</code> indique le chemin du fichier
+        li <code>flags</code> indique comment on veut manipuler le fichier
+        li <code>mode</code> définit les permissions à donner en cas de création d'un nouveau fichier
+        li le résultat est un entier correspondant à un descripteur de fichier (ou -1 en cas d'erreur)
+        li Tous les autres appels E/S utilisent un descripteur de fichier
+
+  section.split
+    h1 Open (flags)
+    .leftside
+      pre
+        code
+          | <span class="highlight">O_RDONLY</span> open for reading only
+          | <span class="highlight">O_WRONLY</span> open for writing only
+          | <span class="highlight">O_RDWR</span> open for reading and writing
+          | O_NONBLOCK do not block on open or for data to become available
+          | <span class="highlight">O_APPEND</span> append on each write
+          | <span class="highlight">O_CREAT</span> create file if it does not exist
+          | <span class="highlight">O_TRUNC</span> truncate size to 0
+          | O_EXCL error if O_CREAT and the file exists
+          | ...
+    .rightside
+      ul
+        li L'argument <code>flags</code> est un ou bit-à-bit de valeurs
+        li Les valeurs possibles sont définies dans <code>/usr/include/sys/fcntl.h</code>
+
+  section.split
+    h1 Close
+    .leftside
+      pre
+        code.cpp
+          | int <span class="highlight">close</span>(int fd);
+      hr
+      pre
+        code.cpp
+          | #include &lt;fcntl.h>
+          | #include &lt;unistd.h>
+          | main() {
+          |   int fd1, fd2;
+          |   fd1 = <span class="highlight">open</span>("test.txt", O_RDONLY);
+          |   if (fd1 &lt; 0) {
+          |     exit(1);
+          |   }
+          |   fd2 = <span class="highlight">open</span>("test.txt", O_RDONLY);
+          |   if (fd2 &lt; 0) {
+          |     exit(1);
+          |   }
+          |   if (<span class="highlight">close</span>(fd1) &lt; 0) {
+          |     exit(1);
+          |   }
+          | }
+    .rightside
+      p L'appel <code>close</code> permet de libérer un descripteur de fichier
+      ul
+        li Le résultat est 0 en cas de réussite, -1 en cas d'erreur
+        li Les descripteurs de fichier sont tous libérés à la fin d'un processus
+        li Le nombre de fichiers ouverts par un processus est limité (dépend du système, varie d'une centaine à
+          |  plusieurs milliers)
+
+  section.split
+    h1 Read
+    .leftside
+      pre
+        code.cpp
+          | int <span class="highlight">read</span>(int fd, char *buf, int size);
+      hr
+      pre
+        code.cpp
+          | int main() {
+          |   char *b;
+          |   int fd, sz;
+          |   b = malloc(sizeof(char) * 11);
+          |   fd = <span class="highlight">open</span>("test.txt", O_RDONLY);
+          |   if (fd &lt; 0) {
+          |     exit(1);
+          |   }
+          |   do {
+          |     sz = <span class="highlight">read</span>(fd, b, 10);
+          |     b[sz] = '\0';
+          |     printf("lu: %s\n", b);
+          |   } while (sz == 10);
+          |   <span class="highlight">close</span>(fd);
+          | }
+    .rightside
+      p L'appel <code>read</code> sert à lire des octets dans un fichier
+      ul
+        li <code>fd</code> est le descripteur du fichier à lire
+        li <code>buf</code> est un pointeur vers un tableau où mettre les caractères lus
+        li <code>size</code> est le nombre d'octets à lire
+        li le résultat est le nombre d'octets effectivement lus (peut être inférieur à <code>size</code> si on est en fin de fichier)
+
+  section.split
+    h1 Write
+    .leftside
+      pre
+        code.cpp int <span class="highlight">write</span>(int fd, char *buf, int size);
+      hr
+      pre
+        code.cpp
+          | int main() {
+          |   int fd, sz;
+          |   char *txt;
+          |
+          |   fd = <span class="highlight">open</span>("test.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+          |   if (fd &lt; 0) {
+          |     exit(1);
+          |   }
+          |
+          |   txt = "Bonjour\n";
+          |   sz = <span class="highlight">write</span>(fd, txt, 8);
+          |
+          |   <span class="highlight">close</span>(fd);
+          | }
+    .rightside
+      p L'appel <code>write</code> permet d'écrire des octets dans un fichier
+      ul
+        li <code>fd</code> est le descripteur du fichier où écrire
+        li <code>buf</code> est un pointeur vers un tableau de caractères à écrire
+        li <code>size</code> correspond au nombre de caractères du tableau <code>buf</code> à écrire
+        li le résultat est le nombre d'octets effectivement écrits (devrait toujours être égal à <code>size</code>)
+
+  section.split
+    h1 Pointeur de fichier
+    .leftside
+      pre
+        code.cpp
+          | int main() {
+          |   char *c;
+          |   int fd, sz;
+          |   c = malloc(sizeof(char) * 10);
+          |   fd = open("test.txt", O_RDWR | O_APPEND);
+          |   if (fd &lt; 0) {
+          |     exit(1);
+          |   }
+          |
+          |   while(1) {
+          |     sz = read(fd, c, 10);
+          |     write(fd, c, sz);
+          |     if (sz &lt; 10) break;
+          |   }
+          |   close(fd);
+          | }
+    .rightside
+      p Les fichiers ouverts sont tous associés à un <em>pointeur de fichier</em> qui indique un emplacement dans le fichier
+      ul
+        li Initialement, le pointeur est au début du fichier
+        li Lorsque l'on utilise <code>read</code> ou <code>write</code>, la lecture et l'écriture se font au niveau du pointeur
+        li Le pointeur est automatiquement avancé par la lecture et l'écriture
+
+  section.split
+    h1 Ouvertures multiples
+    .leftside
+      pre
+        code.cpp.only(data-end=1)
+          | int main() {
+          |   int fd1, fd2;
+          |
+          |   fd1 = open("test.txt", O_WRONLY | O_CREAT | O_TRUNC);
+          |   fd2 = open("test.txt", O_WRONLY);
+          |
+          |   write(fd1, "un ", 3);
+          |   write(fd2, "deux ", 5);
+          |   write(fd1, "trois ", 6);
+          | }
+          |
+          |
+          span.uncover(data-step=1) &xrarr; deutrois
+        code.cpp.only(data-start=2)
+          | int main() {
+          |   int fd1, fd2;
+          |
+          |   fd1 = open("test.txt", O_WRONLY | O_CREAT | O_TRUNC | <span class="highlight">O_APPEND</span>);
+          |   fd2 = open("test.txt", O_WRONLY | <span class="highlight">O_APPEND</span>);
+          |
+          |   write(fd1, "un ", 3);
+          |   write(fd2, "deux ", 5);
+          |   write(fd1, "trois ", 6);
+          | }
+          |
+          |
+          span.uncover(data-step=3) &xrarr; un deux trois
+    .rightside
+      p On peut ouvrir plusieurs fois un même fichier (même en écriture)
+      ul
+        li chaque descripteur a son propre pointeur de fichier
+        li les ouvertures en mode <code>O_APPEND</code> restent à la fin du fichier
+
+  section.split
+    h1 stdin, stdout, stderr
+    .leftside
+      pre
+        code.cpp
+          | main() {
+          |   char c;
+          |   while (read(0, & c, 1) == 1) {
+          |     write(1, &c, 1);
+          |   }
+          | }
+    .rightside
+      p Les trois premiers descripteurs de fichiers sont automatiquement attribués à chaque processus&nbsp;:
+      ul
+        li 0&nbsp;: entrée standard (<code>stdin</code>)
+        li 1&nbsp;: sortie standard (<code>stdout</code>)
+        li 2&nbsp;: sortie d'erreur (<code>stderr</code>)
+      p On peut directement utiliser ces descripteurs de fichiers sans avoir à utiliser <code>open</code>.
+
+  section.split
+    h1 lseek
+    .leftside
+      pre
+        code.cpp
+          | int main() {
+          |   char c[10];
+          |   int fd, sz;
+          |   fd = open("test.txt", O_RDWR);
+          |   if (fd &lt; 0) exit(1);
+          |
+          |   int rp = 0;
+          |   int wp = <span class="highlight">lseek</span>(fd, 0, SEEK_END);
+          |   do {
+          |     <span class="highlight">lseek</span>(fd, rp, SEEK_SET);
+          |     sz = read(fd, c, 10);
+          |     rp = <span class="highlight">lseek</span>(fd, 0, SEEK_CUR);
+          |
+          |     <span class="highlight">lseek</span>(fd, wp, SEEK_SET);
+          |     write(fd, c, sz);
+          |     wp = <span class="highlight">lseek</span>(fd, 0, SEEK_CUR);
+          |   } while (sz == 10);
+          |   close(fd);
+          | }
+    .rightside
+      p <code>lseek</code> permet de déplacer manuellement le pointeur de fichier
+        ul
+          li <code>fd</code> désigne le descripteur de fichier
+          li <code>offset</code> indique le nombre d'octets de déplacement
+          li <code>whence</code> permet de décrire la référence du déplacement
+            ul
+              li <code>SEEK_SET</code> début du fichier
+              li <code>SEEK_CUR</code> position actuelle
+              li <code>SEEK_END</code> fin du fichier
+          li Le résultat est la position absolue du curseur après déplacement
+      p Il est possible de déplacer le curseur au-delà de la fin du fichier
+
+  section.split
+    h1 stdio.h
+    .leftside
+      pre
+        code.cpp
+          | int main() {
+          |   <span class="highlight">FILE *fpin, *fpout;</span>
+          |   int i=0;
+          |
+          |   fpin = <span class="highlight">fopen</span>("test.txt", "r");
+          |   fpout = <span class="highlight">fopen</span>("res.txt", "w");
+          |   char s[80];
+          |
+          |   while(<span class="highlight">fgets</span>(s, 80, fpin)) {
+          |     <span class="highlight">fprintf</span>(fpout, "ligne %d: %s", i, s);
+          |     i++;
+          |   }
+          |
+          |   <span class="highlight">fclose</span>(fpin);
+          |   <span class="highlight">fclose</span>(fpout);
+          | }
+    .rightside
+      p En général, on n'appelle pas directement les appels systèmes mais on utilise des fonctions de la librairie C
+        |  qui les appellent indirectement&nbsp;:
+      ul
+        li <code>fopen</code>, <code>fclose</code>
+        li <code>fgetc</code>, <code>fgets</code>, <code>fscanf</code>, etc.
+        li <code>fputc</code>, <code>fprintf</code>, <code>fputs</code>, etc.
+      br
+      p Ces fonctions manipulent les fichiers par l'intermédiaire de pointeurs de fichiers (<em>file pointers</em>)
+        |  de type <code>FILE*</code> (structure contenant un descripteur de fichier, et des informations
+        |  supplémentaires)

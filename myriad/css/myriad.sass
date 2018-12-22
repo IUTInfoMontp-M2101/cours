@@ -1,0 +1,262 @@
+@font-face
+  font-family: GillSans
+  src: url('../fonts/GillSans-Light.ttf')
+  font-style: normal
+@font-face
+  font-family: GillSans
+  src: url('../fonts/GillSans-LightItalic.ttf')
+  font-style: italic
+@font-face
+  font-family: GillSans
+  src: url('../fonts/GillSans-Regular.ttf')
+  font-weight: bold
+  font-style: normal
+@font-face
+  font-family: GillSans
+  src: url('../fonts/GillSans-Italic.ttf')
+  font-weight: bold
+  font-style: italic
+@font-face
+  font-family: TitleFont
+  src: url('../fonts/FiraSans-Bold.otf')
+@font-face
+  font-family: TitleFont
+  src: url('../fonts/FiraSans-BoldItalic.otf')
+  font-style: italic
+@font-face
+  font-family: TitleFont
+  src: url('../fonts/FiraSans-Heavy.otf')
+  font-weight: bold
+@font-face
+  font-family: TitleFont
+  src: url('../fonts/FiraSans-HeavyItalic.otf')
+  font-weight: bold
+  font-style: italic
+@font-face
+  font-family: Menlo
+  src: url('../fonts/Menlo-Regular.ttf')
+  font-style: normal
+@font-face
+  font-family: Menlo
+  src: url('../fonts/Menlo-Italic.ttf')
+  font-style: italic
+@font-face
+  font-family: Menlo
+  src: url('../fonts/Menlo-Bold.ttf')
+  font-weight: bold
+  font-style: normal
+@font-face
+  font-family: Menlo
+  src: url('../fonts/Menlo-BoldItalic.ttf')
+  font-weight: bold
+  font-style: italic
+
+html
+  --text-size: calc(10 * var(--pt))
+  font-size: var(--text-size)
+  --dark-text-color: black
+  --light-text-color: white
+  --text-color: var(--dark-text-color)
+  --bg-color: white
+  color: var(--text-color)
+
+body
+  counter-reset: section-counter
+
+section
+  font-family: "GillSans", "sans-serif"
+  background: white no-repeat
+  background-size: 100% 100%
+  display: flex
+  flex-direction: column
+  justify-content: center
+  line-height: 1.5
+
+  &.title
+    background-image: url("BG_Title.png")
+
+    h1
+      position: relative
+
+    .context
+      color: var(--light-text-color)
+      text-align: right
+      position: absolute
+      top: calc(14 * var(--mm))
+      right: calc(1 * var(--mm))
+
+    .author
+      color: var(--light-text-color)
+      text-align: left
+      position: absolute
+      bottom: calc(14 * var(--mm))
+      left: calc(1 * var(--mm))
+
+    time
+      color: var(--dark-text-color)
+      text-align: right
+      position: absolute
+      bottom: calc(2 * var(--mm))
+      right: calc(2 * var(--mm))
+
+    .page-counter
+      display: none
+
+  &.section
+    background-image: url("BG_Section.png")
+    padding: 0 calc(1 * var(--mm))
+
+    h1::before
+      content: counter(section-counter, upper-roman) ". "
+      counter-increment: section-counter
+
+    h1
+      position: relative
+      text-align: right
+
+    .page-counter
+      display: none
+
+  &.single
+    background-image: url("BG_Single.png")
+    padding: calc(6 * var(--mm)) calc(3 * var(--mm)) 0 calc(3 * var(--mm))
+
+  &.split
+    background-image: url("BG_SplitThin.png")
+    flex-direction: row
+    justify-content: space-between
+    align-items: center
+    padding-top: calc(3 * var(--mm))
+
+  &.no-page-counter .page-counter
+    display: none
+
+.leftside
+  width: calc(61 * var(--mm))
+  padding-left: calc(1 * var(--mm))
+
+.rightside
+  --text-color: var(--light-text-color)
+  --bg-color: black
+  color: var(--text-color)
+  width: calc(61 * var(--mm))
+  padding-right: calc(1 * var(--mm))
+
+ul
+  margin: 0
+  list-style-type: none
+  line-height: 1.5
+  padding-left: calc(3 * var(--mm))
+
+  li:before
+    content: "■ "
+    margin-left: calc(-3 * var(--mm))
+
+  li.skip
+    margin-bottom: 1em
+
+  ul
+    font-size: 90%
+
+
+.slide-footer
+  position: absolute
+  width: 100%
+  bottom: calc(.5 * var(--mm))
+  left: 0
+  display: flex
+  justify-content: center
+
+.page-counter
+  text-align: center
+  padding: 0
+  width: calc(12 * var(--mm))
+  border: calc(.1 * var(--mm)) black solid
+  border-radius: calc(1 * var(--mm))
+  font-size: calc(8 * var(--pt))
+  background-color: rgba(255, 255, 255, .7)
+
+p
+  margin: 0
+
+img
+  height: auto
+  width: auto
+
+pre
+  line-height: 1.5
+  white-space: pre-wrap
+  font-variant-ligatures: none
+
+code
+  font-family: "Menlo", "monospace"
+  font-size: 80%
+
+h1
+  margin: 0
+  position: absolute
+  top: 0
+  left: 0
+  width: 100%
+  text-align: center
+  font-family: "TitleFont", "sans-serif"
+  font-weight: bold
+  font-size: calc(22 * var(--pt))
+  color: var(--light-text-color)
+  -webkit-text-stroke-color: var(--dark-text-color)
+  -webkit-text-stroke-width: .03em
+
+h2
+  width: 100%
+  text-align: center
+  font-weight: normal
+  font-family: "TitleFont", "sans-serif"
+  color: white
+  font-size: calc(16 * var(--pt))
+
+.box
+  --border-width: calc(.5 * var(--mm))
+  border: var(--border-width) var(--text-color) solid
+  margin-top: 2.5ex
+
+  .box-title
+    margin: -2.5ex 0px 0 2ex
+    font-weight: bold
+    background-color: var(--bg-color)
+    display: table
+    padding: 0 1ex
+
+  .box-content
+    background-color: var(--bg-color)
+    width: calc(100% + calc(2 * var(--border-width)))
+    margin: calc(.5 * var(--mm)) 0 calc(2 * var(--mm)) calc(-1 * var(--border-width))
+    padding: 0 calc(1 * var(--mm))
+    overflow: hidden
+
+
+.no-display
+  display: none !important
+
+.hidden
+  visibility: hidden !important
+
+.highlight
+  background: #FF7
+
+.center
+  display: flex
+  flex-direction: column
+  align-items: center
+
+.underline
+  text-decoration: underline
+
+table
+  border-collapse: collapse
+
+th, td
+  border: calc(.2 * var(--mm)) black solid
+  padding: 0 var(--mm)
+
+//::-webkit-scrollbar
+//  width: 0
