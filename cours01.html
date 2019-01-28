@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8">
     <title>M2101 - Architecture et programmation bas niveau</title>
-    <link rel="stylesheet" href="myriad/css/slides.css">
-    <link rel="stylesheet" href="myriad/css/myriad.css">
+    <link rel="stylesheet" href="https://vpoupet.github.io/myriad/css/slides.css">
+    <link rel="stylesheet" href="https://vpoupet.github.io/myriad/css/myriad.css">
     <link rel="stylesheet" href="highlight.css">
   </head>
   <body>
@@ -132,7 +132,7 @@ float hyp(int a, int b) {
           <li>liste des arguments : type éventuellement suivi du nom</li>
         </ul>
         <p>Le prototype sert à définir le cadre d'utilisation de la fonction</p>
-        <p>Exemple: <code>stdio.h</code></p>
+        <p>Exemple: <a href="cours01/stdioh.html"><code>stdio.h</code></a></p>
       </div>
     </section>
     <section class="split">
@@ -249,7 +249,7 @@ default:
     </section>
     <section class="single">
       <h1>Un exemple</h1>
-      <p>&rarr; Programme de calcul de racine d'un polynôme de degré 2</p>
+      <p>&rarr; <a href="cours01/binome.html">Programme de calcul de racine d'un polynôme de degré 2</a></p>
     </section>
     <section class="split">
       <h1>Conversion de type</h1>
@@ -463,8 +463,15 @@ struct Voiture v3 = {2, "Fiat"};</code></pre>
       </div>
     </section>
     <script src="highlight.pack.js"></script>
-    <script src="coursXX.js"></script>
-    <script src="myriad/js/slides.js"></script>
-    <script src="myriad/js/myriad.js"></script>
+    <script language="Javascript">
+      window.addEventListener('load', function() {
+       hljs.configure({
+        languages: [],  // disable automatic language detection
+        });
+        hljs.initHighlighting();
+      });
+    </script>
+    <script src="https://vpoupet.github.io/myriad/js/slides.js"></script>
+    <script src="https://vpoupet.github.io/myriad/js/myriad.js"></script>
   </body>
 </html>

@@ -323,15 +323,15 @@ block document
           | }
     .rightside
       p <code>lseek</code> permet de déplacer manuellement le pointeur de fichier
-        ul
-          li <code>fd</code> désigne le descripteur de fichier
-          li <code>offset</code> indique le nombre d'octets de déplacement
-          li <code>whence</code> permet de décrire la référence du déplacement
-            ul
-              li <code>SEEK_SET</code> début du fichier
-              li <code>SEEK_CUR</code> position actuelle
-              li <code>SEEK_END</code> fin du fichier
-          li Le résultat est la position absolue du curseur après déplacement
+      ul
+        li <code>fd</code> désigne le descripteur de fichier
+        li <code>offset</code> indique le nombre d'octets de déplacement
+        li <code>whence</code> permet de décrire la référence du déplacement
+          ul
+            li <code>SEEK_SET</code> début du fichier
+            li <code>SEEK_CUR</code> position actuelle
+            li <code>SEEK_END</code> fin du fichier
+        li Le résultat est la position absolue du curseur après déplacement
       p Il est possible de déplacer le curseur au-delà de la fin du fichier
 
   section.split

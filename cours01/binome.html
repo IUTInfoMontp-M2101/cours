@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>stdio.h</title>
+    <link rel="stylesheet" href="../highlight.css">
+</head>
+<body>
+<pre><code class="cpp">
+/*************************************************************************
+Résolution simplifiée d'une équation du second degré ax^2 + bx + c = 0
+**************************************************************************/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h> // contient la déclaration de sqrt
+
+#define EPS 1e-10 // constante "très petite" pour la comparaison de delta avec 0.
+
+// Déclaration des fonctions utilisées (« prototypes » = mode d’emploi)
+double calculer_delta(double a, double b, double c);
+int calculer_nb_solutions(double delta);
+void calculer_afficher_solutions(double a, double b, double c, int nb_sol, double delta);
+
+// Programme principal : fonction main
+int main(int argc, char **argv) {
+    // variables locales
+    double a, b, c; // coefficients réels de l’équation
+    double delta;
+    int nb_sol_reelles;
+    
+    if (argc >= 4) {
+    // les coefficients ont été passé en argument du programme
+        a = atof(argv[1]);
+        b = atof(argv[2]);
+        c = atof(argv[3]);
+        printf("a = %lf\nb = %lf\nc = %lf\n", a, b, c);
+    } else {
+    // les coefficients sont saisis par l'utilisateur au clavier
+        printf("a = ");
+        scanf("%lf", &a);
+        printf("b = ");
+        scanf("%lf", &b);
+        printf("c = ");
+        scanf("%lf", &c);
+    }
+    printf("\n");   // afficher une ligne vide de séparation
+    delta = calculer_delta(a, b, c) ;
+    nb_sol_reelles = calculer_nb_solutions(delta) ;
+    calculer_afficher_solutions(a, b, c, nb_sol_reelles, delta);
+}
+
+// Calcule le discriminant
+double calculer_delta(double a, double b, double c) {
+    return b * b - 4. * a * c ;
+}
+
+// Calcule le nombre de solutions réelles de l'équation en fonction du discriminant
+int calculer_nb_solutions(double d) {
+    int nb_sol ;
+    if (d > EPS) {
+        // 2 solutions réelles
+        nb_sol = 2;
+    } else if (d < -EPS) {
+        // pas de soluion réelle
+        nb_sol = 0;
+    } else {
+        // une solution réelle double
+        nb_sol = 1;
+    }
+    return nb_sol ;
+}
+
+// Affiche les solutions réelles de l'équation
+void calculer_afficher_solutions(double a, double b, double c, int nb_sol, double delta) {
+    double rac, x1, x2; // variables locales
+    switch (nb_sol) {
+    // comportement différent en fonction du nombre de solutions
+    case 0 :
+        printf("Pas de racines reelles.\n") ;
+        break ;
+    case 1 :
+        printf("Une racine double : %lf\n", -b / (2. * a)) ;
+        break ;
+    case 2 :
+        rac = sqrt(delta);
+        x1 = (-b + rac) / (2. * a);
+        x2 = (-b - rac) / (2. * a);
+        printf("Deux racines réelles :\n");
+        printf("  x1 = %lf\n", x1);
+        printf("  x2 = %lf\n", x2);
+        break ;
+    }
+}
+
+</code></pre>
+<script src="../highlight.pack.js"></script>
+<script language="JavaScript">
+    window.addEventListener('load', function() {
+        hljs.configure({
+            languages: [],  // disable automatic language detection
+        });
+        hljs.initHighlighting();
+    });
+</script>
+</body>
+</html>
