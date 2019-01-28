@@ -5,61 +5,6 @@
   let author = "Victor Poupet";
   let date = "";
 
-  let months_en = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  let months_fr = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
-
-  function fullDate(date) {
-    let months;
-    if (!months) {
-      months = months_en;
-      if (language === "fr") {
-        months = months_fr;
-      }
-    }
-    let [year, month, day] = date.split('-');
-    year = parseInt(year);
-    month = parseInt(month);
-    day = parseInt(day);
-    if (language === "fr") {
-      if (day) {
-        return `${day} ${months[month - 1]} ${year}`;
-      } else if (month) {
-        return `${months[month - 1]} ${year}`;
-      } else {
-        return `${year}`;
-      }
-    } else {
-      if (day) {
-        return `${months[month - 1]} ${day}, ${year}`;
-      } else if (month) {
-        return `${months[month - 1]} ${year}`;
-      } else {
-        return `${year}`;
-      }
-    }
-  }
-
-  function isShortDate(date) {
-    let [year, month, day] = date.split('-');
-    year = parseInt(year);
-    if (Number.isNaN(year)) {
-      return false;
-    }
-    if (month !== undefined) {
-      month = parseInt(month);
-      if (!(1 <= month && month <= 12)) {
-        return false;
-      }
-    }
-    if (day !== undefined) {
-      day = parseInt(day);
-      if (!(1 <= day && day <= 31)) {
-        return false;
-      }
-    }
-    return true;
-  }
-
 doctype html
 block preamble
 html(lang=language)
@@ -80,10 +25,7 @@ html(lang=language)
         h2 !{subtitle}
       .context !{context}
       .author !{author}
-      if isShortDate(date)
-        time(datetime=date) !{fullDate(date)}
-      else
-        time !{date}
+      time !{date}
     block document
     block footer
       script(src="highlight.pack.js")
@@ -96,4 +38,3 @@ html(lang=language)
         | });
       script(src=root+"/js/slides.js")
       script(src=root+"/js/myriad.js")
-
