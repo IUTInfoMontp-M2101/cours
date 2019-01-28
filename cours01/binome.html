@@ -11,9 +11,9 @@
 Résolution simplifiée d'une équation du second degré ax^2 + bx + c = 0
 **************************************************************************/
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h> // contient la déclaration de sqrt
+#include &lt;stdio.h>
+#include &lt;stdlib.h>
+#include &lt;math.h> // contient la déclaration de sqrt
 
 #define EPS 1e-10 // constante "très petite" pour la comparaison de delta avec 0.
 
@@ -61,7 +61,7 @@ int calculer_nb_solutions(double d) {
     if (d > EPS) {
         // 2 solutions réelles
         nb_sol = 2;
-    } else if (d < -EPS) {
+    } else if (d &lt; -EPS) {
         // pas de soluion réelle
         nb_sol = 0;
     } else {
