@@ -1,0 +1,226 @@
+extends coursXX.pug
+
+append preamble
+  - date = "2018-02-11";
+  - title = "Cours n°3 :<br>Processus";
+
+block document
+  section.single
+    h1 Parallélisme
+    p Les OS modernes sont tous capables d'exécuter plusieurs tâches en parallèle
+    ul
+      li chaque tâche est réalisée par un <em>processus</em>
+      li en réalité un processeur ne peut exécuter qu'un seul processus à la fois à un instant donné
+      li pour les faire avancer en parallèle, le processeur alloue de petits intervalles de temps à chaque
+        |  processus, en alternance (ordonnancement)
+
+  section.split
+    h1 Cycle d'un processus
+    .leftside
+      img(src="cours03/cours03-cycle.svg" style="width: 100%" alt="cycle d'un processus")
+
+    .rightside
+      p Les processus ont 5 états possibles d'exécution&nbsp;:
+      ul
+        li <strong>Nouveau :</strong> en cours de création
+        li <strong>Prêt :</strong> toutes les ressources nécessaires sont disponibles mais pas actuellement
+          |  exécuté par le CPU
+        li <strong>Exécution :</strong> en cours d'exécution par le CPU
+        li <strong>En attente :</strong> ne peut pas poursuivre son exécution (attente clavier, fichier,
+          |  message d'un autre processus, etc.)
+        li <strong>Terminé :</strong> l'exécution est finie
+
+  section.single
+    h1 Bloc de contrôle
+    p Le <em>bloc de contrôle</em> d'un processus (<em>process control bloc</em> ou PCB) est une structure de données
+      |  utilisée par l'OS pour représenter ses informations :
+    ul
+      li Identification
+      ul
+        li identifiant du processus (PID)
+        li identifiant du processus parent (PPID)
+        li identifiant de l'utilisateur et du groupe exécutant le processus (UID et GID)
+      li État du processeur
+      ul
+        li registres
+        li pointeurs de pile et exécution
+      li Contrôle du processus
+      ul
+        li état d'exécution (prêt, suspendu, etc.)
+        li descripteurs de fichiers ouverts
+        li privilèges
+        li comptabilité (temps CPU, date d'exécution, <em>etc.</em>)
+
+  section.split
+    h1 Changement de processus
+    .leftside
+      .center
+        img(src="cours03/cours03-switch.svg" style="width: 70%" alt="changement de processus")
+
+    .rightside
+      p Pour changer le processus en cours d'exécution, le processeur doit :
+      ul
+        li sauvegarder le PCB du processus en cours
+        li charger le PCB du nouveau processus
+        li reprendre l'exécution du nouveau processus
+
+      p Ce transfert peut être réalisé après une interruption de l'exécution du premier processus à l'aide d'un appel
+        |  système.
+
+  section.single
+    h1 Anatomie d'un processus
+    p La mémoire occupée par un processus est divisée en plusieurs sections&nbsp;:
+    ul.skip
+      li une section <code>text</code> contenant les instructions (en langage machine) à exécuter par le processus
+      li une section <code>data</code> contenant les variables globales et statiques, allouées avant d'exécuter la
+        |  fonction <code>main</code>
+      li le tas (<em>heap</em>) utilisé pour l'allocation dynamique des variables, géré à l'aide de fonctions
+        |  d'allocation (<code>malloc</code>, <code>free</code>, <em>etc.</em>)
+      li la pile (<em>stack</em>) utilisée pour stocker les variables locales, les arguments et la valeur de retour
+        |  des procédures exécutées par le programme
+
+    p En plus de ces données, si le programme est interrompu, il faut également sauvegarder le compteur d'exécution
+      |  ainsi que les valeurs contenues dans les registres du processeur
+
+  section.split
+    h1 size
+    .leftside
+      pre
+        code.cpp
+          | int tab[5000];
+          | int tab2[1000] = {1};
+          |
+          | int main() {
+          |   int tab2[20000];
+          |   return 0;
+          | }
+      hr
+      pre
+        code
+          | $ size a.out
+          | text data bss   dec   hex  filename
+          | 1072 4276 20032 25380 6324 a.out
+
+    .rightside
+      .only(data-step=0)
+        p.skip La fonction <code>size</code> permet d'obtenir (entre autres) la taille des sections <code>text</code>
+          |  et <code>data</code> correspondant à un exécutable
+
+        p La section <code>data</code> d'un exécutable est divisée en deux parties :
+        ul
+          li <code>data</code> correspondant aux variables globales ou statiques initialisées
+          li <code>bss</code> correspondant aux variables globales ou statiques non initialisées ou
+            |  initialisées à 0 (qui ne prennent donc pas de place dans l'exécutable)
+      ul.only(data-step=1)
+        li.skip L'espace des variables globales est préparé par le compilateur, et réservé à la création du processus
+          |  (la zone correspondant à <code>bss</code> est initialisée à 0)
+        li Les variables globales ne peuvent pas avoir une taille variable (définie à l'exécution)
+
+  section.single
+    h1 text
+    p.skip La section <code>text</code> de la mémoire contient la séquence d'instructions à exécuter
+    ul
+      li Chargée au démarrage du programme et protégée en écriture
+      li Un registre du processeur contient l'adresse de l'instruction en cours (<em>program counter</em> ou PC)
+
+  section.split
+    h1 Limites
+    .leftside
+      pre
+        code
+          | $ ulimit -a
+          |
+          | core file size (blocks, -c) 0
+          | <span class="highlight">data seg size (kbytes, -d) unlimited</span>
+          | file size (blocks, -f) unlimited
+          | max locked memory (kbytes, -l) unlimited
+          | <span class="highlight">max memory size (kbytes, -m) unlimited</span>
+          | <span class="highlight">open files (-n) 256</span>
+          | pipe size (512 bytes, -p) 1
+          | <span class="highlight">stack size (kbytes, -s) 8192</span>
+          | cpu time (seconds, -t) unlimited
+          | max user processes (-u) 709
+          | virtual memory (kbytes, -v) unlimited
+
+    .rightside
+      p La fonction <code>ulimit</code> permet d'obtenir les limitations de taille imposées par le système
+        |  d'exploitation.
+
+  section.split
+    h1 Allocation dynamique
+    .leftside
+      pre
+        code.cpp
+          | int *fibo (int n) {
+          |   int *t = malloc(sizeof(int)*(n+1));
+          |   t[0] = 1;
+          |   t[1] = 1;
+          |   for (int i=2; i&lt;=n; i++) {
+          |     t[i] = t[i-1] + t[i-2];
+          |   }
+          |   return t;
+          | }
+          |
+          | int main() {
+          |   int *t = fibo(100);
+          |   int a = t[10];
+          |   int b = t[100];
+          |   free(t);
+          |   printf("10: %d, 100: %d\n", a, b);
+          | }
+
+    .rightside
+      p Les fonctions de la famille <code>malloc</code> permettent de réserver de l'espace dynamiquement (dans le tas)
+      ul
+        li La fonction renvoie un pointeur indiquant où se trouve le bloc de mémoire libéré
+      p La fonction <code>free</code> permet de marquer la mémoire allouée par <code>malloc</code> comme étant
+        |  libre
+      p La taille du tas disponible pour un processus n'est en général pas limitée, et c'est donc là que doivent
+        |  être placés les objets de grande taille.</p>
+
+  section.split
+    h1 La pile
+    .leftside
+      .center
+        img(src="cours03/cours03-pile.svg" style="width:70%" alt="pile")
+    .rightside
+      .only(data-step="0")
+        p La pile d'exécution est une structure LIFO (<em>last in, first out</em>)
+        ul
+          li divisée en blocs (<em>frames</em>) correspondant aux fonctions en cours
+          li lorsqu'une sous-fonction est appelée, l'état de la fonction en cours est sauvegardé, et un nouveau
+            |  bloc est placé sur la pile pour la sous-fonction
+          li lorsqu'une fonction termine, son bloc est supprimé de la pile et la fonction qui l'a appelée
+            |  reprend son exécution
+
+      .only
+        p Pour chaque fonction en cours d'exécution, la pile contient :
+        ul.skip
+          li l'adresse de retour qui correspond à l'instruction où reprendre l'exécution de la fonction
+            |  précédente lorsque la fonction courante termine
+          li les variables locales de la fonction
+          li les arguments passés à la fonction
+          li environnement à restaurer lorsque la fonction termine (privilèges, états de certains registres,
+            |  etc.)
+
+        p Lorsque la fonction termine, le résultat est placé sur la pile pour être traité par la fonction
+          |  précédente.
+
+  section.split
+    h1
+      span(style="display: inline-block; text-align: center; width: 50%") Pile
+      span(style="display: inline-block; text-align: center; width: 50%") Tas
+    .leftside
+      ul
+        li Fréquemment utilisée donc placée sur de la mémoire plus rapide
+        li Variables libérées automatiquement
+        li Connexe&nbsp;: ne se fragmente pas et facile d'accès
+        li Gestion automatique de la portée des variables
+        li Récursivité facile
+
+    .rightside
+      ul
+        li Espace illimité
+        li Objets accessibles globalement
+        li Doit être libéré explicitement
+        li Objets peuvent être redimensionnés (<code>realloc</code>)
