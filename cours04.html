@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <title>M2101 - Architecture et programmation bas niveau</title>
+    <link rel="stylesheet" href="https://vpoupet.github.io/myriad/css/slides.css">
+    <link rel="stylesheet" href="https://vpoupet.github.io/myriad/css/myriad.css">
+    <link rel="stylesheet" href="highlight.css">
+  </head>
+  <body>
+    <section class="title">
+      <h1>Cours n°4 :<br>Création de processus</h1>
+      <h2></h2>
+      <div class="context">M2101 - Architecture et programmation bas niveau</div>
+      <div class="author">Victor Poupet</div>
+      <time>2018-03-11</time>
+    </section>
+    <section class="split">
+      <h1>Hiérarchie de processus</h1>
+      <div class="leftside">
+        <pre><code>$ ps ax
+
+  PID  PPID S COMMAND
+<span class="highlight">    1     0 S /sbin/init</span>
+  338     1 S /sbin/udevd --daemon
+  481   338 S /sbin/udevd --daemon
+ 1200   880 S lightdm --session-child
+ 1301  1200 S gnome-session
+ 1528     1 S /usr/lib/gvfs/gvfsd
+ 1532  1301 S nm-applet
+ 1556  1301 S /usr/lib/gnome-settings
+ 1590     1 S /usr/lib/gvfs/gvfs-gdu
+ 1627     1 S /usr/lib/bamf/bamfdaemon
+ 1636  1635 S /usr/bin/gtk-window
+ 1639     1 S /usr/lib/unity/unity
+ 1845     1 S /usr/lib/gnome-online
+ <span class="highlight">1853     1</span> R gnome-terminal
+ 2414     1 S /usr/lib/dconf/dconf
+ <span class="highlight">2431  1853</span> S bash
+ <span class="highlight">2597  2431</span> R ps ax</code></pre></code></pre>
+      </div>
+      <div class="rightside">
+        <p>Au démarrage de l'ordinateur, le processus <code>init</code> est lancé
+          <ul>
+            <li>Par la suite, tous les autres processus sont démarrés par un processus existant (parent)</li>
+            <li>Chaque processus est identifié par un numéro unique (PID) et connaît le numéro de son parent (PPID)</li>
+            <li>La commande <code>ps</code> permet d'obtenir le PID et le PPID d'un processus</li>
+          </ul>
+        </p>
+      </div>
+    </section>
+    <section class="single">
+      <h1>Hiérarchie (pstree)</h1>
+      <pre><code>$ <span class="highlight">pstree -p</span>
+
+<span class="highlight">init(1)</span>─┬─NetworkManager(793)─┬─dhclient(911)
+        │                     └─dnsmasq(1012)
+        ├─accounts-daemon(1214)───{accounts-daemon}(1215)
+        ├─cron(855)
+        ├─cupsd(729)───dbus(3916)
+        ├─dconf-service(1997)─┬─{dconf-service}(1998)
+        │                     └─{dconf-service}(2000)
+        ├─gnome-keyring-d(1407)─┬─{gnome-keyring-d}(1408)
+        │                       └─{gnome-keyring-d}(1970)
+        ├─<span class="highlight">gnome-terminal(1737)</span>─┬─<span class="highlight">bash(1746)</span>───<span class="highlight">pstree(20545)</span>
+        │                      ├─gnome-pty-helpe(1745)
+        │                      └─{gnome-terminal}(1747)
+        ├─goa-daemon(1895)───{goa-daemon}(1911)
+        ├─gvfs-afc-volume(1612)───{gvfs-afc-volume}(1614)
+        ├─mission-control(1890)─┬─{mission-control}(1893)
+        │                       └─{mission-control}(1909)
+        ├─sh(884)───initctl(886)
+        └─udisks-daemon(1604)───udisks-daemon(1609)</code></pre>
+    </section>
+    <section class="split">
+      <h1>Création</h1>
+      <div class="leftside">
+        <div class="only" data-end="1">
+          <pre><code class="cpp">int main(int argc, char **argv) {
+  pid_t pid = fork();
+  if (pid == -1) {
+    perror("fork");
+  } else if (pid == 0) {
+    for (int i=0; i&lt;3; i++) {
+      printf("F%d\n", i);
+    }
+  } else {
+    for (int i=0; i&lt;3; i++) {
+      printf("P%d ", i);
+    }
+  }
+}</code></pre>
+          <hr>
+          <pre><code>$ ./a.out
+
+P0 P1 P2 F0 F1 F2</code></pre>
+        </div>
+        <div class="only" data-start="2">
+          <pre><code class="cpp">// fork bomb !
+int main(int argc, char **argv) {
+  while (1) fork();
+}</code>
+            <div class="center"><img src="cours04/cours04-BobOmb.jpg" style="width: 50%" alt="Bob Omb"></div></pre>
+        </div>
+      </div>
+      <div class="rightside">
+        <p class="skip">Pour créer un nouveau processus, on clone un processus existant à l'aide de l'appel <code>fork()</code></p>
+        <div class="only" data-step="0">
+          <p>Le système copie&nbsp;:</p>
+          <ul>
+            <li>la mémoire (pile, tas, code)
+              <li>les descripteurs de fichiers ouverts (cependant les pointeurs dans les fichiers sont partagés)</li>
+              <li>l'état d'exécution (pointeur d'exécution, registres du processeur)</li>
+            </li>
+          </ul>
+        </div>
+        <div class="only" data-start="1">
+          <p>Différences entre les processus&nbsp;:</p>
+          <ul>
+            <li>le processus fils a un PID et un PPID différent du père (son PPID est le PID du père)</li>
+            <li>la fonction <code>fork</code> renvoie 0 dans le processus fils, et le PID du fils dans le processus père</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <section class="split">
+      <h1>Attente de complétion</h1>
+      <div class="leftside">
+        <pre><code>SYNOPSIS
+  #include &lt;sys/types.h>
+  #include &lt;/wait.h>
+
+  pid_t wait(int *status);
+  pid_t waitpid(pid_t pid, int *status, int options);</code></pre>
+      </div>
+      <div class="rightside">
+        <p>
+          Les commandes <code>wait</code> et <code>waitpid</code> demandent à un processus d'attendre que ses processus fils changent d'état</p>
+        <ul>
+          <li>
+            Lorsqu'un fils se termine, la commande <code>wait</code> permet au parent de recevoir le code de retour du fils</li>
+          <li>Le fils est supprimé de la table de processus quand son père reçoit le code de retour</li>
+        </ul>
+      </div>
+    </section>
+    <section class="split">
+      <h1>Zombies</h1>
+      <div class="leftside">
+        <pre><code class="cpp only" data-step="0">int main(int argc, char **argv) {
+  pid_t pid;
+  pid = fork();
+  if (pid == 0) { // fils
+    sleep(10);
+    printf("Fin fils\n");
+  } else { // père
+    sleep(20);
+    printf("Fin père\n");
+  }
+  exit(1);
+}</code><code class="only" style="margin-bottom: calc(20 * var(--mm))">$ ps
+ PID  TTY     STAT   COMMAND
+ 1859 pts/0   Ss     bash
+ 2570 pts/0   S      ./prog
+ 2571 pts/0   Z      <span class="highlight">[prog] &lt;defunct></span></code></pre><img src="cours04/cours04-zombie.png" style="width: 28%; position: absolute; bottom: 0; left: 27%" alt="Zombie">
+      </div>
+      <div class="rightside">
+        <p>Lorsqu'un processus se termine, il n'est pas immédiatement supprimé de la table</p>
+        <ul>
+          <li>Le parent doit explicitement le supprimer à l'aide de l'appel <code>wait</code></li>
+          <li>Si le processus reste, il devient un <em>zombie</em></li>
+          <li>
+            Les processus zombies n'occupent pas de mémoire, mais ils bloquent un PID (et sont souvent le signe d'un bug dans le processus parent)</li>
+          <li>
+            Si le parent est terminé avant le fils, le fils devient orphelin et est récupéré par <code>init</code> (qui appelle <code>wait</code> régulièrement)</li>
+        </ul>
+      </div>
+    </section>
+    <section class="split">
+      <h1>Éviter les zombies</h1>
+      <div class="leftside">
+        <pre><code class="cpp only" data-step="0">int main() {
+  int pid1;
+  pid1 = fork();
+  if (pid1) {
+    // père
+    /* Tâche principale */
+  } else {
+    // fils
+    /* Tâche secondaire */
+  }
+}</code><code class="cpp only">static void handler(int signo) {
+  wait(NULL);
+}
+
+int main() {
+  <span class="highlight">signal(SIGCHLD, handler);</span>
+  int pid1;
+  pid1 = fork();
+  if (pid1) {
+    // père
+    /* Tâche principale */
+  } else {
+    // fils
+    /* Tâche secondaire */
+  }
+}</code><code class="cpp only">int main() {
+  int pid1, pid2;
+  pid1 = fork();
+  if (pid1) {
+    // père
+    <span class="highlight">waitpid(pid1, NULL, 0);</span>
+    /* Tâche principale */
+  } else {
+    // fils
+    <span class="highlight">pid2 = fork();</span>
+    if (pid2) {
+      // fils
+      <span class="highlight">exit(0);</span>
+    } else {
+      // petit- fils
+      /* Tâche secondaire */
+    }
+  }
+}</code></pre>
+      </div>
+      <div class="rightside">
+        <p>Parfois, la tâche exécutée par le fils est longue et on ne veut pas bloquer le père en attente de complétion</p>
+        <ul>
+          <li>On peut mettre en place une gestion de signaux (SIGCHLD)</li>
+          <li>On peut faire en sorte que le processus fils soit immédiatement adopté par <code>init</code></li>
+        </ul>
+      </div>
+    </section>
+    <section class="single">
+      <h1>fork</h1>
+      <p class="skip">
+        La fonction <code>fork</code> est appelée par un processus mais renvoie deux résultats, dans deux processus distincts</p>
+      <ul>
+        <li>Le père reçoit le PID du fils</li>
+        <li>Le fils peut obtenir le PID du père&nbsp;: <code>getppid()</code></li>
+        <li>
+          Si le fils et le père doivent avoir des comportements différents, il faut que les deux aient l'ensemble du code<span class="uncover">... sauf s'il existe un moyen de changer le code d'un processus</span></span></li>
+      </ul>
+    </section>
+    <section class="split">
+      <h1>Exécution</h1>
+      <div class="leftside">
+        <pre><code class="cpp only" data-end="1">#include &lt;unistd.h>
+
+extern char **environ;
+
+int execl(const char *path, const char *arg, ...);
+int execlp(const char *file, const char *arg, ...);
+int execle(const char *path, const char *arg, ..., char * const envp[]);
+int execv(const char *path, char *const argv[]);
+int execvp(const char *file, char *const argv[]);</code><code class="cpp only" data-step="2">int main(int argc, char **argv) {
+  pid_t pid;
+  int status;
+  pid = fork();
+  if (pid == 0) {
+    <span class="highlight">execlp("ls", "ls", "-l", NULL);</span>
+  } else {
+    printf("Père \n");
+    wait(&status);
+  }
+}</code><code class="cpp only">int main(int argc, char **argv) {
+  pid_t pid;
+  int status;
+  pid = fork();
+  if (pid == 0) {
+    char *args[3];
+    args[0] = "ls";
+    args[1] = "-l";
+    args[2] = NULL;
+    <span class="highlight">execvp("ls", args);</span>
+  } else {
+    printf("Père \n");
+    wait(&status);
+  }
+}</code></pre>
+      </div>
+      <div class="rightside">
+        <div class="only" data-step="0">
+          <p>La famille de fonctions exec permet de remplacer le code d'un processus par un autre</p>
+          <ul>
+            <li>le premier argument est un exécutable</li>
+            <li>les arguments suivants permettent de passer des paramètres et des variables d'environnement</li>
+            <li>
+              à l'appel de la fonction, tout le code du processus est remplacé par celui indiqué et l'état du processus est réinitialisé</li>
+          </ul>
+        </div>
+        <div class="only" data-start="1">
+          <p>Il existe plusieurs variantes&nbsp;:</p>
+          <ul>
+            <li>
+              <code>l</code> (<em>list</em>)&nbsp;: les arguments sont passés un par un à la fonction, avec un pointeur nul (<code>NULL</code>) en dernier</li>
+            <li><code>v</code> (<em>vector</em>)&nbsp;: les arguments sont passés dans un unique tableau</li>
+            <li><code>p</code> (<em>path</em>)&nbsp;: l'exécutable est cherché dans les répertoires du chemin d'exécution</li>
+            <li>
+              <code>e</code> (<em>environment</em>)&nbsp;: permet de passer un tableau contenant des variables d'environnement pour l'exécution du nouveau programme</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <section class="split">
+      <h1>Exemple : ls</h1>
+      <div class="leftside">
+        <div class="center"><img src="cours04/cours04-exec.svg" style="width:80%" alt="exec"></div>
+      </div>
+      <div class="rightside">
+        <p>Le shell veut exécuter la commande <code>ls</code></p>
+        <ul>
+          <li><code>fork()</code> pour créer le processus fils</li>
+          <li>
+            le père attend que le fils ait fini son exécution (si la commande est en arrière plan le père ne se bloque pas)</li>
+          <li>le fils appelle <code>exec</code> pour remplacer son code par celui du programme <code>ls</code></li>
+          <li>quand le fils termine, le père reçoit le code de retour, supprime le processus fils et reprend son exécution</li>
+        </ul>
+      </div>
+    </section>
+    <section class="single">
+      <h1>Copie sur écriture</h1>
+      <p>
+        L'utilisation de <code>fork</code>/<code>exec</code> est le moyen le plus classique (et parfois le seul disponible) pour créer des nouveaux processus</p>
+      <ul>
+        <li>
+          Si le nouveau processus va être remplacé par un autre programme (<code>exec</code>) il est inutile de copier toute sa mémoire au moment du <code>fork</code></li>
+        <li>Pour alléger, on utilise souvent une technique appelée <em>copy on write</em>&nbsp;:
+          <ul>
+            <li>lorsque le nouveau processus est créé, on ne copie pas sa mémoire</li>
+            <li>il dispose de pointeurs vers la mémoire du père pour la lecture</li>
+            <li>la mémoire est copiée au moment de la première écriture par le fils</li>
+          </ul>
+        </li>
+        <li>Dans le cas où <code>exec</code> suit <code>fork</code>, la mémoire n'est pas copiée</li>
+      </ul>
+    </section>
+    <script src="highlight.pack.js"></script>
+    <script language="Javascript">
+      window.addEventListener('load', function() {
+       hljs.configure({
+        languages: [],  // disable automatic language detection
+        });
+        hljs.initHighlighting();
+      });
+    </script>
+    <script src="https://vpoupet.github.io/myriad/js/slides.js"></script>
+    <script src="https://vpoupet.github.io/myriad/js/myriad.js"></script>
+  </body>
+</html>
