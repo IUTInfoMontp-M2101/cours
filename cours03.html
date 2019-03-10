@@ -243,6 +243,19 @@ int main() {
         </ul>
       </div>
     </section>
+    <section class="split">
+      <h1>Virtualisation</h1>
+      <div class="leftside"><img src="cours05/cours05-memoireVirtuelle.svg" style="width: 80%" alt="mémoire virtuelle"></div>
+      <div class="rightside">
+        <p>Les processus n'ont pas directement accès aux différentes mémoires physiques</p>
+        <ul>
+          <li>Ils disposent d'un espace de mémoire virtuelle</li>
+          <li>L'unité de gestion de mémoire (MMU) s'occupe de la correspondance</li>
+          <li>Permet d'isoler les processus</li>
+          <li>Masque les problèmes de fragmentation (le noyau s'en occupe)</li>
+        </ul>
+      </div>
+    </section>
     <script src="highlight.pack.js"></script>
     <script language="Javascript">
       window.addEventListener('load', function() {

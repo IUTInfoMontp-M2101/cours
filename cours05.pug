@@ -1,0 +1,316 @@
+extends coursXX.pug
+
+append preamble
+  - date = "2018-03-11";
+  - title = "Cours n°5 :<br>Processus légers<br>(threads)";
+
+block document
+
+  section.single
+    h1 Processus légers
+    div.only(data-step=0)
+      p.skip Si l'on veut exécuter plusieurs tâches en parallèle, on peut utiliser des processus différents
+      ul
+        li la création d'un processus est une opération coûteuse
+        li chaque processus occupe un segment de mémoire séparée
+        li le code à exécuter est copié dans chaque nouveau processus
+        li la communication entre processus est difficile (tubes, fichiers, sockets, etc.)
+
+    div.only
+      p.skip Pour exécuter plusieurs instances de la même tâche en parallèle, on peut utiliser des <em>threads</em>
+        |  (processus légers) à la place des processus
+      ul
+        li Un unique processus peut exécuter plusieurs threads
+        li L'ordonnancement gère les threads d'un même processus comme des tâches séparées (potentiellement sur des
+          |  processeurs différents)
+        li Les threads sont terminés lorsque le processus termine
+
+  section.split
+    h1 Processus légers
+    .leftside
+      .center
+        img.only(src="cours05/cours05-thread-01.svg" style="width: 80%" data-step="0" alt="threads")
+        img.only(src="cours05/cours05-thread-02.svg" style="width: 80%" alt="threads")
+    .rightside
+      ul
+        li Chaque thread a ses propres variables locales, mais elles sont toutes dans la pile du processus
+          |  (un thread a donc accès à la pile des autres)
+        li Les threads d'un processus partagent les segments <code>text</code> et <code>data</code> du processus,
+          |  ainsi que le tas
+        li Chaque thread a ses propres pointeurs de pile et d'exécution, ainsi que l'état des registres du
+          |  processeur
+
+  section.split
+    h1 En C
+    .leftside
+      pre
+        code.cpp
+          | #include &lt;pthread.h>
+          |
+          | int <span class="highlight">pthread_create</span>(pthread_t *thread, const pthread_attr_t *attr, void *(*start_routine)(void *), void *arg)
+          |
+          | int <span class="highlight">pthread_join</span>(pthread_t thread, void **value_ptr)
+          |
+          | void <span class="highlight">pthread_exit</span>(void *value_ptr)
+
+    .rightside
+      p La bibliothèque <code>pthread</code> permet de créer et gérer des threads dans un processus
+      ul
+        li.uncover <code>pthread_create</code> pour démarrer un nouveau thread
+          ul
+            li <code>start_routine</code> est la fonction à exécuter dans le thread
+            li cette fonction prend un unique argument <code>arg</code> de type <code>void*</code>
+        li.uncover <code>pthread_join</code> pour attendre la fin d'un thread en cours
+          ul
+            li <code>value_ptr</code> est un pointeur où écrire le résultat de la fonction du thread qui a terminé
+        li.uncover <code>pthread_exit</code> permet de terminer un thread (appelée automatiquement si la fonction
+              |  <code>start_routine</code> termine)
+
+  section.split
+    h1 Exemple
+    .leftside
+      pre
+        code.cpp.only(data-step=0)
+          | #include &lt;stdio.h>
+          |
+          | #define NB_CASES 1000
+          |
+          | void tache(int *tab) {
+          |   int i;
+          |   for (i = 0; i &lt; NB_CASES; i++) {
+          |     tab[i]=i*i;
+          |   }
+          | }
+        code.cpp.only
+          | #include &lt;stdio.h>
+          |
+          | #define NB_CASES 1000
+          | #define NB_THREADS 4
+          |
+          | void tache(int deb, int fin, int *tab) {
+          |   int i;
+          |   for (i = deb; i &lt; fin; i++) {
+          |     tab[i]=i*i;
+          |   }
+          | }
+        code.cpp.only
+          | #include &lt;pthread.h>
+          | #include &lt;stdio.h>
+          |
+          | #define NB_CASES 1000
+          | #define NB_THREADS 4
+          |
+          | struct ThreadArgs {
+          |   int debut;
+          |   int fin;
+          |   int *tab;
+          | };
+          |
+          | void* tache(void* args) {
+          |   struct ThreadArgs *a = args;
+          |   int i;
+          |   for (i = a->debut; i &lt; a->fin; i++) {
+          |     a->tab[i]=i*i;
+          |   }
+          |   return NULL;
+          | }
+    .rightside
+      pre
+        code.cpp.only(data-step=0)
+          | int main(void) {
+          |   int i, tab[NB_CASES];
+          |
+          |   tache(tab);
+          |
+          |   for (i = 0; i &lt; NB_CASES; i++) {
+          |     printf("%d ", tab[i]);
+          |   }
+          |   return 0;
+          | }
+        code.cpp.only
+          | int main(void) {
+          |   int i, tab[NB_CASES];
+          |
+          |   for (i = 0; i &lt; NB_THREADS; i++) {
+          |     debut = i * NB_CASES / NB_THREADS;
+          |     fin = (i+1) * NB_CASES / NB_THREADS;
+          |     tache(debut, fin, tab);
+          |   }
+          |
+          |   for (i = 0; i &lt; NB_CASES; i++) {
+          |     printf("%d ", tab[i]);
+          |   }
+          |   return 0;
+          | }
+        code.cpp.only
+          | int main(void) {
+          |   int i, tab[NB_CASES];
+          |   struct ThreadArgs args[NB_THREADS];
+          |   pthread_t threads[NB_THREADS];
+          |
+          |   for (i = 0; i &lt; NB_THREADS; i++) {
+          |     args[i].debut = i * NB_CASES / NB_THREADS;
+          |     args[i].fin = (i+1) * NB_CASES / NB_THREADS;
+          |     args[i].tab = tab;
+          |     pthread_create(&threads[i], NULL, tache, &args[i]);
+          |   }
+          |   for (i = 0; i &lt; NB_THREADS; i++) {
+          |     pthread_join(threads[i], NULL);
+          |   }
+          |   for (i = 0; i &lt; NB_CASES; i++) {
+          |     printf("%d ", tab[i]);
+          |   }
+          |   return 0;
+          | }
+
+  section.split
+    h1 Concurrence
+    .leftside
+      pre
+        code.cpp
+          | #include &lt;pthread.h>
+          | #include &lt;stdio.h>
+          | #define NB_THREADS 4
+          |
+          | void* incr(void *arg) {
+          |   int i;
+          |   int *c = arg;
+          |   for (i = 0; i &lt; 10000; i++) {
+          |     <span class="highlight">(*c)++</span>;
+          |   }
+          |   return NULL;
+          | }
+          | int main(void) {
+          |   int i, <span class="highlight">c</span>;
+          |   pthread_t threads[NB_THREADS];
+          |   for (i = 0; i &lt; NB_THREADS; i++) {
+          |     pthread_create(&threads[i], NULL, incr, <span class="highlight">&c</span>); }
+          |   for (i = 0; i &lt; NB_THREADS; i++) {
+          |     pthread_join(threads[i], NULL); }
+          |   printf("%d\n", c);
+          |   return 0;
+          | }
+    .rightside
+      p.skip Les threads partagent le même espace mémoire
+      ul
+        li La modification d'une variable par un thread affecte les lectures sur cette variable par les autres threads
+        li Problèmes d'accès concurrents
+        li Il faut utiliser des mécanismes complexes pour s'assurer du bon déroulement du programme
+          ul
+            li sémaphores
+            li mutex
+            li barrières
+
+  section.split
+    h1 Thread safety
+    .leftside
+      pre
+        code.cpp
+          | #include &lt;pthread.h>
+          |
+          | int incr() {
+          |   static int c = 0;
+          |   static pthread_mutex_t mutex;
+          |   mutex = PTHREAD_MUTEX_INITIALIZER;
+          |
+          |   // bloquer le verrou
+          |   pthread_mutex_lock(&mutex);
+          |
+          |   c++;
+          |   int r = c; // sauvegarder résultat
+          |
+          |   // libérer le verrou
+          |   pthread_mutex_unlock(&mutex);
+          |
+          |   return r;
+          | }
+    .rightside
+      ul
+        li assurer que les sections critiques (manipulations des variables partagées) ne soient accessibles que
+          |  par un thread
+        li attention aux blocages potentiels
+        li difficile à tester (certains effets se produisent rarement)
+        li les verrouillages ralentissent le parallélisme (goulot d'étranglement)
+
+  section.split
+    h1 Réentrance
+    .leftside
+      pre
+        code.cpp.only(data-step=0)
+          | // cette fonction est réentrante
+          | void echange(int *x, int *y) {
+          |   int t;
+          |   t = *x;
+          |   *x = *y;
+          |   *y = t;
+          | }
+        code.cpp.only
+          | int t;
+          |
+          | // cette fonction n'est pas réentrante
+          | void echange(int *x, int *y) {
+          |   t = *x;
+          |   *x = *y;
+          |   *y = t;
+          | }
+        code.cpp.only
+          | int t;
+          |
+          | // cette fonction est réentrante
+          | void echange(int *x, int *y) {
+          |   int s = t;
+          |   t = *x;
+          |   *x = *y;
+          |   *y = t;
+          |   t = s;
+          | }
+    .rightside
+      p Une fonction est dite <em>réentrante</em> si elle se comporte correctement lorsqu'elle est appelée pendant une
+        |  exécution d'elle-même
+      ul
+        li récursivité
+        li exécution lors d'une interruption
+        li exécution concurrente (threads)
+
+  section.split
+    h1 Compilation
+    .leftside
+      pre
+        code.only(data-step=0)
+          | $ gcc prog.c -lpthread -D_REENTRANT
+        code.only
+          | $ gcc prog.c -pthread
+    .rightside
+      ul.only(data-step=0)
+        li Pour utiliser les fonctions de la bibliothèque <code>pthread</code>, il faut demander au compilateur
+          |  de lier l'exécutable à la bibliothèque&nbsp;: <code>-lpthread</code>
+        li Par ailleurs, il faut indiquer que les fonctions doivent être réentrantes&nbsp;:<br>
+          |  <code>-D_REENTRANT</code>
+        ul
+          li certaines fonctions ont des variantes réentrantes (ex : <code>strtok_r</code> au lieu de
+            |  <code>strtok</code>)
+          li certaines macros sont remplacées par des fonctions (ex : <code>getc</code> et <code>putc</code>)
+          li chaque thread dispose d'une instance différente de la variable <code>errno</code>
+      ul.only(data-start=1)
+        li Lorsqu'elle est disponible, l'option <br><code>-pthread</code> se charge d'activer les options nécessaires,
+          |  spécifiques au système courant (c'est la solution à préférer)
+        li la plupart du temps, cela correspond à <br><code>-lpthread -D_REENTRANT</code>
+
+
+  section.split
+    h1
+      span(style="display: inline-block; text-align: center; width: 50%") Processus
+      span(style="display: inline-block; text-align: center; width: 50%") Thread
+    .leftside
+      ul
+        li Espace de mémoire virtuelle (apparaît comme connexe) séparée
+        li Identifiant unique au niveau OS
+        li Les processus sont disjoints
+        li Peuvent fonctionner sur des machines distinctes
+    .rightside
+      ul
+        li Subdivision d'un processus
+        li Mémoire partagée (même espace d'adressage virtuel)
+        li Sur la même machine (potentiellement sur des processeurs différents)
+        li Plus simple à créer
+        li Tous les threads d'un même processus ont le même code

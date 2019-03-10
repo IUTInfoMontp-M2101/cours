@@ -224,3 +224,15 @@ block document
         li Objets accessibles globalement
         li Doit être libéré explicitement
         li Objets peuvent être redimensionnés (<code>realloc</code>)
+
+  section.split
+    h1 Virtualisation
+    .leftside
+      img(src="cours05/cours05-memoireVirtuelle.svg" style="width: 80%" alt="mémoire virtuelle")
+    .rightside
+      p Les processus n'ont pas directement accès aux différentes mémoires physiques
+      ul
+        li Ils disposent d'un espace de mémoire virtuelle
+        li L'unité de gestion de mémoire (MMU) s'occupe de la correspondance
+        li Permet d'isoler les processus
+        li Masque les problèmes de fragmentation (le noyau s'en occupe)
