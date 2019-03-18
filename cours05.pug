@@ -8,7 +8,7 @@ block document
 
   section.single
     h1 Processus légers
-    div.only(data-step=0)
+    .only(data-step=0)
       p.skip Si l'on veut exécuter plusieurs tâches en parallèle, on peut utiliser des processus différents
       ul
         li la création d'un processus est une opération coûteuse
@@ -16,7 +16,7 @@ block document
         li le code à exécuter est copié dans chaque nouveau processus
         li la communication entre processus est difficile (tubes, fichiers, sockets, etc.)
 
-    div.only
+    .only
       p.skip Pour exécuter plusieurs instances de la même tâche en parallèle, on peut utiliser des <em>threads</em>
         |  (processus légers) à la place des processus
       ul
@@ -27,11 +27,11 @@ block document
 
   section.split
     h1 Processus légers
-    .leftside
+    .side
       .center
         img.only(src="cours05/cours05-thread-01.svg" style="width: 80%" data-step="0" alt="threads")
         img.only(src="cours05/cours05-thread-02.svg" style="width: 80%" alt="threads")
-    .rightside
+    .side
       ul
         li Chaque thread a ses propres variables locales, mais elles sont toutes dans la pile du processus
           |  (un thread a donc accès à la pile des autres)
@@ -42,7 +42,7 @@ block document
 
   section.split
     h1 En C
-    .leftside
+    .side
       pre
         code.cpp
           | #include &lt;pthread.h>
@@ -53,7 +53,7 @@ block document
           |
           | void <span class="highlight">pthread_exit</span>(void *value_ptr)
 
-    .rightside
+    .side
       p La bibliothèque <code>pthread</code> permet de créer et gérer des threads dans un processus
       ul
         li.uncover <code>pthread_create</code> pour démarrer un nouveau thread
@@ -68,7 +68,7 @@ block document
 
   section.split
     h1 Exemple
-    .leftside
+    .side
       pre
         code.cpp.only(data-step=0)
           | #include &lt;stdio.h>
@@ -114,7 +114,7 @@ block document
           |   }
           |   return NULL;
           | }
-    .rightside
+    .side
       pre
         code.cpp.only(data-step=0)
           | int main(void) {
@@ -165,7 +165,7 @@ block document
 
   section.split
     h1 Concurrence
-    .leftside
+    .side
       pre
         code.cpp
           | #include &lt;pthread.h>
@@ -190,7 +190,7 @@ block document
           |   printf("%d\n", c);
           |   return 0;
           | }
-    .rightside
+    .side
       p.skip Les threads partagent le même espace mémoire
       ul
         li La modification d'une variable par un thread affecte les lectures sur cette variable par les autres threads
@@ -203,7 +203,7 @@ block document
 
   section.split
     h1 Thread safety
-    .leftside
+    .side
       pre
         code.cpp
           | #include &lt;pthread.h>
@@ -224,7 +224,7 @@ block document
           |
           |   return r;
           | }
-    .rightside
+    .side
       ul
         li assurer que les sections critiques (manipulations des variables partagées) ne soient accessibles que
           |  par un thread
@@ -234,7 +234,7 @@ block document
 
   section.split
     h1 Réentrance
-    .leftside
+    .side
       pre
         code.cpp.only(data-step=0)
           | // cette fonction est réentrante
@@ -264,7 +264,7 @@ block document
           |   *y = t;
           |   t = s;
           | }
-    .rightside
+    .side
       p Une fonction est dite <em>réentrante</em> si elle se comporte correctement lorsqu'elle est appelée pendant une
         |  exécution d'elle-même
       ul
@@ -274,13 +274,13 @@ block document
 
   section.split
     h1 Compilation
-    .leftside
+    .side
       pre
         code.only(data-step=0)
           | $ gcc prog.c -lpthread -D_REENTRANT
         code.only
           | $ gcc prog.c -pthread
-    .rightside
+    .side
       ul.only(data-step=0)
         li Pour utiliser les fonctions de la bibliothèque <code>pthread</code>, il faut demander au compilateur
           |  de lier l'exécutable à la bibliothèque&nbsp;: <code>-lpthread</code>
@@ -301,13 +301,13 @@ block document
     h1
       span(style="display: inline-block; text-align: center; width: 50%") Processus
       span(style="display: inline-block; text-align: center; width: 50%") Thread
-    .leftside
+    .side
       ul
         li Espace de mémoire virtuelle (apparaît comme connexe) séparée
         li Identifiant unique au niveau OS
         li Les processus sont disjoints
         li Peuvent fonctionner sur des machines distinctes
-    .rightside
+    .side
       ul
         li Subdivision d'un processus
         li Mémoire partagée (même espace d'adressage virtuel)

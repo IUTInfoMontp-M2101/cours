@@ -8,7 +8,7 @@ block document
 
   section.split
     h1 Hiérarchie de processus
-    .leftside
+    .side
       pre
         code
           | $ ps ax
@@ -32,7 +32,7 @@ block document
           |  <span class="highlight">2431  1853</span> S bash
           |  <span class="highlight">2597  2431</span> R ps ax</code></pre>
     
-    .rightside
+    .side
       p Au démarrage de l'ordinateur, le processus <code>init</code> est lancé
         ul
             li Par la suite, tous les autres processus sont démarrés par un processus existant (parent)
@@ -66,7 +66,7 @@ block document
 
   section.split
     h1 Création
-    .leftside
+    .side
       .only(data-end=1)
         pre
           code.cpp
@@ -100,7 +100,7 @@ block document
             | }
           .center
             img(src="cours04/cours04-BobOmb.jpg" style="width: 50%" alt="Bob Omb")
-    .rightside
+    .side
       p.skip Pour créer un nouveau processus, on clone un processus existant à l'aide de l'appel <code>fork()</code>
       .only(data-step=0)
         p Le système copie&nbsp;:
@@ -116,7 +116,7 @@ block document
 
   section.split
     h1 Attente de complétion
-    .leftside
+    .side
       pre
         code
           | SYNOPSIS
@@ -126,7 +126,7 @@ block document
           |   pid_t wait(int *status);
           |   pid_t waitpid(pid_t pid, int *status, int options);
 
-    .rightside
+    .side
         p Les commandes <code>wait</code> et <code>waitpid</code> demandent à un processus d'attendre que ses
           |  processus fils changent d'état
         ul
@@ -136,7 +136,7 @@ block document
 
   section.split
     h1 Zombies
-    .leftside
+    .side
       pre
         code.cpp.only(data-step=0)
           | int main(int argc, char **argv) {
@@ -159,7 +159,7 @@ block document
           |  2571 pts/0   Z      <span class="highlight">[prog] &lt;defunct></span>
       img(src="cours04/cours04-zombie.png" style="width: 28%; position: absolute; bottom: 0; left: 27%" alt="Zombie")
     
-    .rightside
+    .side
       p Lorsqu'un processus se termine, il n'est pas immédiatement supprimé de la table
       ul
         li Le parent doit explicitement le supprimer à l'aide de l'appel <code>wait</code>
@@ -171,7 +171,7 @@ block document
 
   section.split
     h1 Éviter les zombies
-    .leftside
+    .side
       pre
         code.cpp.only(data-step=0)
           | int main() {
@@ -222,7 +222,7 @@ block document
           |     }
           |   }
           | }
-    .rightside
+    .side
       p Parfois, la tâche exécutée par le fils est longue et on ne veut pas bloquer le père en attente de complétion
       ul
         li On peut mettre en place une gestion de signaux (SIGCHLD)
@@ -241,7 +241,7 @@ block document
 
   section.split
     h1 Exécution
-    .leftside
+    .side
       pre
         code.cpp.only(data-end=1)
           | #include &lt;unistd.h>
@@ -282,7 +282,7 @@ block document
           |   }
           | }
 
-    .rightside
+    .side
       .only(data-step=0)
         p La famille de fonctions exec permet de remplacer le code d'un processus par un autre
         ul
@@ -302,11 +302,11 @@ block document
 
   section.split
     h1 Exemple : ls
-    .leftside
+    .side
       .center
         img(src="cours04/cours04-exec.svg" style="width:80%" alt="exec")
 
-    .rightside
+    .side
       p Le shell veut exécuter la commande <code>ls</code>
       ul
         li <code>fork()</code> pour créer le processus fils

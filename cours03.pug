@@ -16,10 +16,10 @@ block document
 
   section.split
     h1 Cycle d'un processus
-    .leftside
+    .side
       img(src="cours03/cours03-cycle.svg" style="width: 100%" alt="cycle d'un processus")
 
-    .rightside
+    .side
       p Les processus ont 5 états possibles d'exécution&nbsp;:
       ul
         li <strong>Nouveau :</strong> en cours de création
@@ -53,11 +53,11 @@ block document
 
   section.split
     h1 Changement de processus
-    .leftside
+    .side
       .center
         img(src="cours03/cours03-switch.svg" style="width: 70%" alt="changement de processus")
 
-    .rightside
+    .side
       p Pour changer le processus en cours d'exécution, le processeur doit :
       ul
         li sauvegarder le PCB du processus en cours
@@ -84,7 +84,7 @@ block document
 
   section.split
     h1 size
-    .leftside
+    .side
       pre
         code.cpp
           | int tab[5000];
@@ -101,7 +101,7 @@ block document
           | text data bss   dec   hex  filename
           | 1072 4276 20032 25380 6324 a.out
 
-    .rightside
+    .side
       .only(data-step=0)
         p.skip La fonction <code>size</code> permet d'obtenir (entre autres) la taille des sections <code>text</code>
           |  et <code>data</code> correspondant à un exécutable
@@ -125,7 +125,7 @@ block document
 
   section.split
     h1 Limites
-    .leftside
+    .side
       pre
         code
           | $ ulimit -a
@@ -142,13 +142,13 @@ block document
           | max user processes (-u) 709
           | virtual memory (kbytes, -v) unlimited
 
-    .rightside
+    .side
       p La fonction <code>ulimit</code> permet d'obtenir les limitations de taille imposées par le système
         |  d'exploitation.
 
   section.split
     h1 Allocation dynamique
-    .leftside
+    .side
       pre
         code.cpp
           | int *fibo (int n) {
@@ -169,7 +169,7 @@ block document
           |   printf("10: %d, 100: %d\n", a, b);
           | }
 
-    .rightside
+    .side
       p Les fonctions de la famille <code>malloc</code> permettent de réserver de l'espace dynamiquement (dans le tas)
       ul
         li La fonction renvoie un pointeur indiquant où se trouve le bloc de mémoire libéré
@@ -180,10 +180,10 @@ block document
 
   section.split
     h1 La pile
-    .leftside
+    .side
       .center
         img(src="cours03/cours03-pile.svg" style="width:70%" alt="pile")
-    .rightside
+    .side
       .only(data-step="0")
         p La pile d'exécution est une structure LIFO (<em>last in, first out</em>)
         ul
@@ -210,7 +210,7 @@ block document
     h1
       span(style="display: inline-block; text-align: center; width: 50%") Pile
       span(style="display: inline-block; text-align: center; width: 50%") Tas
-    .leftside
+    .side
       ul
         li Fréquemment utilisée donc placée sur de la mémoire plus rapide
         li Variables libérées automatiquement
@@ -218,7 +218,7 @@ block document
         li Gestion automatique de la portée des variables
         li Récursivité facile
 
-    .rightside
+    .side
       ul
         li Espace illimité
         li Objets accessibles globalement
@@ -227,9 +227,9 @@ block document
 
   section.split
     h1 Virtualisation
-    .leftside
+    .side
       img(src="cours05/cours05-memoireVirtuelle.svg" style="width: 80%" alt="mémoire virtuelle")
-    .rightside
+    .side
       p Les processus n'ont pas directement accès aux différentes mémoires physiques
       ul
         li Ils disposent d'un espace de mémoire virtuelle

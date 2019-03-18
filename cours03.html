@@ -27,8 +27,8 @@
     </section>
     <section class="split">
       <h1>Cycle d'un processus</h1>
-      <div class="leftside"><img src="cours03/cours03-cycle.svg" style="width: 100%" alt="cycle d'un processus"></div>
-      <div class="rightside">
+      <div class="side"><img src="cours03/cours03-cycle.svg" style="width: 100%" alt="cycle d'un processus"></div>
+      <div class="side">
         <p>Les processus ont 5 états possibles d'exécution&nbsp;:</p>
         <ul>
           <li><strong>Nouveau :</strong> en cours de création</li>
@@ -68,10 +68,10 @@
     </section>
     <section class="split">
       <h1>Changement de processus</h1>
-      <div class="leftside">
+      <div class="side">
         <div class="center"><img src="cours03/cours03-switch.svg" style="width: 70%" alt="changement de processus"></div>
       </div>
-      <div class="rightside">
+      <div class="side">
         <p>Pour changer le processus en cours d'exécution, le processeur doit :</p>
         <ul>
           <li>sauvegarder le PCB du processus en cours</li>
@@ -99,7 +99,7 @@
     </section>
     <section class="split">
       <h1>size</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp">int tab[5000];
 int tab2[1000] = {1};
 
@@ -112,7 +112,7 @@ int main() {
 text data bss   dec   hex  filename
 1072 4276 20032 25380 6324 a.out</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <div class="only" data-step="0">
           <p class="skip">
             La fonction <code>size</code> permet d'obtenir (entre autres) la taille des sections <code>text</code> et <code>data</code> correspondant à un exécutable</p>
@@ -140,7 +140,7 @@ text data bss   dec   hex  filename
     </section>
     <section class="split">
       <h1>Limites</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code>$ ulimit -a
 
 core file size (blocks, -c) 0
@@ -155,14 +155,14 @@ cpu time (seconds, -t) unlimited
 max user processes (-u) 709
 virtual memory (kbytes, -v) unlimited</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <p>
           La fonction <code>ulimit</code> permet d'obtenir les limitations de taille imposées par le système d'exploitation.</p>
       </div>
     </section>
     <section class="split">
       <h1>Allocation dynamique</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp">int *fibo (int n) {
   int *t = malloc(sizeof(int)*(n+1));
   t[0] = 1;
@@ -181,7 +181,7 @@ int main() {
   printf("10: %d, 100: %d\n", a, b);
 }</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <p>Les fonctions de la famille <code>malloc</code> permettent de réserver de l'espace dynamiquement (dans le tas)</p>
         <ul>
           <li>La fonction renvoie un pointeur indiquant où se trouve le bloc de mémoire libéré</li>
@@ -194,10 +194,10 @@ int main() {
     </section>
     <section class="split">
       <h1>La pile</h1>
-      <div class="leftside">
+      <div class="side">
         <div class="center"><img src="cours03/cours03-pile.svg" style="width:70%" alt="pile"></div>
       </div>
-      <div class="rightside">
+      <div class="side">
         <div class="only" data-step="0">
           <p>La pile d'exécution est une structure LIFO (<em>last in, first out</em>)</p>
           <ul>
@@ -225,7 +225,7 @@ int main() {
     </section>
     <section class="split">
       <h1><span style="display: inline-block; text-align: center; width: 50%">Pile</span><span style="display: inline-block; text-align: center; width: 50%">Tas</span></h1>
-      <div class="leftside">
+      <div class="side">
         <ul>
           <li>Fréquemment utilisée donc placée sur de la mémoire plus rapide</li>
           <li>Variables libérées automatiquement</li>
@@ -234,7 +234,7 @@ int main() {
           <li>Récursivité facile</li>
         </ul>
       </div>
-      <div class="rightside">
+      <div class="side">
         <ul>
           <li>Espace illimité</li>
           <li>Objets accessibles globalement</li>
@@ -245,8 +245,8 @@ int main() {
     </section>
     <section class="split">
       <h1>Virtualisation</h1>
-      <div class="leftside"><img src="cours05/cours05-memoireVirtuelle.svg" style="width: 80%" alt="mémoire virtuelle"></div>
-      <div class="rightside">
+      <div class="side"><img src="cours05/cours05-memoireVirtuelle.svg" style="width: 80%" alt="mémoire virtuelle"></div>
+      <div class="side">
         <p>Les processus n'ont pas directement accès aux différentes mémoires physiques</p>
         <ul>
           <li>Ils disposent d'un espace de mémoire virtuelle</li>
@@ -258,11 +258,13 @@ int main() {
     </section>
     <script src="highlight.pack.js"></script>
     <script language="Javascript">
-      window.addEventListener('load', function() {
-       hljs.configure({
-        languages: [],  // disable automatic language detection
+      document.addEventListener('DOMContentLoaded', (event) => {
+        hljs.configure({
+          languages: [],  // disable automatic language detection
         });
-        hljs.initHighlighting();
+        document.querySelectorAll('code').forEach((block) => {
+          hljs.highlightBlock(block);
+        });
       });
     </script>
     <script src="https://vpoupet.github.io/myriad/js/slides.js"></script>

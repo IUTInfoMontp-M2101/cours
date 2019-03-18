@@ -39,10 +39,10 @@
     </section>
     <section class="split">
       <h1>Processus légers</h1>
-      <div class="leftside">
+      <div class="side">
         <div class="center"><img class="only" src="cours05/cours05-thread-01.svg" style="width: 80%" data-step="0" alt="threads"><img class="only" src="cours05/cours05-thread-02.svg" style="width: 80%" alt="threads"></div>
       </div>
-      <div class="rightside">
+      <div class="side">
         <ul>
           <li>
             Chaque thread a ses propres variables locales, mais elles sont toutes dans la pile du processus (un thread a donc accès à la pile des autres)</li>
@@ -55,7 +55,7 @@
     </section>
     <section class="split">
       <h1>En C</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp">#include &lt;pthread.h>
 
 int <span class="highlight">pthread_create</span>(pthread_t *thread, const pthread_attr_t *attr, void *(*start_routine)(void *), void *arg)
@@ -64,7 +64,7 @@ int <span class="highlight">pthread_join</span>(pthread_t thread, void **value_p
 
 void <span class="highlight">pthread_exit</span>(void *value_ptr)</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <p>La bibliothèque <code>pthread</code> permet de créer et gérer des threads dans un processus</p>
         <ul>
           <li class="uncover"><code>pthread_create</code> pour démarrer un nouveau thread
@@ -85,7 +85,7 @@ void <span class="highlight">pthread_exit</span>(void *value_ptr)</code></pre>
     </section>
     <section class="split">
       <h1>Exemple</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp only" data-step="0">#include &lt;stdio.h>
 
 #define NB_CASES 1000
@@ -126,7 +126,7 @@ void* tache(void* args) {
   return NULL;
 }</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <pre><code class="cpp only" data-step="0">int main(void) {
   int i, tab[NB_CASES];
 
@@ -172,7 +172,7 @@ void* tache(void* args) {
     </section>
     <section class="split">
       <h1>Concurrence</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp">#include &lt;pthread.h>
 #include &lt;stdio.h>
 #define NB_THREADS 4
@@ -196,7 +196,7 @@ int main(void) {
   return 0;
 }</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <p class="skip">Les threads partagent le même espace mémoire</p>
         <ul>
           <li>La modification d'une variable par un thread affecte les lectures sur cette variable par les autres threads</li>
@@ -213,7 +213,7 @@ int main(void) {
     </section>
     <section class="split">
       <h1>Thread safety</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp">#include &lt;pthread.h>
 
 int incr() {
@@ -233,7 +233,7 @@ int incr() {
   return r;
 }</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <ul>
           <li>
             assurer que les sections critiques (manipulations des variables partagées) ne soient accessibles que par un thread</li>
@@ -245,7 +245,7 @@ int incr() {
     </section>
     <section class="split">
       <h1>Réentrance</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp only" data-step="0">// cette fonction est réentrante
 void echange(int *x, int *y) {
   int t;
@@ -270,7 +270,7 @@ void echange(int *x, int *y) {
   t = s;
 }</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <p>
           Une fonction est dite <em>réentrante</em> si elle se comporte correctement lorsqu'elle est appelée pendant une exécution d'elle-même</p>
         <ul>
@@ -282,10 +282,10 @@ void echange(int *x, int *y) {
     </section>
     <section class="split">
       <h1>Compilation</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="only" data-step="0">$ gcc prog.c -lpthread -D_REENTRANT</code><code class="only">$ gcc prog.c -pthread</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <ul class="only" data-step="0">
           <li>
             Pour utiliser les fonctions de la bibliothèque <code>pthread</code>, il faut demander au compilateur de lier l'exécutable à la bibliothèque&nbsp;: <code>-lpthread</code></li>
@@ -307,7 +307,7 @@ void echange(int *x, int *y) {
     </section>
     <section class="split">
       <h1><span style="display: inline-block; text-align: center; width: 50%">Processus</span><span style="display: inline-block; text-align: center; width: 50%">Thread</span></h1>
-      <div class="leftside">
+      <div class="side">
         <ul>
           <li>Espace de mémoire virtuelle (apparaît comme connexe) séparée</li>
           <li>Identifiant unique au niveau OS</li>
@@ -315,7 +315,7 @@ void echange(int *x, int *y) {
           <li>Peuvent fonctionner sur des machines distinctes</li>
         </ul>
       </div>
-      <div class="rightside">
+      <div class="side">
         <ul>
           <li>Subdivision d'un processus</li>
           <li>Mémoire partagée (même espace d'adressage virtuel)</li>
@@ -327,11 +327,13 @@ void echange(int *x, int *y) {
     </section>
     <script src="highlight.pack.js"></script>
     <script language="Javascript">
-      window.addEventListener('load', function() {
-       hljs.configure({
-        languages: [],  // disable automatic language detection
+      document.addEventListener('DOMContentLoaded', (event) => {
+        hljs.configure({
+          languages: [],  // disable automatic language detection
         });
-        hljs.initHighlighting();
+        document.querySelectorAll('code').forEach((block) => {
+          hljs.highlightBlock(block);
+        });
       });
     </script>
     <script src="https://vpoupet.github.io/myriad/js/slides.js"></script>

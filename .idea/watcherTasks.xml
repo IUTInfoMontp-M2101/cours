@@ -5,7 +5,7 @@
       <option name="arguments" value="-P $FileName$" />
       <option name="checkSyntaxErrors" value="true" />
       <option name="description" />
-      <option name="exitCodeBehavior" value="ERROR" />
+      <option name="exitCodeBehavior" value="ALWAYS" />
       <option name="fileExtension" value="jade" />
       <option name="immediateSync" value="true" />
       <option name="name" value="Pug/Jade" />
@@ -25,7 +25,7 @@
       <option name="arguments" value="$FileName$ $FileNameWithoutExtension$.css" />
       <option name="checkSyntaxErrors" value="true" />
       <option name="description" />
-      <option name="exitCodeBehavior" value="ERROR" />
+      <option name="exitCodeBehavior" value="ALWAYS" />
       <option name="fileExtension" value="sass" />
       <option name="immediateSync" value="true" />
       <option name="name" value="Sass" />

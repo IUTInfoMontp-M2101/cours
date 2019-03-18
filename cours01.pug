@@ -15,7 +15,7 @@ block document
 
   section.split
     h1 Premier programme
-    .leftside
+    .side
       pre
         code.cpp
           | #include &lt;stdio.h>
@@ -25,7 +25,7 @@ block document
           |   printf("Hello, world!\n");
           |   return 0; // valeur de retour
           | }
-    .rightside Quelques remarques :
+    .side Quelques remarques :
       ul
         li sensible à la casse
         li caractères blancs ne sont pas significatifs
@@ -34,7 +34,7 @@ block document
 
   section.split
     h1 Instructions
-    .leftside
+    .side
       pre
         code.cpp
           | int a = 12; int b = 5;
@@ -43,21 +43,21 @@ block document
           |   a += 1;
           |   b = a + b;
           | }
-    .rightside
+    .side
       ul
         li Les instructions se terminent par un point virgule
         li On peut grouper plusieurs instructions entre accolades
 
   section.split
     h1 Compilation
-    .leftside
+    .side
       pre
         code.plaintext
           | $ gcc -Wall code.c -o prog
           |
           | $ ./prog
           | Hello, world!
-    .rightside
+    .side
       ul
         li Les programmes en C ne sont pas directement exécutables
         li Il faut les compiler
@@ -70,7 +70,7 @@ block document
 
   section.split
     h1 Précompilation
-    .leftside
+    .side
       pre
         code.cpp
           | <span class="highlight">#include</span> &lt;stdio.h>
@@ -89,14 +89,14 @@ block document
           |     n++;
           |   }
           | }
-    .rightside
+    .side
       ul
         li.skip Inclusion de fichiers (<code>#include</code>)
         li Remplacement de constantes et macros (<code>#define</code>)
 
   section.split
     h1 Fonctions
-    .leftside
+    .side
       pre
         code.cpp
           | #include &lt;math.h>
@@ -108,7 +108,7 @@ block document
           |   r = sqrt(a * a + b * b);
           |   return r;
           | }
-    .rightside
+    .side
       p Chaque fonction a un <em>prototype</em> (ou <em>signature</em>) :
       ul
         li type de retour
@@ -119,7 +119,7 @@ block document
 
   section.split
     h1 La fonction main
-    .leftside
+    .side
       pre
         code.cpp
           | int main() {
@@ -134,7 +134,7 @@ block document
           |     printf("%s\n", argv[i]);
           |   }
           | }
-    .rightside
+    .side
       p Tout programme doit comporter une fonction <code>main</code>
       ul
         li C'est cette fonction qui est exécutée quand le programme est lancé
@@ -147,7 +147,7 @@ block document
 
   section.split
     h1 Types de base
-    .leftside
+    .side
       pre
         code.cpp
           | int a = 12;
@@ -160,7 +160,7 @@ block document
           | double y;
           |
           | char s = 'A';
-    .rightside
+    .side
       ul
         li Chaque variable doit avoir un type défini
         li Le type permet au compilateur de déterminer l'espace mémoire occupé par la variable et de décoder
@@ -185,7 +185,7 @@ block document
 
   section.split
     h1 Structure de contrôle
-    .leftside
+    .side
       pre
         code.cpp.only(data-step="0")
           | int x = 12;
@@ -216,7 +216,7 @@ block document
           |   break;
           | }
 
-    .rightside
+    .side
       p On peut contrôler le déroulement du programme en fonction des valeurs des variables à l'aide de
         |  structures de contrôle&nbsp;:
       ul
@@ -231,7 +231,7 @@ block document
 
   section.split
     h1 Conversion de type
-    .leftside
+    .side
       pre
         code.cpp
           | char c = 'A'; // 'A' = 65
@@ -248,7 +248,7 @@ block document
           | u = <span class="highlight">(unsigned short)</span> b;
           | b = a + c;
           | // a = 3, u = 65535, b = 68
-    .rightside
+    .side
       p Dans certains cas, il est possible de convertir une variable d'un type en un autre (<em>cast</em>)&nbsp;:
       ul
         li la plupart des types de base sont interconvertibles car ils représentent tous des nombres
@@ -259,7 +259,7 @@ block document
 
   section.split
     h1 Tableaux
-    .leftside
+    .side
       pre
         code.cpp
           | /* déclarations */
@@ -279,7 +279,7 @@ block document
           |
           | // initialisation à la création
           | int t[4] = {1, 2, 3, 4};
-    .rightside
+    .side
       ul
         li Un tableau contient toutes les valeurs à la suite en mémoire
         li L'espace mémoire d'un tableau est donc égal à la taille d'un élément multiplié par le nombre d'éléments
@@ -304,7 +304,7 @@ block document
 
   section.split
     h1 Pointeurs
-    .leftside
+    .side
       pre
         code.cpp
           | int a, b, *p;
@@ -318,7 +318,7 @@ block document
           | a++;
           |
           | // a = 11, *p = 11, b = 10
-    .rightside
+    .side
       ul
         li Un pointeur est une variable qui contient l'adresse mémoire d'un objet (et qui connaît le type de l'objet pointé)
         li La notation <code>*p</code> désigne la valeur qui se trouve à l'adresse <code>p</code>
@@ -352,7 +352,7 @@ block document
 
   section.split
     h1 Valeur ou référence
-    .leftside
+    .side
       pre
         code.cpp
           | int a, b;
@@ -371,7 +371,7 @@ block document
           | n = "abc";
           | m = n;
           | n = "def"; <span class="uncover">// n = "abc", m = "def"</span>
-    .rightside
+    .side
       ul
         li Lorsqu'on copie une variable contenant une valeur de type simple (<code>int</code>, <code>char</code>,
           |  <code>float</code>, <em>etc</em>.), la valeur est copiée et les deux variables sont indépendantes
@@ -389,7 +389,7 @@ block document
 
   section.split
     h1 Chaînes de caractères
-    .leftside
+    .side
       pre
         code.cpp
           | int longueur (char *s) {
@@ -410,7 +410,7 @@ block document
           |   nom[3] = '\0';
           |   l = longueur(nom); // l = 3
           | }
-    .rightside
+    .side
       ul
         li Les chaînes de caractères sont des tableaux de caractères, dont la dernière case contient
           | <code>'\0'</code>
@@ -420,7 +420,7 @@ block document
 
   section.split
     h1 Structures
-    .leftside
+    .side
       pre
         code.cpp
           | // définition du type
@@ -440,7 +440,7 @@ block document
           | };
           |
           | struct Voiture v3 = {2, "Fiat"};
-    .rightside
+    .side
       ul
         li Les structures sont des objets en C contenant plusieurs champs
         li La définition d'une structure donne un type et un nom à chaque champ

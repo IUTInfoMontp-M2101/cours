@@ -30,11 +30,13 @@ html(lang=language)
     block footer
       script(src="highlight.pack.js")
       script(language="Javascript")
-        | window.addEventListener('load', function() {
-        |  hljs.configure({
-        |   languages: [],  // disable automatic language detection
+        | document.addEventListener('DOMContentLoaded', (event) => {
+        |   hljs.configure({
+        |     languages: [],  // disable automatic language detection
         |   });
-        |   hljs.initHighlighting();
+        |   document.querySelectorAll('code').forEach((block) => {
+        |     hljs.highlightBlock(block);
+        |   });
         | });
       script(src=root+"js/slides.js")
       script(src=root+"js/myriad.js")

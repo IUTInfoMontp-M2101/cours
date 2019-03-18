@@ -53,14 +53,14 @@
     </section>
     <section class="split">
       <h1>Entrée / Sortie</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp">int <span class="highlight">open</span>(char *path, int flags[, int mode]);
 int <span class="highlight">close</span>(int fd);
 int <span class="highlight">read</span>(int fd, char *buf, int size);
 int <span class="highlight">write</span>(int fd, char *buf, int size);
 off_t <span class="highlight">lseek</span>(int fd, off_t offset, int whence);</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <p>Il existe 5 appels systèmes principaux pour manipuler des fichiers.</p>
         <ul>
           <li>
@@ -91,7 +91,7 @@ DESCRIPTION
     </section>
     <section class="split">
       <h1>Open</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp">int <span class="highlight">open</span>(char *path, int flags[, int mode]);</code></pre>
         <hr>
         <pre><code class="cpp">#include &lt;fcntl.h>
@@ -102,7 +102,7 @@ main() {
   printf("%d\n", fd);
 }</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <p>L'appel <code>open</code> sert à demander l'accès à un fichier</p>
         <ul>
           <li><code>path</code> indique le chemin du fichier</li>
@@ -115,7 +115,7 @@ main() {
     </section>
     <section class="split">
       <h1>Open (flags)</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code><span class="highlight">O_RDONLY</span> open for reading only
 <span class="highlight">O_WRONLY</span> open for writing only
 <span class="highlight">O_RDWR</span> open for reading and writing
@@ -126,7 +126,7 @@ O_NONBLOCK do not block on open or for data to become available
 O_EXCL error if O_CREAT and the file exists
 ...</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <ul>
           <li>L'argument <code>flags</code> est un ou bit-à-bit de valeurs</li>
           <li>Les valeurs possibles sont définies dans <code>/usr/include/sys/fcntl.h</code></li>
@@ -135,7 +135,7 @@ O_EXCL error if O_CREAT and the file exists
     </section>
     <section class="split">
       <h1>Close</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp">int <span class="highlight">close</span>(int fd);</code></pre>
         <hr>
         <pre><code class="cpp">#include &lt;fcntl.h>
@@ -155,7 +155,7 @@ main() {
   }
 }</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <p>L'appel <code>close</code> permet de libérer un descripteur de fichier</p>
         <ul>
           <li>Le résultat est 0 en cas de réussite, -1 en cas d'erreur</li>
@@ -167,7 +167,7 @@ main() {
     </section>
     <section class="split">
       <h1>Read</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp">int <span class="highlight">read</span>(int fd, char *buf, int size);</code></pre>
         <hr>
         <pre><code class="cpp">int main() {
@@ -186,7 +186,7 @@ main() {
   <span class="highlight">close</span>(fd);
 }</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <p>L'appel <code>read</code> sert à lire des octets dans un fichier</p>
         <ul>
           <li><code>fd</code> est le descripteur du fichier à lire</li>
@@ -198,7 +198,7 @@ main() {
     </section>
     <section class="split">
       <h1>Write</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp">int <span class="highlight">write</span>(int fd, char *buf, int size);</code></pre>
         <hr>
         <pre><code class="cpp">int main() {
@@ -216,7 +216,7 @@ main() {
   <span class="highlight">close</span>(fd);
 }</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <p>L'appel <code>write</code> permet d'écrire des octets dans un fichier</p>
         <ul>
           <li><code>fd</code> est le descripteur du fichier où écrire</li>
@@ -228,7 +228,7 @@ main() {
     </section>
     <section class="split">
       <h1>Pointeur de fichier</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp">int main() {
   char *c;
   int fd, sz;
@@ -246,7 +246,7 @@ main() {
   close(fd);
 }</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <p>Les fichiers ouverts sont tous associés à un <em>pointeur de fichier</em> qui indique un emplacement dans le fichier</p>
         <ul>
           <li>Initialement, le pointeur est au début du fichier</li>
@@ -257,7 +257,7 @@ main() {
     </section>
     <section class="split">
       <h1>Ouvertures multiples</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp only" data-end="1">int main() {
   int fd1, fd2;
 
@@ -282,7 +282,7 @@ main() {
 
 <span class="uncover" data-step="3">&xrarr; un deux trois</span></code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <p>On peut ouvrir plusieurs fois un même fichier (même en écriture)</p>
         <ul>
           <li>chaque descripteur a son propre pointeur de fichier</li>
@@ -292,7 +292,7 @@ main() {
     </section>
     <section class="split">
       <h1>stdin, stdout, stderr</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp">main() {
   char c;
   while (read(0, & c, 1) == 1) {
@@ -300,7 +300,7 @@ main() {
   }
 }</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <p>Les trois premiers descripteurs de fichiers sont automatiquement attribués à chaque processus&nbsp;:</p>
         <ul>
           <li>0&nbsp;: entrée standard (<code>stdin</code>)</li>
@@ -312,7 +312,7 @@ main() {
     </section>
     <section class="split">
       <h1>lseek</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp">int main() {
   char c[10];
   int fd, sz;
@@ -333,7 +333,7 @@ main() {
   close(fd);
 }</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <p><code>lseek</code> permet de déplacer manuellement le pointeur de fichier</p>
         <ul>
           <li><code>fd</code> désigne le descripteur de fichier</li>
@@ -352,7 +352,7 @@ main() {
     </section>
     <section class="split">
       <h1>stdio.h</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp">int main() {
   <span class="highlight">FILE *fpin, *fpout;</span>
   int i=0;
@@ -370,7 +370,7 @@ main() {
   <span class="highlight">fclose</span>(fpout);
 }</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <p>
           En général, on n'appelle pas directement les appels systèmes mais on utilise des fonctions de la librairie C qui les appellent indirectement&nbsp;:</p>
         <ul>
@@ -386,11 +386,13 @@ main() {
     </section>
     <script src="highlight.pack.js"></script>
     <script language="Javascript">
-      window.addEventListener('load', function() {
-       hljs.configure({
-        languages: [],  // disable automatic language detection
+      document.addEventListener('DOMContentLoaded', (event) => {
+        hljs.configure({
+          languages: [],  // disable automatic language detection
         });
-        hljs.initHighlighting();
+        document.querySelectorAll('code').forEach((block) => {
+          hljs.highlightBlock(block);
+        });
       });
     </script>
     <script src="https://vpoupet.github.io/myriad/js/slides.js"></script>

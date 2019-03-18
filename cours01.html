@@ -26,7 +26,7 @@
     </section>
     <section class="split">
       <h1>Premier programme</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp">#include &lt;stdio.h>
 
 /* la fonction main est appelée automatiquement à l'exécution du programme */
@@ -35,7 +35,7 @@ int main() {
   return 0; // valeur de retour
 }</code></pre>
       </div>
-      <div class="rightside">Quelques remarques :
+      <div class="side">Quelques remarques :
         <ul>
           <li>sensible à la casse</li>
           <li>caractères blancs ne sont pas significatifs</li>
@@ -46,7 +46,7 @@ int main() {
     </section>
     <section class="split">
       <h1>Instructions</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp">int a = 12; int b = 5;
 // bloc d'instructions après if
 if (a > 0) {
@@ -54,7 +54,7 @@ if (a > 0) {
   b = a + b;
 }</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <ul>
           <li>Les instructions se terminent par un point virgule</li>
           <li>On peut grouper plusieurs instructions entre accolades</li>
@@ -63,13 +63,13 @@ if (a > 0) {
     </section>
     <section class="split">
       <h1>Compilation</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="plaintext">$ gcc -Wall code.c -o prog
 
 $ ./prog
 Hello, world!</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <ul>
           <li>Les programmes en C ne sont pas directement exécutables</li>
           <li>Il faut les compiler</li>
@@ -86,7 +86,7 @@ Hello, world!</code></pre>
     </section>
     <section class="split">
       <h1>Précompilation</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp"><span class="highlight">#include</span> &lt;stdio.h>
 <span class="highlight">#include</span> &lt;stdlib.h>
 <span class="highlight">#include</span> "fichier.h"
@@ -104,7 +104,7 @@ int main() {
   }
 }</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <ul>
           <li class="skip">Inclusion de fichiers (<code>#include</code>)</li>
           <li>Remplacement de constantes et macros (<code>#define</code>)</li>
@@ -113,7 +113,7 @@ int main() {
     </section>
     <section class="split">
       <h1>Fonctions</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp">#include &lt;math.h>
 
 float hyp(int, int);
@@ -124,7 +124,7 @@ float hyp(int a, int b) {
   return r;
 }</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <p>Chaque fonction a un <em>prototype</em> (ou <em>signature</em>) :</p>
         <ul>
           <li>type de retour</li>
@@ -137,7 +137,7 @@ float hyp(int a, int b) {
     </section>
     <section class="split">
       <h1>La fonction main</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp">int main() {
   // code principal du programme
   return 0;
@@ -151,7 +151,7 @@ int main(int argc, char *argv[]) {
   }
 }</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <p>Tout programme doit comporter une fonction <code>main</code></p>
         <ul>
           <li>C'est cette fonction qui est exécutée quand le programme est lancé</li>
@@ -168,7 +168,7 @@ int main(int argc, char *argv[]) {
     </section>
     <section class="split">
       <h1>Types de base</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp">int a = 12;
 unsigned int b;
 long int c;
@@ -180,7 +180,7 @@ double y;
 
 char s = 'A';</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <ul>
           <li>Chaque variable doit avoir un type défini</li>
           <li>
@@ -209,7 +209,7 @@ char s = 'A';</code></pre>
     </section>
     <section class="split">
       <h1>Structure de contrôle</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp only" data-step="0">int x = 12;
 
 if (x > 0) {
@@ -236,7 +236,7 @@ default:
   break;
 }</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <p>
           On peut contrôler le déroulement du programme en fonction des valeurs des variables à l'aide de structures de contrôle&nbsp;:</p>
         <ul>
@@ -253,7 +253,7 @@ default:
     </section>
     <section class="split">
       <h1>Conversion de type</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp">char c = 'A'; // 'A' = 65
 int a = 3;
 int b = -1;
@@ -269,7 +269,7 @@ u = <span class="highlight">(unsigned short)</span> b;
 b = a + c;
 // a = 3, u = 65535, b = 68</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <p>Dans certains cas, il est possible de convertir une variable d'un type en un autre (<em>cast</em>)&nbsp;:</p>
         <ul>
           <li>la plupart des types de base sont interconvertibles car ils représentent tous des nombres</li>
@@ -282,7 +282,7 @@ b = a + c;
     </section>
     <section class="split">
       <h1>Tableaux</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp">/* déclarations */
 int tab[10];
 // le programme réserve 40 octets
@@ -301,7 +301,7 @@ for (int i=2; i&lt;10; i++) {
 // initialisation à la création
 int t[4] = {1, 2, 3, 4};</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <ul>
           <li>Un tableau contient toutes les valeurs à la suite en mémoire</li>
           <li>L'espace mémoire d'un tableau est donc égal à la taille d'un élément multiplié par le nombre d'éléments</li>
@@ -326,7 +326,7 @@ int t[4] = {1, 2, 3, 4};</code></pre>
     </section>
     <section class="split">
       <h1>Pointeurs</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp">int a, b, *p;
 
 a = 10;
@@ -339,7 +339,7 @@ a++;
 
 // a = 11, *p = 11, b = 10</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <ul>
           <li>Un pointeur est une variable qui contient l'adresse mémoire d'un objet (et qui connaît le type de l'objet pointé)</li>
           <li>La notation <code>*p</code> désigne la valeur qui se trouve à l'adresse <code>p</code></li>
@@ -362,7 +362,7 @@ a++;
     </section>
     <section class="split">
       <h1>Valeur ou référence</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp">int a, b;
 a = 1;
 b = a;
@@ -380,7 +380,7 @@ n = "abc";
 m = n;
 n = "def"; <span class="uncover">// n = "abc", m = "def"</span></code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <ul>
           <li>
             Lorsqu'on copie une variable contenant une valeur de type simple (<code>int</code>, <code>char</code>, <code>float</code>, <em>etc</em>.), la valeur est copiée et les deux variables sont indépendantes</li>
@@ -400,7 +400,7 @@ n = "def"; <span class="uncover">// n = "abc", m = "def"</span></code></pre>
     </section>
     <section class="split">
       <h1>Chaînes de caractères</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp">int longueur (char *s) {
   int i = 0;
   while (s[i] != '\0') {
@@ -420,7 +420,7 @@ int main() {
   l = longueur(nom); // l = 3
 }</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <ul>
           <li>
             Les chaînes de caractères sont des tableaux de caractères, dont la dernière case contient<code>'\0'</code></li>
@@ -432,7 +432,7 @@ int main() {
     </section>
     <section class="split">
       <h1>Structures</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp">// définition du type
 struct Voiture {
   int nb_portes;
@@ -451,7 +451,7 @@ struct Voiture v2 = {
 
 struct Voiture v3 = {2, "Fiat"};</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <ul>
           <li>Les structures sont des objets en C contenant plusieurs champs</li>
           <li>La définition d'une structure donne un type et un nom à chaque champ</li>
@@ -464,11 +464,13 @@ struct Voiture v3 = {2, "Fiat"};</code></pre>
     </section>
     <script src="highlight.pack.js"></script>
     <script language="Javascript">
-      window.addEventListener('load', function() {
-       hljs.configure({
-        languages: [],  // disable automatic language detection
+      document.addEventListener('DOMContentLoaded', (event) => {
+        hljs.configure({
+          languages: [],  // disable automatic language detection
         });
-        hljs.initHighlighting();
+        document.querySelectorAll('code').forEach((block) => {
+          hljs.highlightBlock(block);
+        });
       });
     </script>
     <script src="https://vpoupet.github.io/myriad/js/slides.js"></script>

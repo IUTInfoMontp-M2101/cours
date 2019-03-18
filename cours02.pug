@@ -37,7 +37,7 @@ block document
 
   section.split
     h1 Entrée / Sortie
-    .leftside
+    .side
       pre
         code.cpp
           | int <span class="highlight">open</span>(char *path, int flags[, int mode]);
@@ -46,7 +46,7 @@ block document
           | int <span class="highlight">write</span>(int fd, char *buf, int size);
           | off_t <span class="highlight">lseek</span>(int fd, off_t offset, int whence);
 
-    .rightside
+    .side
       p Il existe 5 appels systèmes principaux pour manipuler des fichiers.
       ul
         li ressemblent à des procédures, mais sont envoyés directement au système
@@ -75,7 +75,7 @@ block document
 
   section.split
     h1 Open
-    .leftside
+    .side
       pre
         code.cpp
           | int <span class="highlight">open</span>(char *path, int flags[, int mode]);
@@ -89,7 +89,7 @@ block document
           |   fd = <span class="highlight">open</span>("test.txt", O_RDONLY);
           |   printf("%d\n", fd);
           | }
-    .rightside
+    .side
       p L'appel <code>open</code> sert à demander l'accès à un fichier
       ul
         li <code>path</code> indique le chemin du fichier
@@ -100,7 +100,7 @@ block document
 
   section.split
     h1 Open (flags)
-    .leftside
+    .side
       pre
         code
           | <span class="highlight">O_RDONLY</span> open for reading only
@@ -112,14 +112,14 @@ block document
           | <span class="highlight">O_TRUNC</span> truncate size to 0
           | O_EXCL error if O_CREAT and the file exists
           | ...
-    .rightside
+    .side
       ul
         li L'argument <code>flags</code> est un ou bit-à-bit de valeurs
         li Les valeurs possibles sont définies dans <code>/usr/include/sys/fcntl.h</code>
 
   section.split
     h1 Close
-    .leftside
+    .side
       pre
         code.cpp
           | int <span class="highlight">close</span>(int fd);
@@ -142,7 +142,7 @@ block document
           |     exit(1);
           |   }
           | }
-    .rightside
+    .side
       p L'appel <code>close</code> permet de libérer un descripteur de fichier
       ul
         li Le résultat est 0 en cas de réussite, -1 en cas d'erreur
@@ -152,7 +152,7 @@ block document
 
   section.split
     h1 Read
-    .leftside
+    .side
       pre
         code.cpp
           | int <span class="highlight">read</span>(int fd, char *buf, int size);
@@ -174,7 +174,7 @@ block document
           |   } while (sz == 10);
           |   <span class="highlight">close</span>(fd);
           | }
-    .rightside
+    .side
       p L'appel <code>read</code> sert à lire des octets dans un fichier
       ul
         li <code>fd</code> est le descripteur du fichier à lire
@@ -184,7 +184,7 @@ block document
 
   section.split
     h1 Write
-    .leftside
+    .side
       pre
         code.cpp int <span class="highlight">write</span>(int fd, char *buf, int size);
       hr
@@ -204,7 +204,7 @@ block document
           |
           |   <span class="highlight">close</span>(fd);
           | }
-    .rightside
+    .side
       p L'appel <code>write</code> permet d'écrire des octets dans un fichier
       ul
         li <code>fd</code> est le descripteur du fichier où écrire
@@ -214,7 +214,7 @@ block document
 
   section.split
     h1 Pointeur de fichier
-    .leftside
+    .side
       pre
         code.cpp
           | int main() {
@@ -233,7 +233,7 @@ block document
           |   }
           |   close(fd);
           | }
-    .rightside
+    .side
       p Les fichiers ouverts sont tous associés à un <em>pointeur de fichier</em> qui indique un emplacement dans le fichier
       ul
         li Initialement, le pointeur est au début du fichier
@@ -242,7 +242,7 @@ block document
 
   section.split
     h1 Ouvertures multiples
-    .leftside
+    .side
       pre
         code.cpp.only(data-end=1)
           | int main() {
@@ -272,7 +272,7 @@ block document
           |
           |
           span.uncover(data-step=3) &xrarr; un deux trois
-    .rightside
+    .side
       p On peut ouvrir plusieurs fois un même fichier (même en écriture)
       ul
         li chaque descripteur a son propre pointeur de fichier
@@ -280,7 +280,7 @@ block document
 
   section.split
     h1 stdin, stdout, stderr
-    .leftside
+    .side
       pre
         code.cpp
           | main() {
@@ -289,7 +289,7 @@ block document
           |     write(1, &c, 1);
           |   }
           | }
-    .rightside
+    .side
       p Les trois premiers descripteurs de fichiers sont automatiquement attribués à chaque processus&nbsp;:
       ul
         li 0&nbsp;: entrée standard (<code>stdin</code>)
@@ -299,7 +299,7 @@ block document
 
   section.split
     h1 lseek
-    .leftside
+    .side
       pre
         code.cpp
           | int main() {
@@ -321,7 +321,7 @@ block document
           |   } while (sz == 10);
           |   close(fd);
           | }
-    .rightside
+    .side
       p <code>lseek</code> permet de déplacer manuellement le pointeur de fichier
       ul
         li <code>fd</code> désigne le descripteur de fichier
@@ -336,7 +336,7 @@ block document
 
   section.split
     h1 stdio.h
-    .leftside
+    .side
       pre
         code.cpp
           | int main() {
@@ -355,7 +355,7 @@ block document
           |   <span class="highlight">fclose</span>(fpin);
           |   <span class="highlight">fclose</span>(fpout);
           | }
-    .rightside
+    .side
       p En général, on n'appelle pas directement les appels systèmes mais on utilise des fonctions de la librairie C
         |  qui les appellent indirectement&nbsp;:
       ul

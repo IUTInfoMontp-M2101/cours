@@ -17,7 +17,7 @@
     </section>
     <section class="split">
       <h1>Hiérarchie de processus</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code>$ ps ax
 
   PID  PPID S COMMAND
@@ -39,7 +39,7 @@
  <span class="highlight">2431  1853</span> S bash
  <span class="highlight">2597  2431</span> R ps ax</code></pre></code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <p>Au démarrage de l'ordinateur, le processus <code>init</code> est lancé
           <ul>
             <li>Par la suite, tous les autres processus sont démarrés par un processus existant (parent)</li>
@@ -74,7 +74,7 @@
     </section>
     <section class="split">
       <h1>Création</h1>
-      <div class="leftside">
+      <div class="side">
         <div class="only" data-end="1">
           <pre><code class="cpp">int main(int argc, char **argv) {
   pid_t pid = fork();
@@ -103,7 +103,7 @@ int main(int argc, char **argv) {
             <div class="center"><img src="cours04/cours04-BobOmb.jpg" style="width: 50%" alt="Bob Omb"></div></pre>
         </div>
       </div>
-      <div class="rightside">
+      <div class="side">
         <p class="skip">Pour créer un nouveau processus, on clone un processus existant à l'aide de l'appel <code>fork()</code></p>
         <div class="only" data-step="0">
           <p>Le système copie&nbsp;:</p>
@@ -125,7 +125,7 @@ int main(int argc, char **argv) {
     </section>
     <section class="split">
       <h1>Attente de complétion</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code>SYNOPSIS
   #include &lt;sys/types.h>
   #include &lt;/wait.h>
@@ -133,7 +133,7 @@ int main(int argc, char **argv) {
   pid_t wait(int *status);
   pid_t waitpid(pid_t pid, int *status, int options);</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <p>
           Les commandes <code>wait</code> et <code>waitpid</code> demandent à un processus d'attendre que ses processus fils changent d'état</p>
         <ul>
@@ -145,7 +145,7 @@ int main(int argc, char **argv) {
     </section>
     <section class="split">
       <h1>Zombies</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp only" data-step="0">int main(int argc, char **argv) {
   pid_t pid;
   pid = fork();
@@ -163,7 +163,7 @@ int main(int argc, char **argv) {
  2570 pts/0   S      ./prog
  2571 pts/0   Z      <span class="highlight">[prog] &lt;defunct></span></code></pre><img src="cours04/cours04-zombie.png" style="width: 28%; position: absolute; bottom: 0; left: 27%" alt="Zombie">
       </div>
-      <div class="rightside">
+      <div class="side">
         <p>Lorsqu'un processus se termine, il n'est pas immédiatement supprimé de la table</p>
         <ul>
           <li>Le parent doit explicitement le supprimer à l'aide de l'appel <code>wait</code></li>
@@ -177,7 +177,7 @@ int main(int argc, char **argv) {
     </section>
     <section class="split">
       <h1>Éviter les zombies</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp only" data-step="0">int main() {
   int pid1;
   pid1 = fork();
@@ -223,7 +223,7 @@ int main() {
   }
 }</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <p>Parfois, la tâche exécutée par le fils est longue et on ne veut pas bloquer le père en attente de complétion</p>
         <ul>
           <li>On peut mettre en place une gestion de signaux (SIGCHLD)</li>
@@ -244,7 +244,7 @@ int main() {
     </section>
     <section class="split">
       <h1>Exécution</h1>
-      <div class="leftside">
+      <div class="side">
         <pre><code class="cpp only" data-end="1">#include &lt;unistd.h>
 
 extern char **environ;
@@ -279,7 +279,7 @@ int execvp(const char *file, char *const argv[]);</code><code class="cpp only" d
   }
 }</code></pre>
       </div>
-      <div class="rightside">
+      <div class="side">
         <div class="only" data-step="0">
           <p>La famille de fonctions exec permet de remplacer le code d'un processus par un autre</p>
           <ul>
@@ -304,10 +304,10 @@ int execvp(const char *file, char *const argv[]);</code><code class="cpp only" d
     </section>
     <section class="split">
       <h1>Exemple : ls</h1>
-      <div class="leftside">
+      <div class="side">
         <div class="center"><img src="cours04/cours04-exec.svg" style="width:80%" alt="exec"></div>
       </div>
-      <div class="rightside">
+      <div class="side">
         <p>Le shell veut exécuter la commande <code>ls</code></p>
         <ul>
           <li><code>fork()</code> pour créer le processus fils</li>
@@ -337,11 +337,13 @@ int execvp(const char *file, char *const argv[]);</code><code class="cpp only" d
     </section>
     <script src="highlight.pack.js"></script>
     <script language="Javascript">
-      window.addEventListener('load', function() {
-       hljs.configure({
-        languages: [],  // disable automatic language detection
+      document.addEventListener('DOMContentLoaded', (event) => {
+        hljs.configure({
+          languages: [],  // disable automatic language detection
         });
-        hljs.initHighlighting();
+        document.querySelectorAll('code').forEach((block) => {
+          hljs.highlightBlock(block);
+        });
       });
     </script>
     <script src="https://vpoupet.github.io/myriad/js/slides.js"></script>

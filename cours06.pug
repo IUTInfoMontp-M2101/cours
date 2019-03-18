@@ -1,0 +1,349 @@
+extends coursXX.pug
+
+append preamble
+  - date = "2018-03-18";
+  - title = "Cours n°6 :<br>Signaux";
+
+block document
+  section.single
+    h1 Signaux
+    p Interruptions logicielles envoyées à un processus pour indiquer un événement exceptionnel
+    ul.skip
+      li Exécution du processus interrompue jusqu'à la fin du traitement du signal
+      li Mécanisme asynchrone, indépendant de l'exécution du processus
+
+    p Exemples :
+    ul
+      li Erreur arithmétique (division par zéro)
+      li Événement matériel (clavier, réseaux, etc.)
+      li Changement d'état d'un processus fils
+      li Terminaison du processus par l'utilisateur ou le système
+
+  section.split
+    h1 Présentation
+    .side
+      .only(data-step=0)
+        a(href="cours06/signal.html") <code>sys/signal.h</code>
+        pre
+          code
+            | ...
+            | #define	SIGHUP	1
+            | #define	SIGINT	2
+            | #define	SIGQUIT	3
+            | #define	SIGILL	4
+            | #define	SIGTRAP	5
+            | #define	SIGABRT	6
+            | #define	SIGPOLL	7
+            | #define	SIGIOT	SIGABRT
+            | #define	SIGEMT	7
+            | #define	SIGFPE	8
+            | #define	SIGKILL	9
+            | #define	SIGBUS	10
+            | ...
+      .only(data-start=1)
+        pre
+          code
+            | $ man signal
+            |
+            | No    Name         Default Action
+            | 1     SIGHUP       terminate process
+            | 2     SIGINT       terminate process
+            | 3     SIGQUIT      create core image
+            | 4     SIGILL       create core image
+            | 5     SIGTRAP      create core image
+            | 6     SIGABRT      create core image
+            | 7     SIGEMT       create core image
+            | 8     SIGFPE       create core image
+            | 9     SIGKILL      terminate process
+            | 10    SIGBUS       create core image
+            | 11    SIGSEGV      create core image
+            | 12    SIGSYS       create core image
+            | 13    SIGPIPE      terminate process
+            | 14    SIGALRM      terminate process
+            | 15    SIGTERM      terminate process
+            | 16    SIGURG       discard signal
+            | 17    SIGSTOP      stop process
+
+    .side
+      p Nombre limité de signaux
+      ul.skip
+        li définis par l'OS
+        li en général 31 (parfois 63)
+
+      p Chaque signal a
+      ul
+        li un nom (commence par <code>SIG</code>)
+        li un numéro (entier positif)
+        li une action par défaut (parmi 4 possibles)
+          ul
+            li Terminer le processus
+            li Sauvegarder l'état de la mémoire
+            li Ignorer le signal
+            li Suspendre le processus
+
+  section.single
+    h1 Exemples
+    p Quelques signaux courants :
+    ul
+      li <code>SIGHUP</code> (1) Fermeture du terminal contrôlant le processus (<em>hang up</em>)
+      li <code>SIGINT</code> (2) Interruption (<code>Ctrl-C</code>)
+      li <code>SIGQUIT</code> (3) Quitter (<code>Ctrl-\</code>)
+      li <code>SIGFPE</code> (8) Exception lors d'une opération arithmétique
+      li <code>SIGKILL</code> (9) Termine le processus immédiatement
+      li <code>SIGALRM</code> (14) Signal d'horloge (utilisé pour les minuteries)
+      li <code>SIGTERM</code> (15) Demande au processus de terminer
+      li <code>SIGSTOP</code> (17) Suspend l'exécution du processus
+      li <code>SIGCONT</code> (19) Reprend l'exécution du processus
+      li <code>SIGCHLD</code> (20) Changement de l'état d'un fils
+      li <code>SIGUSR1</code> et <code>SIGUSR2</code> (30, 31) À définir par l'utilisateur
+
+  section.split
+    h1 Dans le terminal
+    .side
+      .only(data-step=0)
+        p La commande <code>kill</code> permet d'envoyer un signal à un processus
+        ul.skip
+          li envoie le signal <code>SIGTERM</code> par défaut
+          li le signal peut être donné par nom ou par numéro
+          li prend en argument le PID du process cible
+        p On peut aussi utiliser <code>killall</code>
+
+      .only
+        p Raccourcis clavier envoient un signal au processus au premier plan :
+        ul
+          li <code>Ctrl-C</code> envoie <code>SIGTERM</code>
+          li <code>Ctrl-Z</code> envoie <code>SIGSTOP</code>
+          li <code>Ctrl-\</code> envoie <code>SIGQUIT</code>
+    .side
+      pre
+        code
+          | $ kill 1234
+          | [1]+  Terminated: 15          ./a.out
+          |
+          | $ kill -SIGSEGV 1234
+          | Segmentation fault: 11
+          |
+          | $ kill -9 1234
+          | [1]+  Killed: 9               ./a.out
+
+  section.single
+    h1 Liste
+    p La commande <code>kill -l</code> liste les signaux disponibles
+    pre
+      code
+        | $ kill -l
+        | 1) SIGHUP         2) SIGINT        3) SIGQUIT       4) SIGILL
+        | 5) SIGTRAP        6) SIGABRT       7) SIGEMT        8) SIGFPE
+        | 9) SIGKILL       10) SIGBUS       11) SIGSEGV      12) SIGSYS
+        | 13) SIGPIPE      14) SIGALRM      15) SIGTERM      16) SIGURG
+        | 17) SIGSTOP      18) SIGTSTP      19) SIGCONT      20) SIGCHLD
+        | 21) SIGTTIN      22) SIGTTOU      23) SIGIO        24) SIGXCPU
+        | 25) SIGXFSZ      26) SIGVTALRM    27) SIGPROF      28) SIGWINCH
+        | 29) SIGINFO      30) SIGUSR1      31) SIGUSR2
+
+  section.split
+    h1 Gestion des signaux
+    .side
+      img.only(data-step=0 src="cours06/pending0.svg" alt="pending and blocked signals")
+      img.only(src="cours06/pending1.svg" alt="pending and blocked signals")
+      img.only(src="cours06/pending2.svg" alt="pending and blocked signals")
+    .side
+      .only(data-step=0)
+        p L'état des signaux pour un processus est représenté par 2 entiers
+        ul
+          li Signaux en attente
+          li Signaux ignorés
+        p Chaque bit représente un signal
+      .only(data-start=1)
+        p Lorsque le processus est activé
+        ul
+          li les procédures correspondant aux signaux en attente non bloqués sont exécutées
+          li les signaux traités sont retirés
+          li les signaux bloqués sont conservés
+          li le processus reprend son exécution
+
+  section.split
+    h1 Handlers
+    .side
+      pre.only(data-step=0)
+        code.cpp
+          | struct sigaction {
+          |   void (* sa_handler) (int);
+          |   sigset_t sa_mask;
+          |   int sa_flags;
+          | }
+          |
+          | int sigaction(
+          |   int sig,
+          |   struct sigaction *act,
+          |   struct sigaction *old_act
+          | );
+      .only
+        pre
+          code.cpp
+            | <span class="highlight">void handle_sigint(int sig)</span> {
+            |   printf("Reçu signal %d\n", sig);
+            | }
+            |
+            | int main() {
+            |   <span class="highlight">struct sigaction act;</span>
+            |   act.sa_handler = handle_sigint;
+            |   sigemptyset(&act.sa_mask);
+            |   act.sa_flags = 0;
+            |   <span class="highlight">sigaction(SIGINT, &act, NULL);</span>
+            |   while (1){}
+            | }
+        hr
+        pre
+          code
+            | $ ./a.out
+            | ^CReçu signal 2
+            | ^CReçu signal 2
+      .only(data-start=2)
+        pre
+          code.only(data-step=2).cpp
+            | void handler(int sig) {
+            |   printf("Je suis occupé\n");
+            | }
+            |
+            | int main() {
+            |   struct sigaction act, old_act;
+            |   act.sa_handler = handler;
+            |   act.sa_mask = 0;
+            |   act.sa_flags = 0;
+            |
+            |   <span class="highlight">sigaction(SIGINT, &act, &old_act);</span>
+            |   printf("Je travaille\n");
+            |   sleep(5);
+            |   <span class="highlight">sigaction(SIGINT, &old_act, NULL);</span>
+            |   printf("J'ai fini de travailler\n");
+            |   while(1){}
+            | }
+          code.only(data-step=3).cpp
+            | void handler(int sig) {
+            |   printf("Je suis occupé\n");
+            | }
+            |
+            | int main() {
+            |   struct sigaction act;
+            |   act.sa_handler = handler;
+            |   act.sa_mask = 0;
+            |   act.sa_flags = 0;
+            |
+            |   sigaction(SIGINT, &act, NULL);
+            |   printf("Je travaille\n");
+            |   sleep(5);
+            |   <span class="highlight">act.sa_handler = SIG_DFL;</span>
+            |   sigaction(SIGINT, &act, NULL);
+            |   printf("J'ai fini de travailler\n");
+            |   while(1){}
+            | }
+        hr
+        pre
+          code
+            | Je travaille
+            | ^CJe suis occupé
+            | J'ai fini de travailler
+            | ^C
+    .side
+      p Pour redéfinir le comportement d'un signal
+      ul
+        li définir une fonction (<em>handler</em>) qui
+          ul
+            li prend un entier en paramètre
+            li renvoie <code>void</code>
+        li définire une structure contenant
+          ul
+            li le <em>handler</em> à utiliser
+            li un ensemble de signaux à bloquer
+            li un ensemble de <em>flags</em>
+        li appeler <code>sigaction()</code> avec
+          ul
+            li le numéro du signal
+            li un pointeur vers la structure définie
+            li un pointeur vers une structure pour contenir l'action précédente associée au signal
+
+  section.split
+    h1 KILL et STOP
+    .side
+      pre
+        code.cpp
+          | void handler(int sig) {
+          |   printf("Je m'en fiche.\n");
+          | }
+          |
+          | int main() {
+          |   struct sigaction act, old_act;
+          |   act.sa_handler = handler;
+          |   act.sa_mask = 0;
+          |   act.sa_flags = 0;
+          |   sigaction(SIGINT, &act, NULL);
+          |   sigaction(SIGKILL, &act, NULL);
+          |   sigaction(SIGSTOP, &act, NULL);
+          |   while(1){}
+          | }
+    .side
+      p.skip <code>SIGKILL</code> et <code>SIGSTOP</code> ne peuvent pas être ignorés ou redéfinis
+      hr
+      pre
+        code
+          | $ ./a.out
+          | ^C<span class="highlight">Reçu signal 2</span>
+          | <span class="highlight">Reçu signal 15</span>
+          | ^Z
+          | <span class="highlight">[1]+  Stopped                 ./a.out</span>
+          | $ fg
+          | ./a.out
+          | <span class="highlight">Killed: 9</span>
+  
+  section.split
+    h1 Envoi de signaux
+    .side
+      pre.only(data-step=0)
+        code.cpp
+          | pid_t pid = getpid();
+          | kill(pid, SIGINT); // ou raise(SIGINT);
+      pre.only
+        code.cpp
+          | int main() {
+          |   int stat;
+          |   pid_t pid = fork();
+          |   if (pid == 0) {
+          |     while(1){}
+          |   } else {
+          |     kill(pid, SIGINT);
+          |     wait(NULL);
+          |   }
+          | }
+      pre.only
+        code.cpp
+          | pid_t pid;
+          | void handler1(int sig) {
+          |   printf("ping\n"); <span class="highlight">kill(pid, SIGUSR1);</span>
+          | }
+          | void handler2(int sig) {
+          |   printf("pong\n"); exit(0);
+          | }
+          |
+          | int main() {
+          |   struct sigaction act;
+          |   act.sa_handler = handler1;
+          |   sigemptyset(&act.sa_mask);
+          |   act.sa_flags = 0;
+          |   sigaction(SIGUSR1, &act, NULL);
+          |   if ((pid = fork()) == 0) {
+          |     act.sa_handler = handler2;
+          |     sigaction(SIGUSR1, &act, NULL);
+          |     <span class="highlight">kill(getppid(), SIGUSR1);</span>
+          |     while(1){}
+          |   }
+          |   waitpid(pid, NULL, 0);
+          | }
+    .side
+      p On peut envoyer des signaux avec
+      code.cpp int kill(pid_t pid, int sig)
+      ul
+        li <code>pid</code> est le PID du processus cible
+        li <code>sig</code> est le signal à envoyer
+        li renvoie 0 en cas de succès
+        li renvoie -1 en cas d'erreur (<code>errno</code>)

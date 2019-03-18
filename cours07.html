@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="../../css/slides.css">
+    <link rel="stylesheet" href="../../css/myriad.css">
+    <link rel="stylesheet" href="./highlight.css">
+    <title>M2101 - Architecture et programmation bas niveau</title>
+</head>
+<body>
+
+
+<section class="title">
+    <h1>Cours n° 6 :<br>Communication entre<br>processus</h1>
+    <div class="context">M2101 - Architecture et programmation bas niveau</div>
+    <div class="author">Victor Poupet</div>
+    <time datetime="2018-03-19">19 mars 2018</time>
+</section>
+
+
+<section class="single">
+    <h1>Fork, et après ?</h1>
+    <div>
+        <p>À l'aide de la fonction <code>fork</code> on peut créer de nouveaux processus</p>
+        <ul>
+            <li>mais chaque processus a ses propres variables, et sa propre mémoire
+            <li>comment les faire communiquer pour effectuer une tâche en commun ?
+        </ul>
+
+        <br>
+        Exemples de communication&nbsp;:
+        <ul>
+            <li>une application réseau communique avec le serveur distant
+            <li>un serveur web démarre des processus fils pour traîter les requêtes
+            <li>le shell ordonne l'interruption d'un processus (<code>kill</code>)
+            <li>éviter les conflits lorsque plusieurs processus veulent accéder à un fichier
+            <li>deux commandes sont exécutées avec un <em>pipe</em> (ex : <code>ls | grep toto</code>)
+        </ul>
+    </div>
+</section>
+
+
+<section class="single">
+    <h1>Techniques IPC</h1>
+    <div>
+        <p>Il existe de nombreuses méthodes de communication <em>inter-processus</em> (IPC en anglais)&nbsp;:</p>
+        <ul>
+            <li>signaux
+            <li>tubes (<em>pipes</em>)
+            <li>FIFO
+            <li>Verrous
+            <li>Files de messages
+            <li>Sémaphores
+            <li>Segments de mémoire partagée
+            <li>Fichiers sur mémoire
+            <li>Sockets
+        </ul>
+    </div>
+</section>
+
+
+<section class="split">
+    <h1>Signaux</h1>
+    <div class="leftside">
+        <pre><code class="cpp only" data-end="2">
+#include &lt;signal.h>
+
+int kill(pid_t pid, int sig);
+
+int raise(int sig);
+
+int sigaction(int sig, const struct
+sigaction *act, struct sigaction *oact);
+        </code><code class="cpp only" data-step="3">
+void sigint_handler(int sig) {
+  write(0, "Recu SIGINT!\n", 13);
+}
+
+int main(void) {
+  void sigint_handler(int sig);
+  char s[200];
+
+  struct sigaction sa;
+  sa.sa_handler = sigint_handler;
+  sa.sa_flags = 0;
+  sigemptyset(&sa.sa_mask);
+  sigaction(SIGINT, &sa, NULL);
+
+  printf("Entrez du texte: ");
+  printf("message: %s\n", s);
+}</code><code class="cpp only" data-step="4">void sigint_handler(int sig) {
+  write(0, "Recu SIGINT!\n", 13);
+}
+
+int main(void) {
+  void sigint_handler(int sig);
+  char s[200];
+
+  struct sigaction sa;
+  sa.sa_handler = sigint_handler;
+  sa.sa_flags = SA_RESTART;
+  sigemptyset(&sa.sa_mask);
+  sigaction(SIGINT, &sa, NULL);
+
+  printf("Entrez du texte: ");
+  printf("message: %s\n", s);
+}</code></pre>
+        <div class="only" data-start="3">
+            <hr>
+            <pre><code class="only" data-step="3">Entrez du texte: bonjour^CRecu SIGINT!
+fgets: Interrupted system call</code><code class="only" data-step="4">Entrez du texte: bonjour^CRecu SIGINT!
+coucou^CRecu SIGINT!
+salut
+message: salut</code></pre>
+        </div>
+    </div>
+    <div class="rightside">
+        <div class="only" data-step="0">
+            Un processus peut envoyer un <em>signal</em> à un autre
+            <ul>
+                <li>Il existe une liste de signaux qui peuvent être envoyés
+                <li>Le destinataire est désigné par son PID
+                <li>Chaque processus peut réagir aux signaux à l'aide de fonctions (handlers)
+                <li>Un processus peut ignorer un signal
+                <li>Il existe des handlers par défaut (ex : <code>SIGINT</code> provoque par défaut l'arrêt du processus)
+                <li>Certains handlers ne peuvent pas être modifiés (ex : <code>SIGKILL</code>, <code>SIGSTOP</code>)
+            </ul>
+        </div>
+        <div class="only" data-step="1">
+            Exemples de signaux&nbsp;:
+            <ul>
+                <li><code>SIGINT</code> (<code>^C</code>)
+                <li><code>SIGSTOP</code>
+                <li><code>SIGCONT</code>
+                <li><code>SIGTERM</code> (<code>kill</code>)
+                <li><code>SIGKILL</code> (<code>kill -9</code>)
+                <li><code>SIGQUIT</code> (fermeture du terminal)
+                <li><code>SIGCHLD</code> (fils terminé ou stoppé)
+                <li><code>SIGUSR1</code>
+                <li><code>SIGUSR2</code> (pas de comportement par défaut)
+            </ul>
+        </div>
+        <div class="only" data-start="2">
+            <code>struct sigaction</code> est un type contenant plusieurs champs, parmi lesquels&nbsp;:
+            <ul>
+                <li><code>sa_handler</code> : la fonction <em>handler</em> (ou <code>SIG_IGN</code> pour ignorer)
+                <li><code>sa_mask</code> : liste de signaux à ignorer pendant le traîtement
+                <li><code>sa_flags</code> : des options
+            </ul>
+        </div>
+
+    </div>
+</section>
+
+
+<section class="split">
+    <h1>Tubes (<em>pipes</em>)</h1>
+    <div class="leftside">
+        <div class="only" data-step="0">
+            <pre><code class="cpp">#include &lt;unistd.h>
+int pipe(int fildes[2]);</code></pre>
+            <hr>
+            <pre><code class="cpp">int main(void) {
+  int pfds[2];
+  char buf[30];
+
+  if (pipe(pfds) == -1) {
+    perror("pipe");
+    exit(1);
+  }
+
+  printf("ecriture (%d)\n", pfds[1]);
+  write(pfds[1], "test", 5);
+  printf("lecture (%d)\n", pfds[0]);
+  read(pfds[0], buf, 5);
+  printf("recu: %s\n", buf);
+}</code></pre>
+        </div>
+        <div class="only">
+            <pre><code class="cpp">int main(void) {
+  int pfds[2];
+  char buf[30];
+
+  pipe(pfds);
+  if (!fork()) {
+    printf("(FILS) ecriture\n");
+    write(pfds[1], "test", 5);
+    printf("(FILS) fin\n");
+    exit(0);
+  } else {
+    printf("(PERE) lecture\n");
+    read(pfds[0], buf, 5);
+    printf("(PERE) lu: %s\n", buf);
+    wait(NULL);
+  }
+}</code></pre>
+            <hr>
+            <pre><code>(PERE) lecture
+(FILS) ecriture
+(FILS) fin
+(PERE) lu: test</code></pre>
+        </div>
+        <div class="only">
+            <pre><code>$ ls | wc -l</code></pre>
+            <hr>
+            <pre><code class="cpp">int main(void) {
+  int pfds[2];
+  pipe(pfds);
+
+  if (!fork()) {
+    close(1); // fermer stdout
+    dup(pfds[1]); //stdout = pfds[1]
+    execlp("ls", "ls", NULL);
+  } else {
+    close(0); // fermer stdin
+    dup(pfds[0]); // stdin = pfds[0]
+    execlp("wc", "wc", "-l", NULL);
+  }
+}</code></pre>
+        </div>
+    </div>
+    <div class="rightside">
+        Structure abstraite dans laquelle on peut lire et écrire des données
+        <ul>
+            <li>un appel à la fonction <code>pipe</code> créé deux descripteurs de fichiers (deux bouts)
+            <li>on lit dans le premier descripteur et on écrit dans le second
+            <li>les données lues sont supprimées (capacité limitée à environ 10 ko)
+            <li>c'est le mécanisme utilisé par le shell (ex&nbsp;:<code>cat a.txt|head -n 10</code>)
+            <li>le tube n'est pas accessible par un processus extérieur, mais les descripteurs de fichiers sont copiés par <code>fork</code>
+            <li>les tubes sont unidirectionnels
+        </ul>
+    </div>
+</section>
+
+
+<section class="split">
+    <h1>Tubes nommés (FIFO)</h1>
+    <div class="leftside">
+        <pre><code class="cpp only" data-step="0">
+int main(void) {
+  char s[300];
+  int num, fd;
+
+  mknod("my_fifo", S_IFIFO | 0666, 0);
+  printf("attente...\n");
+  fd = open("my_fifo", O_WRONLY);
+  printf("connecté !\n");
+
+  while (gets(s), !feof(stdin)) {
+    write(fd, s, strlen(s));
+  }
+}
+        </code><code class="cpp only">
+int main(void) {
+  char s[300];
+  int num, fd;
+
+  mknod("my_fifo", S_IFIFO | 0666, 0);
+
+  printf("attente...\n");
+  fd = open("my_fifo", O_RDONLY);
+  printf("connecté !\n");
+
+  do {
+    num = read(fd, s, 300);
+    s[num] = '\0';
+    printf("lu: %s\n", s);
+  } while (num > 0);
+}
+        </code></pre>
+    </div>
+    <div class="rightside">
+        File (<em>first in</em>, <em>first out</em>)
+        <ul>
+            <li>Fonctionne comme un <em>pipe</em>, mais a un nom dans le système de fichiers
+            <li>Accessible depuis l'extérieur
+            <li>Se manipule comme un fichier (<code>open</code>, <code>read</code>, <code>write</code>, <em>etc</em>.)
+            <li><code>open()</code> bloque jusqu'à ce que les deux extrêmités soient ouvertes
+            <li>Possibilité de connecter plusieurs processus à chaque extrêmité
+        </ul>
+    </div>
+</section>
+
+
+<section class="split">
+    <h1>Verrous de fichiers</h1>
+    <div class="leftside">
+        <pre><code class="cpp">
+struct flock fl;
+int fd;
+
+fl.l_type = F_WRLCK; // autres types: F_RDLCK, F_UNLCK
+fl.l_whence = SEEK_SET; // autres: SEEK_CUR, SEEK_END
+fl.l_start = 0;
+fl.l_len = 0; // tout le fichier
+fl.l_pid = getpid();
+
+fd = open("filename", O_WRONLY);
+
+fcntl(fd, F_SETLKW, &fl);
+        </code></pre>
+    </div>
+    <div class="rightside">
+        On peut verrouiller une portion de fichier
+        <ul>
+            <li>verrous en lecture ou écriture
+            <li>un seul accès à la fois en écriture
+            <li>plusieurs accès possibles en lecture
+            <li>On précise la zone du fichier qui est bloquée (offset de départ, taille)
+        </ul>
+
+        <br>
+        On peut obtenir la même chose avec des sémaphores
+    </div>
+</section>
+
+
+<section class="split">
+    <h1>Sémaphores</h1>
+    <div class="leftside">
+        <pre><code class="cpp">
+#include &lt;sys/ipc.h>
+#include &lt;sys/sem.h>
+
+int semget(key_t key, int nsems, int semflg);
+int semctl(int semid, int semnum, int cmd, ...);
+int semop(int semid, struct sembuf *sops, unsigned int nsops);
+        </code></pre>
+    </div>
+    <div class="rightside">
+        <div class="only" data-step="0">
+            Semblable aux verrous, mais plus versatiles
+            <ul>
+                <li>permettent de gérer des sections critiques (problèmes de concurrence)
+                <li>peuvent être utilisés pour verrouiller des fichiers
+                <li>sont créés à l'échelle de l'OS (donc accessibles par tous les processus)
+                <li>souvent plus rapide que les verrous de fichiers
+            </ul>
+
+            <br>
+            <strong>Attention&nbsp;:</strong> les sémaphores systèmes ne sont pas les mêmes que les sémaphores POSIX
+            (vus en TD)
+        </div>
+        <div class="only">
+            Un sémaphore a une valeur (entier relatif)
+            <ul>
+                <li>la valeur correspond à des passages autorisés
+                <li>on peut augmenter la valeur
+                <li>on peut demander à diminuer la valeur&nbsp;: on doit attendre que la valeur soit supérieure à ce
+                qu'on veut retirer
+            </ul>
+        </div>
+    </div>
+</section>
+
+
+<section class="split">
+    <h1>Mémoire partagée</h1>
+    <div class="leftside">
+        <pre><code class="cpp only" data-step="0">
+int shmget(key_t key, size_t size, int shmflg);
+void *shmat(int shmid, void *shmaddr, int shmflg);
+int shmdt(void *shmaddr);
+int shmctl(int shmid, int cmd, struct shmid_ds *buf);
+        </code><code class="cpp only">
+key_t key;
+int shmid;
+char *data;
+
+key = ftok("/home/toto/fichier", 'R');
+shmid = shmget(key, 1024, 0644 |
+IPC_CREAT);
+data = shmat(shmid, (void *)0, 0);
+if (data == (char *)(-1)) {
+  perror("shmat");
+}
+
+gets(data);
+printf("partagé: %s\n", data);
+
+shmctl(shmid, IPC_RMID, NULL);
+        </code></pre>
+    </div>
+    <div class="rightside">
+        Bloc de mémoire commun à deux processus
+        <ul>
+            <li>on obtient un pointeur vers le bloc de mémoire
+            <li>toute modification est visible par les autres processus
+            <li>le processus peut se détacher du bloc partagé à l'aide de la commande <code>shmdt</code>
+            <li>le bloc doit être libéré explicitement à l'aide de la commande <code>shmctl</code>
+        </ul>
+    </div>
+</section>
+
+
+<section class="split">
+    <h1>Fichiers sur mémoire</h1>
+    <div class="leftside">
+        <pre><code class="cpp">
+void *mmap(void *addr, size_t len, int prot, int flags, int fildes, off_t off);
+int munmap(caddr_t addr, size_t len);
+        </code></pre>
+        <hr>
+        <pre><code class="cpp">
+int fd, pagesize;
+char *data;
+
+fd = open("toto", O_RDONLY);
+pagesize = getpagesize();
+data = mmap((caddr_t)0, pagesize,
+PROT_READ, MAP_SHARED, fd, pagesize);
+        </code></pre>
+    </div>
+    <div class="rightside">
+        <div class="only" data-step="0">
+            Si on veut partager un fichier entre deux processus, il est parfois plus simple de mettre le fichier dans
+            la mémoire et de manipuler des adresses
+            <ul>
+                <li>on ouvre le fichier avec <code>open</code>
+                <li>on place le fichier en mémoire avec <code>mmap</code>
+            </ul>
+        </div>
+        <div class="only">
+            Arguments de <code>mmap</code>
+            <ul>
+                <li><code>addr</code>&nbsp;: adresse où mettre le fichier (en général on laisse l'OS choisir)
+                <li><code>len</code>&nbsp;: taille du bloc à mettre en mémoire
+                <li><code>prot</code>&nbsp;: permissions du bloc (doit être compatible avec les paramètre de <code>open</code>)
+                <li><code>flags</code>&nbsp;: options
+                <li><code>filedes</code>&nbsp;: descripteur obtenu par <code>open</code>
+                <li><code>off</code>&nbsp;: position du début du bloc à mettre en mémoire
+            </ul>
+        </div>
+        <div class="only">
+            <ul>
+                <li>Les fichiers en mémoire sont beaucoup plus rapides d'accès (mémoire rapide et pas d'appel système)
+                <li>Chaque processus doit placer le fichier en mémoire
+                <li>L'espace mémoire est libéré automatiquement lorsque le processus termine
+            </ul>
+        </div>
+    </div>
+</section>
+
+
+<section class="split">
+    <h1>Sockets</h1>
+    <div class="leftside">
+        <pre><code class="cpp">
+#include &lt;sys/socket.h>
+
+int socket(int domain, int type, int protocol);
+int bind(int socket, const struct sockaddr *address, socklen_t address_len);
+ssize_t recv(int socket, void *buffer, size_t length, int flags);
+ssize_t send(int socket, const void *buffer, size_t length, int flags);
+        </code></pre>
+    </div>
+    <div class="rightside">
+        Tubes bi-directionnels à travers un réseau
+        <ul>
+            <li>ne sont pas limitées à une machine
+            <li><em>cf</em>. suite du cours...
+        </ul>
+    </div>
+</section>
+
+
+<script src="./highlight.pack.js"></script>
+<script src="./coursXX.js"></script>
+<script src="../../js/slides.js"></script>
+<script src="../../js/myriad.js"></script>
+
+</body>
+</html>
