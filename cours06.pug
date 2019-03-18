@@ -1,7 +1,7 @@
 extends coursXX.pug
 
 append preamble
-  - date = "2018-03-18";
+  - date = "2018-03-19";
   - title = "Cours n°6 :<br>Signaux";
 
 block document
@@ -92,7 +92,7 @@ block document
       li <code>SIGKILL</code> (9) Termine le processus immédiatement
       li <code>SIGALRM</code> (14) Signal d'horloge (utilisé pour les minuteries)
       li <code>SIGTERM</code> (15) Demande au processus de terminer
-      li <code>SIGSTOP</code> (17) Suspend l'exécution du processus
+      li <code>SIGSTOP</code> et <code>SIGTSTP</code> (17, 18) Suspend l'exécution du processus
       li <code>SIGCONT</code> (19) Reprend l'exécution du processus
       li <code>SIGCHLD</code> (20) Changement de l'état d'un fils
       li <code>SIGUSR1</code> et <code>SIGUSR2</code> (30, 31) À définir par l'utilisateur
@@ -104,15 +104,15 @@ block document
         p La commande <code>kill</code> permet d'envoyer un signal à un processus
         ul.skip
           li envoie le signal <code>SIGTERM</code> par défaut
-          li le signal peut être donné par nom ou par numéro
-          li prend en argument le PID du process cible
+          li le signal donné par nom ou par numéro
+          li prend le PID du processus cible
         p On peut aussi utiliser <code>killall</code>
 
       .only
         p Raccourcis clavier envoient un signal au processus au premier plan :
         ul
           li <code>Ctrl-C</code> envoie <code>SIGTERM</code>
-          li <code>Ctrl-Z</code> envoie <code>SIGSTOP</code>
+          li <code>Ctrl-Z</code> envoie <code>SIGTSTP</code>
           li <code>Ctrl-\</code> envoie <code>SIGQUIT</code>
     .side
       pre
@@ -264,12 +264,46 @@ block document
             li un pointeur vers une structure pour contenir l'action précédente associée au signal
 
   section.split
-    h1 KILL et STOP
+    h1 Signal
+    .side
+      pre
+        code.cpp
+          | typedef void (*sig_t) (int);
+          | sig_t signal(int sig, sig_t func);
+      hr
+      pre
+        code.cpp
+          | void handle_sigint(int sig) {
+          |   printf("Reçu signal %d\n", sig);
+          | }
+          |
+          | int main() {
+          |   <span class="highlight">signal(SIGINT, handle_sigint);</span>
+          |   while (1){}
+          | }
+      hr
+      pre
+        code
+          | $ ./a.out
+          | ^CReçu signal 2
+          | ^CReçu signal 2
+    .side
+      p On peut aussi changer le <em>handler</em> avec <code>signal()</code>
+      ul.skip
+        li <code>sig</code> : numéro du signal
+        li <code>func</code> : <em>handler</em>
+        li renvoie le <em>handler</em> précédent
+
+      .uncover(data-step=1)
+        p <code>signal</code> est plus simple mais moins complète que <code>sigaction</code>
+        p Parfois déconseillée pour raisons de compatibilité
+  section.split
+    h1 Signaux prioritaires
     .side
       pre
         code.cpp
           | void handler(int sig) {
-          |   printf("Je m'en fiche.\n");
+          |   printf("Reçu signal %d\n", sig);
           | }
           |
           | int main() {
@@ -279,7 +313,9 @@ block document
           |   act.sa_flags = 0;
           |   sigaction(SIGINT, &act, NULL);
           |   sigaction(SIGKILL, &act, NULL);
+          |   sigaction(SIGTERM, &act, NULL);
           |   sigaction(SIGSTOP, &act, NULL);
+          |   sigaction(SIGTSTP, &act, NULL);
           |   while(1){}
           | }
     .side
@@ -288,14 +324,15 @@ block document
       pre
         code
           | $ ./a.out
-          | ^C<span class="highlight">Reçu signal 2</span>
-          | <span class="highlight">Reçu signal 15</span>
-          | ^Z
-          | <span class="highlight">[1]+  Stopped                 ./a.out</span>
+          | Reçu signal 15             <span class="highlight">kill</span>
+          | ^CReçu signal 2            <span class="highlight">Ctrl-C</span>
+          | ^ZReçu signal 18           <span class="highlight">Ctrl-Z</span>
+          |                            <span class="highlight">kill -SIGSTOP</span>
+          | [1]+  Stopped     ./a.out
           | $ fg
           | ./a.out
-          | <span class="highlight">Killed: 9</span>
-  
+          | Killed: 9                  <span class="highlight">kill -SIGKILL</span>
+
   section.split
     h1 Envoi de signaux
     .side
@@ -347,3 +384,62 @@ block document
         li <code>sig</code> est le signal à envoyer
         li renvoie 0 en cas de succès
         li renvoie -1 en cas d'erreur (<code>errno</code>)
+
+  section.split
+    h1 Le retour des zombies
+    .side
+      pre
+        code.only(data-step=0).cpp
+          | static void handler(int sig) {
+          |   wait(NULL);
+          | }
+          |
+          | int main() {
+          |   <span class="highlight">signal(SIGCHLD, handler);</span>
+          |   int pid = fork();
+          |   if (pid) {
+          |     // père
+          |     /* Tâche principale */
+          |   } else {
+          |     // fils
+          |     /* Tâche secondaire */
+          |   }
+          | }
+        code.only.cpp
+          | static void handler(int sig) {
+          |   wait(NULL);
+          | }
+          |
+          | int main() {
+          |   <span class="highlight">struct sigaction act;</span>
+          |   act.sa_handler = handler;
+          |   sigemptyset(&act.sa_mask);
+          |   act.sa_flags = 0;
+          |   <span class="highlight">sigaction(SIGCHLD, &act, NULL);</span>
+          |   int pid = fork();
+          |   if (pid) {
+          |     // père
+          |     /* Tâche principale */
+          |   } else {
+          |     // fils
+          |     /* Tâche secondaire */
+          |   }
+          | }
+        code.only.cpp
+          | int main() {
+          |   <span class="highlight">signal(SIGCHLD, SIG_IGN);</span>
+          |   int pid = fork();
+          |   if (pid) {
+          |     // père
+          |     /* Tâche principale */
+          |   } else {
+          |     // fils
+          |     /* Tâche secondaire */
+          |   }
+          | }
+
+    .side
+      p Lorsqu'un fils termine, il envoie le signal <code>SIGCHLD</code> au parent
+      ul
+        li On peut appeler <code>wait</code> à ce moment
+        li.uncover(data-start=2) On peut aussi ignorer <code>SIGCHLD</code> et le fils sera automatiquement retiré
