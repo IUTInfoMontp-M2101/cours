@@ -1,7 +1,7 @@
 extends coursXX.pug
 
 append preamble
-  - date = "2018-03-18";
+  - date = "2019-03-18";
   - title = "Cours n°6 :<br>Signaux";
 
 block document
@@ -209,7 +209,7 @@ block document
             | int main() {
             |   struct sigaction act, old_act;
             |   act.sa_handler = handler;
-            |   act.sa_mask = 0;
+            |   sigemptyset(&act.sa_mask);
             |   act.sa_flags = 0;
             |
             |   <span class="highlight">sigaction(SIGINT, &act, &old_act);</span>
@@ -227,7 +227,7 @@ block document
             | int main() {
             |   struct sigaction act;
             |   act.sa_handler = handler;
-            |   act.sa_mask = 0;
+            |   sigemptyset(&act.sa_mask);
             |   act.sa_flags = 0;
             |
             |   sigaction(SIGINT, &act, NULL);

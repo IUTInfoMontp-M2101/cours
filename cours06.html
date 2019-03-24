@@ -13,7 +13,7 @@
       <h2></h2>
       <div class="context">M2101 - Architecture et programmation bas niveau</div>
       <div class="author">Victor Poupet</div>
-      <time>2018-03-18</time>
+      <time>2019-03-18</time>
     </section>
     <section class="single">
       <h1>Signaux</h1>
@@ -218,7 +218,7 @@ int main() {
 int main() {
   struct sigaction act, old_act;
   act.sa_handler = handler;
-  act.sa_mask = 0;
+  sigemptyset(&act.sa_mask);
   act.sa_flags = 0;
 
   <span class="highlight">sigaction(SIGINT, &act, &old_act);</span>
@@ -234,7 +234,7 @@ int main() {
 int main() {
   struct sigaction act;
   act.sa_handler = handler;
-  act.sa_mask = 0;
+  sigemptyset(&act.sa_mask);
   act.sa_flags = 0;
 
   sigaction(SIGINT, &act, NULL);
