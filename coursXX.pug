@@ -1,9 +1,10 @@
 -
-  let root = "https://vpoupet.github.io/myriad/";
-  let language = "fr";
-  let context = "M2101 - Architecture et programmation bas niveau";
-  let author = "Victor Poupet";
-  let date = "";
+  root = "https://vpoupet.github.io/myriad/slides";
+  theme = "myriad";
+  language = "fr";
+  context = "M2101 - Architecture et programmation bas niveau";
+  author = "Victor Poupet";
+  date = "";
 
 doctype html
 block preamble
@@ -14,18 +15,19 @@ html(lang=language)
       if page_title
         title !{page_title}
       else
-        title !{context}
-      link(rel="stylesheet" href=root+"css/slides.css")
-      link(rel="stylesheet" href=root+"css/myriad.css")
+        title !{title.replace('<br>', ' ')}
+      link(rel="stylesheet" href=`${root}/slides.css`)
+      link(rel="stylesheet" href=`${root}/themes/${theme}/${theme}.css`)
       link(rel="stylesheet" href="highlight.css")
   body
-    section.title
-      h1 !{title}
-      if {subtitle}
-        h2 !{subtitle}
-      .context !{context}
-      .author !{author}
-      time !{date}
+    if title
+      section.title
+        h1 !{title}
+        if subtitle
+          h2 !{subtitle}
+        .context !{context}
+        .author !{author}
+        time !{date}
     block document
     block footer
       script(src="highlight.pack.js")
@@ -38,5 +40,5 @@ html(lang=language)
         |     hljs.highlightBlock(block);
         |   });
         | });
-      script(src=root+"js/slides.js")
-      script(src=root+"js/myriad.js")
+      script(src=`${root}/slides.js`)
+      script(src=`${root}/themes/${theme}/${theme}.js`)
