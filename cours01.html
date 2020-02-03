@@ -378,7 +378,7 @@ v++; <span class="uncover">// u[1] = 11, v[1] = 20</span>
 char *n, *m;
 n = "abc";
 m = n;
-n = "def"; <span class="uncover">// n = "abc", m = "def"</span></code></pre>
+n = "def"; <span class="uncover">// n = "def", m = "abc"</span></code></pre>
       </div>
       <div class="side">
         <ul>
@@ -441,8 +441,8 @@ struct Voiture {
 
 // initialisation
 struct Voiture v1;
-caisse.marque = "Peugeot";
-caisse.nb_portes = 5;
+v1.marque = "Peugeot";
+v1.nb_portes = 5;
 
 struct Voiture v2 = {
   .nb_portes = 3,

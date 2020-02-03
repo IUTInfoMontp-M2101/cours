@@ -371,7 +371,7 @@ block document
           | char *n, *m;
           | n = "abc";
           | m = n;
-          | n = "def"; <span class="uncover">// n = "abc", m = "def"</span>
+          | n = "def"; <span class="uncover">// n = "def", m = "abc"</span>
     .side
       ul
         li Lorsqu'on copie une variable contenant une valeur de type simple (<code>int</code>, <code>char</code>,
@@ -432,8 +432,8 @@ block document
           |
           | // initialisation
           | struct Voiture v1;
-          | caisse.marque = "Peugeot";
-          | caisse.nb_portes = 5;
+          | v1.marque = "Peugeot";
+          | v1.nb_portes = 5;
           |
           | struct Voiture v2 = {
           |   .nb_portes = 3,
