@@ -12,7 +12,7 @@
       <h1>Cours n°4 :<br>Création de processus</h1>
       <div class="context">M2101 - Architecture et programmation bas niveau</div>
       <div class="author">Victor Poupet</div>
-      <time>2019-02-26</time>
+      <time>2019-03-09</time>
     </section>
     <section class="split">
       <h1>Hiérarchie de processus</h1>
@@ -160,7 +160,7 @@ int main(int argc, char **argv) {
  PID  TTY     STAT   COMMAND
  1859 pts/0   Ss     bash
  2570 pts/0   S      ./prog
- 2571 pts/0   Z      <span class="highlight">[prog] &lt;defunct></span></code></pre><img src="cours04/cours04-zombie.png" style="width: 28%; position: absolute; bottom: 0; left: 27%" alt="Zombie">
+ 2571 pts/0   Z      <span class="highlight">[prog] &lt;defunct></span></code></pre><img src="cours04/cours04-zombie.png" style="width: 45%; position: absolute; bottom: 0; left: 60%" alt="Zombie">
       </div>
       <div class="side">
         <p>Lorsqu'un processus se termine, il n'est pas immédiatement supprimé de la table</p>
@@ -225,8 +225,8 @@ int main() {
       <div class="side">
         <p>Parfois, la tâche exécutée par le fils est longue et on ne veut pas bloquer le père en attente de complétion</p>
         <ul>
-          <li>On peut mettre en place une gestion de signaux (SIGCHLD)</li>
-          <li>On peut faire en sorte que le processus fils soit immédiatement adopté par <code>init</code></li>
+          <li class="uncover" data-start="1">On peut mettre en place une gestion de signaux (SIGCHLD)</li>
+          <li class="uncover">On peut faire en sorte que le processus fils soit immédiatement adopté par <code>init</code></li>
         </ul>
       </div>
     </section>

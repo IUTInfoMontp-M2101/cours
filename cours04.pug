@@ -1,7 +1,7 @@
 extends coursXX.pug
 
 append preamble
-  - date = "2019-02-26";
+  - date = "2019-03-09";
   - title = "Cours n°4 :<br>Création de processus";
 
 block document
@@ -157,7 +157,7 @@ block document
           |  1859 pts/0   Ss     bash
           |  2570 pts/0   S      ./prog
           |  2571 pts/0   Z      <span class="highlight">[prog] &lt;defunct></span>
-      img(src="cours04/cours04-zombie.png" style="width: 28%; position: absolute; bottom: 0; left: 27%" alt="Zombie")
+      img(src="cours04/cours04-zombie.png" style="width: 45%; position: absolute; bottom: 0; left: 60%" alt="Zombie")
     
     .side
       p Lorsqu'un processus se termine, il n'est pas immédiatement supprimé de la table
@@ -225,8 +225,8 @@ block document
     .side
       p Parfois, la tâche exécutée par le fils est longue et on ne veut pas bloquer le père en attente de complétion
       ul
-        li On peut mettre en place une gestion de signaux (SIGCHLD)
-        li On peut faire en sorte que le processus fils soit immédiatement adopté par <code>init</code>
+        li.uncover(data-start=1) On peut mettre en place une gestion de signaux (SIGCHLD)
+        li.uncover On peut faire en sorte que le processus fils soit immédiatement adopté par <code>init</code>
 
   section.single
     h1 fork
