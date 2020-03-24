@@ -174,14 +174,14 @@ block document
           |
           | void* incr(void *arg) {
           |   int i;
-          |   int *c = arg;
+          |   int *p = arg;
           |   for (i = 0; i &lt; 10000; i++) {
-          |     <span class="highlight">(*c)++</span>;
+          |     <span class="highlight">(*p)++</span>;
           |   }
           |   return NULL;
           | }
           | int main(void) {
-          |   int i, <span class="highlight">c</span>;
+          |   int i, <span class="highlight">c=0</span>;
           |   pthread_t threads[NB_THREADS];
           |   for (i = 0; i &lt; NB_THREADS; i++) {
           |     pthread_create(&threads[i], NULL, incr, <span class="highlight">&c</span>); }
