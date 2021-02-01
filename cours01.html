@@ -12,7 +12,7 @@
       <h1>Cours n°1 :<br>Introduction au C</h1>
       <div class="context">M2101 - Architecture et programmation bas niveau</div>
       <div class="author">Victor Poupet</div>
-      <time>2020-01-27</time>
+      <time>2021-01-24</time>
     </section>
     <section class="single">
       <h1>Généralités</h1>
@@ -39,7 +39,7 @@ int main() {
           <li>sensible à la casse</li>
           <li>caractères blancs ne sont pas significatifs</li>
           <li>
-            commentaires sur une ligne indiqués par <code>//</code>, sur plusieurs lignes entre<code>/*</code> et <code>*/</code></li>
+            commentaires sur une ligne indiqués par <code>//</code>, sur plusieurs lignes entre <code>/*</code> et <code>*/</code></li>
         </ul>
       </div>
     </section>
@@ -219,20 +219,25 @@ if (x > 0) {
 
 while (x > 1) {
   x--;
+}</code><code class="cpp only">for (int i=0; i &lt; 5; i++) {
+  x *= 2;
 }
 
-for (int i=0; i &lt; 5; i++) {
+// version équivalente avec un while
+<span class="highlight">int i=0;</span>
+while (<span class="highlight">i &lt; 5</span>) {
   x *= 2;
+  <span class="highlight">i++;</span>
 }</code><code class="cpp only">switch (x % 3) {
   case 1:
-  x -= 1;
-  break;
-case 2:
-  x += 1;
-  break;
-default:
-  x += 3;
-  break;
+    x -= 1;
+    break;
+  case 2:
+    x += 1;
+    break;
+  default:
+    x += 3;
+    break;
 }</code></pre>
       </div>
       <div class="side">
@@ -294,7 +299,7 @@ char s[20];
 /* utilisation */
 tab[0] = 0;
 tab[1] = 1;
-for (int i=2; i&lt;10; i++) {
+for (int i = 2; i &lt; 10; i++) {
   tab[i] = tab[i-1] + tab[i-2];
 }
 

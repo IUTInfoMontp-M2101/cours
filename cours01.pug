@@ -1,7 +1,7 @@
 extends coursXX.pug
 
 append preamble
-  - date = "2020-01-27";
+  - date = "2021-01-24";
   - title = "Cours n°1 :<br>Introduction au C";
 
 block document
@@ -30,7 +30,7 @@ block document
         li sensible à la casse
         li caractères blancs ne sont pas significatifs
         li commentaires sur une ligne indiqués par <code>//</code>, sur plusieurs lignes entre
-          | <code>/*</code> et <code>*/</code>
+          |  <code>/*</code> et <code>*/</code>
 
   section.split
     h1 Instructions
@@ -199,21 +199,28 @@ block document
           | while (x > 1) {
           |   x--;
           | }
-          |
+        code.cpp.only
           | for (int i=0; i &lt; 5; i++) {
           |   x *= 2;
+          | }
+          |
+          | // version équivalente avec un while
+          | <span class="highlight">int i=0;</span>
+          | while (<span class="highlight">i &lt; 5</span>) {
+          |   x *= 2;
+          |   <span class="highlight">i++;</span>
           | }
         code.cpp.only
           | switch (x % 3) {
           |   case 1:
-          |   x -= 1;
-          |   break;
-          | case 2:
-          |   x += 1;
-          |   break;
-          | default:
-          |   x += 3;
-          |   break;
+          |     x -= 1;
+          |     break;
+          |   case 2:
+          |     x += 1;
+          |     break;
+          |   default:
+          |     x += 3;
+          |     break;
           | }
 
     .side
@@ -274,7 +281,7 @@ block document
           | /* utilisation */
           | tab[0] = 0;
           | tab[1] = 1;
-          | for (int i=2; i&lt;10; i++) {
+          | for (int i = 2; i &lt; 10; i++) {
           |   tab[i] = tab[i-1] + tab[i-2];
           | }
           |
