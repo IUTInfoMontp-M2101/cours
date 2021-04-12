@@ -6,3 +6,4 @@
 1. [Création de processus](https://iutinfomontp-m2101.github.io/cours/cours04.html)
 1. [Processus légers (threads)](https://iutinfomontp-m2101.github.io/cours/cours05.html)
 1. [Signaux](https://iutinfomontp-m2101.github.io/cours/cours06.html)
+1. [Communication entre processus](https://iutinfomontp-m2101.github.io/cours/cours07.html)
