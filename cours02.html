@@ -14,7 +14,7 @@
       <div class="author">Victor Poupet</div>
       <time>2021-02-08</time>
     </section>
-    <section class="single">
+    <section>
       <h1>Système d'exploitation</h1>
       <div>
         <ul>
@@ -27,7 +27,7 @@
         </ul>
       </div>
     </section>
-    <section class="single">
+    <section>
       <h1>Appels systèmes</h1>
       <div>
         Les appels systèmes ressemblent à des procédures (appels de fonction), avec toutefois des différences importantes&nbsp;:
@@ -50,7 +50,7 @@
         </ul>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Entrée / Sortie</h1>
       <div class="side">
         <pre><code class="cpp">int <span class="highlight">open</span>(char *path, int flags[, int mode]);
@@ -72,7 +72,7 @@ off_t <span class="highlight">lseek</span>(int fd, off_t offset, int whence);</c
         </ul>
       </div>
     </section>
-    <section class="single">
+    <section>
       <h1>man 2 open</h1>
       <div>
         <pre><code class="plaintext">OPEN(2)                BSD System Calls Manual                OPEN(2)
@@ -88,7 +88,7 @@ DESCRIPTION
   The oflag argument may indicate that the file is to be created if it does not exist (by specifying the O_CREAT flag).  In this case, open requires a third argument mode_t mode; the file is created with mode mode as described in chmod(2) and modified by the process' umask value (see umask(2)).</code></pre>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Open</h1>
       <div class="side">
         <pre><code class="cpp">int <span class="highlight">open</span>(char *path, int flags[, int mode]);</code></pre>
@@ -112,7 +112,7 @@ main() {
         </ul>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Open (flags)</h1>
       <div class="side">
         <pre><code><span class="highlight">O_RDONLY</span> open for reading only
@@ -132,7 +132,7 @@ O_EXCL error if O_CREAT and the file exists
         </ul>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Close</h1>
       <div class="side">
         <pre><code class="cpp">int <span class="highlight">close</span>(int fd);</code></pre>
@@ -164,7 +164,7 @@ main() {
         </ul>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Read</h1>
       <div class="side">
         <pre><code class="cpp">int <span class="highlight">read</span>(int fd, char *buf, int size);</code></pre>
@@ -195,7 +195,7 @@ main() {
         </ul>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Write</h1>
       <div class="side">
         <pre><code class="cpp">int <span class="highlight">write</span>(int fd, char *buf, int size);</code></pre>
@@ -225,7 +225,7 @@ main() {
         </ul>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Pointeur de fichier</h1>
       <div class="side">
         <pre><code class="cpp">int main() {
@@ -254,7 +254,7 @@ main() {
         </ul>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Ouvertures multiples</h1>
       <div class="side">
         <pre><code class="cpp only" data-end="1">int main() {
@@ -289,7 +289,7 @@ main() {
         </ul>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>stdin, stdout, stderr</h1>
       <div class="side">
         <pre><code class="cpp">main() {
@@ -309,7 +309,7 @@ main() {
         <p>On peut directement utiliser ces descripteurs de fichiers sans avoir à utiliser <code>open</code>.</p>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>lseek</h1>
       <div class="side">
         <pre><code class="cpp">int main() {
@@ -349,7 +349,7 @@ main() {
         <p>Il est possible de déplacer le curseur au-delà de la fin du fichier</p>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>stdio.h</h1>
       <div class="side">
         <pre><code class="cpp">int main() {

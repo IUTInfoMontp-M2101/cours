@@ -12,9 +12,9 @@
       <h1>Cours n°5 :<br>Processus légers<br>(threads)</h1>
       <div class="context">M2101 - Architecture et programmation bas niveau</div>
       <div class="author">Victor Poupet</div>
-      <time>2019-03-11</time>
+      <time>2021-04-12</time>
     </section>
-    <section class="single">
+    <section>
       <h1>Processus légers</h1>
       <div class="only" data-step="0">
         <p class="skip">Si l'on veut exécuter plusieurs tâches en parallèle, on peut utiliser des processus différents</p>
@@ -36,7 +36,7 @@
         </ul>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Processus légers</h1>
       <div class="side">
         <div class="center"><img class="only" src="cours05/cours05-thread-01.svg" style="width: 80%" data-step="0" alt="threads"><img class="only" src="cours05/cours05-thread-02.svg" style="width: 80%" alt="threads"></div>
@@ -52,7 +52,7 @@
         </ul>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>En C</h1>
       <div class="side">
         <pre><code class="cpp">#include &lt;pthread.h>
@@ -82,7 +82,7 @@ void <span class="highlight">pthread_exit</span>(void *value_ptr)</code></pre>
         </ul>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Exemple</h1>
       <div class="side">
         <pre><code class="cpp only" data-step="0">#include &lt;stdio.h>
@@ -169,7 +169,7 @@ void* tache(void* args) {
 }</code></pre>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Concurrence</h1>
       <div class="side">
         <pre><code class="cpp">#include &lt;pthread.h>
@@ -210,7 +210,7 @@ int main(void) {
         </ul>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Thread safety</h1>
       <div class="side">
         <pre><code class="cpp">#include &lt;pthread.h>
@@ -242,7 +242,7 @@ int incr() {
         </ul>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Réentrance</h1>
       <div class="side">
         <pre><code class="cpp only" data-step="0">// cette fonction est réentrante
@@ -279,7 +279,7 @@ void echange(int *x, int *y) {
         </ul>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Compilation</h1>
       <div class="side">
         <pre><code class="only" data-step="0">$ gcc prog.c -lpthread -D_REENTRANT</code><code class="only">$ gcc prog.c -pthread</code></pre>
@@ -304,7 +304,7 @@ void echange(int *x, int *y) {
         </ul>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1><span style="display: inline-block; text-align: center; width: 50%">Processus</span><span style="display: inline-block; text-align: center; width: 50%">Thread</span></h1>
       <div class="side">
         <ul>

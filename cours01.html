@@ -14,7 +14,7 @@
       <div class="author">Victor Poupet</div>
       <time>2021-01-25</time>
     </section>
-    <section class="single">
+    <section>
       <h1>Généralités</h1>
       <ul>
         <li>Langage bas niveau (accès direct aux instructions du système)</li>
@@ -23,7 +23,7 @@
         <li>La syntaxe du C a fortement inspiré celle de nombreux langages par la suite (par exemple Java)</li>
       </ul>
     </section>
-    <section class="split">
+    <section>
       <h1>Premier programme</h1>
       <div class="side">
         <pre><code class="cpp">#include &lt;stdio.h>
@@ -43,7 +43,7 @@ int main() {
         </ul>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Instructions</h1>
       <div class="side">
         <pre><code class="cpp">int a = 12; int b = 5;
@@ -60,7 +60,7 @@ if (a > 0) {
         </ul>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Compilation</h1>
       <div class="side">
         <pre><code class="plaintext">$ gcc -Wall code.c -o prog
@@ -83,7 +83,7 @@ Hello, world!</code></pre>
         </ul>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Précompilation</h1>
       <div class="side">
         <pre><code class="cpp"><span class="highlight">#include</span> &lt;stdio.h>
@@ -110,7 +110,7 @@ int main() {
         </ul>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Fonctions</h1>
       <div class="side">
         <pre><code class="cpp">#include &lt;math.h>
@@ -134,7 +134,7 @@ float hyp(int a, int b) {
         <p>Exemple: <a href="cours01/stdioh.html"><code>stdio.h</code></a></p>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>La fonction main</h1>
       <div class="side">
         <pre><code class="cpp">int main() {
@@ -165,7 +165,7 @@ int main(int argc, char *argv[]) {
         </ul>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Types de base</h1>
       <div class="side">
         <pre><code class="cpp">int a = 12;
@@ -188,7 +188,7 @@ char s = 'A';</code></pre>
         </ul>
       </div>
     </section>
-    <section class="single">
+    <section>
       <h1>Les types de base en mémoire</h1>
       <p>Les différents types de base n'occupent pas le même espace mémoire.</p>
       <p>En général&nbsp;:</p>
@@ -206,7 +206,7 @@ char s = 'A';</code></pre>
       </p>
       <p>On peut utiliser l'instruction <code>sizeof</code> pour obtenir la taille en octets d'une variable</p>
     </section>
-    <section class="split">
+    <section>
       <h1>Structure de contrôle</h1>
       <div class="side">
         <pre><code class="cpp only" data-step="0">int x = 12;
@@ -251,11 +251,11 @@ while (<span class="highlight">i &lt; 5</span>) {
         </ul>
       </div>
     </section>
-    <section class="single">
+    <section>
       <h1>Un exemple</h1>
       <p>&rarr; <a href="cours01/binome.html">Programme de calcul de racine d'un polynôme de degré 2</a></p>
     </section>
-    <section class="split">
+    <section>
       <h1>Conversion de type</h1>
       <div class="side">
         <pre><code class="cpp">char c = 'A'; // 'A' = 65
@@ -285,7 +285,7 @@ b = a + c;
         </ul>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Tableaux</h1>
       <div class="side">
         <pre><code class="cpp">/* déclarations */
@@ -317,7 +317,7 @@ int t[4] = {1, 2, 3, 4};</code></pre>
         </ul>
       </div>
     </section>
-    <section class="single">
+    <section>
       <h1>Tableaux</h1>
       <p>Suite à l'instruction<br><code style="margin-left: 5mm">int tab[4];</code></p>
       <ul>
@@ -329,7 +329,7 @@ int t[4] = {1, 2, 3, 4};</code></pre>
           Rien ne marque la fin du tableau, mais le contenu des cases à l'extérieur est indéterminé (et peut être interdit d'accès au programme courant)</li>
       </ul><br><img src="cours01/cours01-tableaux.svg" style="width: 100%" alt="tableaux">
     </section>
-    <section class="split">
+    <section>
       <h1>Pointeurs</h1>
       <div class="side">
         <pre><code class="cpp">int a, b, *p;
@@ -353,7 +353,7 @@ a++;
         </ul>
       </div>
     </section>
-    <section class="single">
+    <section>
       <h1>Pointeurs</h1>
       <pre><code class="cpp">float a = 3.14;        (float) a : 1234
 <span class="uncover">float *p;              (float*) p : 1842</span>
@@ -365,7 +365,7 @@ a++;
 <span class="uncover">t = p;</span>
 <span class="uncover">*p = 2.72;</span></code></pre><br><img class="only" src="cours01/cours01-pointeurs-1.svg" data-step="0" style="width: 100%" alt="pointeurs"><img class="only" src="cours01/cours01-pointeurs-2.svg" style="width: 100%" alt="pointeurs"><img class="only" src="cours01/cours01-pointeurs-3.svg" style="width: 100%" alt="pointeurs"><img class="only" src="cours01/cours01-pointeurs-4.svg" style="width: 100%" alt="pointeurs"><img class="only" src="cours01/cours01-pointeurs-5.svg" style="width: 100%" alt="pointeurs"><img class="only" src="cours01/cours01-pointeurs-6.svg" style="width: 100%" alt="pointeurs"><img class="only" src="cours01/cours01-pointeurs-7.svg" style="width: 100%" alt="pointeurs"><img class="only" src="cours01/cours01-pointeurs-8.svg" style="width: 100%" alt="pointeurs"><img class="only" src="cours01/cours01-pointeurs-9.svg" style="width: 100%" alt="pointeurs">
     </section>
-    <section class="split">
+    <section>
       <h1>Valeur ou référence</h1>
       <div class="side">
         <pre><code class="cpp">int a, b;
@@ -394,7 +394,7 @@ n = "def"; <span class="uncover">// n = "def", m = "abc"</span></code></pre>
         </ul>
       </div>
     </section>
-    <section class="single">
+    <section>
       <h1>Tableaux et pointeurs</h1>
       <p>Les opérations sur les tableaux reviennent à manipuler des pointeurs&nbsp;:</p><br>
       <ul>
@@ -403,7 +403,7 @@ n = "def"; <span class="uncover">// n = "def", m = "abc"</span></code></pre>
         <li>pour accéder à une case du tableau, <code>t[5]</code> est équivalent à <code>*(t+5)</code></li>
       </ul>
     </section>
-    <section class="split">
+    <section>
       <h1>Chaînes de caractères</h1>
       <div class="side">
         <pre><code class="cpp">int longueur (char *s) {
@@ -435,7 +435,7 @@ int main() {
         </ul>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Structures</h1>
       <div class="side">
         <pre><code class="cpp">// définition du type

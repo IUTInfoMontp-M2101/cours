@@ -14,7 +14,7 @@
       <div class="author">Victor Poupet</div>
       <time>2021-03-22</time>
     </section>
-    <section class="split">
+    <section>
       <h1>Hiérarchie de processus</h1>
       <div class="side">
         <pre><code>$ ps ax
@@ -48,7 +48,7 @@
         </p>
       </div>
     </section>
-    <section class="single">
+    <section>
       <h1>Hiérarchie (pstree)</h1>
       <pre><code>$ <span class="highlight">pstree -p</span>
 
@@ -71,7 +71,7 @@
         ├─sh(884)───initctl(886)
         └─udisks-daemon(1604)───udisks-daemon(1609)</code></pre>
     </section>
-    <section class="split">
+    <section>
       <h1>Création</h1>
       <div class="side">
         <div class="only" data-end="1">
@@ -122,7 +122,7 @@ int main(int argc, char **argv) {
         </div>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Attente de complétion</h1>
       <div class="side">
         <pre><code>SYNOPSIS
@@ -142,7 +142,7 @@ int main(int argc, char **argv) {
         </ul>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Zombies</h1>
       <div class="side">
         <pre><code class="cpp only" data-step="0">int main(int argc, char **argv) {
@@ -174,7 +174,7 @@ int main(int argc, char **argv) {
         </ul>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Éviter les zombies</h1>
       <div class="side">
         <pre><code class="cpp only" data-step="0">int main() {
@@ -230,7 +230,7 @@ int main() {
         </ul>
       </div>
     </section>
-    <section class="single">
+    <section>
       <h1>fork</h1>
       <p class="skip">
         La fonction <code>fork</code> est appelée par un processus mais renvoie deux résultats, dans deux processus distincts</p>
@@ -241,7 +241,7 @@ int main() {
           Si le fils et le père doivent avoir des comportements différents, il faut que les deux aient l'ensemble du code<span class="uncover">... sauf s'il existe un moyen de changer le code d'un processus</span></span></li>
       </ul>
     </section>
-    <section class="split">
+    <section>
       <h1>Exécution</h1>
       <div class="side">
         <pre><code class="cpp only" data-end="1">#include &lt;unistd.h>
@@ -301,7 +301,7 @@ int execvp(const char *file, char *const argv[]);</code><code class="cpp only" d
         </div>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Exemple : ls</h1>
       <div class="side">
         <div class="center"><img src="cours04/cours04-exec.svg" style="width:80%" alt="exec"></div>
@@ -317,7 +317,7 @@ int execvp(const char *file, char *const argv[]);</code><code class="cpp only" d
         </ul>
       </div>
     </section>
-    <section class="single">
+    <section>
       <h1>Copie sur écriture</h1>
       <p>
         L'utilisation de <code>fork</code>/<code>exec</code> est le moyen le plus classique (et parfois le seul disponible) pour créer des nouveaux processus</p>

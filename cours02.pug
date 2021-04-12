@@ -5,7 +5,7 @@ append preamble
   - title = "Cours n°2 :<br>Appels systèmes<br>et entrée / sortie";
 
 block document
-  section.single
+  section
     h1 Système d'exploitation
     div
       ul
@@ -16,7 +16,7 @@ block document
         li Les programmes communiquent avec l'OS par l'intérmédiaire d'appels systèmes (<em>system
           |  call</em>)
 
-  section.single
+  section
     h1 Appels systèmes
     div Les appels systèmes ressemblent à des procédures (appels de fonction), avec toutefois des
       |  différences importantes&nbsp;:
@@ -35,7 +35,7 @@ block document
         li Il faut être très prudent pour ne pas provoquer d'erreurs
         li On utilise en général une fonction qui se charge de faire l'appel
 
-  section.split
+  section
     h1 Entrée / Sortie
     .side
       pre
@@ -56,7 +56,7 @@ block document
           |  aient des conséquences sur le système de fichiers
         li chaque appel est décrit dans sa page de manuel (ex : <code>man 2 open</code>)
 
-  section.single
+  section
     h1 man 2 open
     div
       pre
@@ -73,7 +73,7 @@ block document
           |
           |   The oflag argument may indicate that the file is to be created if it does not exist (by specifying the O_CREAT flag).  In this case, open requires a third argument mode_t mode; the file is created with mode mode as described in chmod(2) and modified by the process' umask value (see umask(2)).
 
-  section.split
+  section
     h1 Open
     .side
       pre
@@ -98,7 +98,7 @@ block document
         li le résultat est un entier correspondant à un descripteur de fichier (ou -1 en cas d'erreur)
         li Tous les autres appels E/S utilisent un descripteur de fichier
 
-  section.split
+  section
     h1 Open (flags)
     .side
       pre
@@ -117,7 +117,7 @@ block document
         li L'argument <code>flags</code> est un ou bit-à-bit de valeurs
         li Les valeurs possibles sont définies dans <a href="cours02/fcntl.h"><code>/usr/include/sys/fcntl.h</code></a>
 
-  section.split
+  section
     h1 Close
     .side
       pre
@@ -150,7 +150,7 @@ block document
         li Le nombre de fichiers ouverts par un processus est limité (dépend du système, varie d'une centaine à
           |  plusieurs milliers)
 
-  section.split
+  section
     h1 Read
     .side
       pre
@@ -182,7 +182,7 @@ block document
         li <code>size</code> est le nombre d'octets à lire
         li le résultat est le nombre d'octets effectivement lus (peut être inférieur à <code>size</code> si on est en fin de fichier)
 
-  section.split
+  section
     h1 Write
     .side
       pre
@@ -212,7 +212,7 @@ block document
         li <code>size</code> correspond au nombre de caractères du tableau <code>buf</code> à écrire
         li le résultat est le nombre d'octets effectivement écrits (devrait toujours être égal à <code>size</code>)
 
-  section.split
+  section
     h1 Pointeur de fichier
     .side
       pre
@@ -240,7 +240,7 @@ block document
         li Lorsque l'on utilise <code>read</code> ou <code>write</code>, la lecture et l'écriture se font au niveau du pointeur
         li Le pointeur est automatiquement avancé par la lecture et l'écriture
 
-  section.split
+  section
     h1 Ouvertures multiples
     .side
       pre
@@ -278,7 +278,7 @@ block document
         li chaque descripteur a son propre pointeur de fichier
         li les ouvertures en mode <code>O_APPEND</code> restent à la fin du fichier
 
-  section.split
+  section
     h1 stdin, stdout, stderr
     .side
       pre
@@ -297,7 +297,7 @@ block document
         li 2&nbsp;: sortie d'erreur (<code>stderr</code>)
       p On peut directement utiliser ces descripteurs de fichiers sans avoir à utiliser <code>open</code>.
 
-  section.split
+  section
     h1 lseek
     .side
       pre
@@ -334,7 +334,7 @@ block document
         li Le résultat est la position absolue du curseur après déplacement
       p Il est possible de déplacer le curseur au-delà de la fin du fichier
 
-  section.split
+  section
     h1 stdio.h
     .side
       pre

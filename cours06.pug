@@ -5,7 +5,7 @@ append preamble
   - title = "Cours n°6 :<br>Signaux";
 
 block document
-  section.single
+  section
     h1 Signaux
     p Interruptions logicielles envoyées à un processus pour indiquer un événement exceptionnel
     ul.skip
@@ -19,7 +19,7 @@ block document
       li Changement d'état d'un processus fils
       li Terminaison du processus par l'utilisateur ou le système
 
-  section.split
+  section
     h1 Présentation
     .side
       .only(data-step=0)
@@ -81,7 +81,7 @@ block document
             li Ignorer le signal
             li Suspendre le processus
 
-  section.single
+  section
     h1 Exemples
     p Quelques signaux courants :
     ul
@@ -97,7 +97,7 @@ block document
       li <code>SIGCHLD</code> (20) Changement de l'état d'un fils
       li <code>SIGUSR1</code> et <code>SIGUSR2</code> (30, 31) À définir par l'utilisateur
 
-  section.split
+  section
     h1 Dans le terminal
     .side
       .only(data-step=0)
@@ -126,7 +126,7 @@ block document
           | $ kill -9 1234
           | [1]+  Killed: 9               ./a.out
 
-  section.single
+  section
     h1 Liste
     p La commande <code>kill -l</code> liste les signaux disponibles
     pre
@@ -141,7 +141,7 @@ block document
         | 25) SIGXFSZ      26) SIGVTALRM    27) SIGPROF      28) SIGWINCH
         | 29) SIGINFO      30) SIGUSR1      31) SIGUSR2
 
-  section.split
+  section
     h1 Gestion des signaux
     .side
       img.only(data-step=0 src="cours06/pending0.svg" alt="pending and blocked signals")
@@ -162,7 +162,7 @@ block document
           li les signaux bloqués sont conservés
           li le processus reprend son exécution
 
-  section.split
+  section
     h1 Handlers
     .side
       pre.only(data-step=0)
@@ -263,7 +263,7 @@ block document
             li un pointeur vers la structure définie
             li un pointeur vers une structure pour contenir l'action précédente associée au signal
 
-  section.split
+  section
     h1 Signal
     .side
       pre
@@ -298,7 +298,7 @@ block document
         p <code>signal</code> est plus simple mais moins complète que <code>sigaction</code>
         p Parfois déconseillée pour raisons de compatibilité
 
-  section.split
+  section
     h1 Signaux prioritaires
     .side
       pre
@@ -334,7 +334,7 @@ block document
           | ./a.out
           | Killed: 9                  <span class="highlight">kill -SIGKILL</span>
 
-  section.split
+  section
     h1 Envoi de signaux
     .side
       pre.only(data-step=0)
@@ -386,7 +386,7 @@ block document
         li renvoie 0 en cas de succès
         li renvoie -1 en cas d'erreur (<code>errno</code>)
 
-  section.split
+  section
     h1 Le retour des zombies
     .side
       pre

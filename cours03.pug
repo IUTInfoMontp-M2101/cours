@@ -5,7 +5,7 @@ append preamble
   - title = "Cours n°3 :<br>Processus";
 
 block document
-  section.single
+  section
     h1 Parallélisme
     p Les OS modernes sont tous capables d'exécuter plusieurs tâches en parallèle
     ul
@@ -14,7 +14,7 @@ block document
       li pour les faire avancer en parallèle, le processeur alloue de petits intervalles de temps à chaque
         |  processus, en alternance (ordonnancement)
 
-  section.split
+  section
     h1 Cycle d'un processus
     .side
       img(src="cours03/cours03-cycle.svg" style="width: 100%" alt="cycle d'un processus")
@@ -30,7 +30,7 @@ block document
           |  message d'un autre processus, etc.)
         li <strong>Terminé :</strong> l'exécution est finie
 
-  section.single
+  section
     h1 Bloc de contrôle
     p Le <em>bloc de contrôle</em> d'un processus (<em>process control bloc</em> ou PCB) est une structure de données
       |  utilisée par l'OS pour représenter ses informations :
@@ -51,7 +51,7 @@ block document
         li privilèges
         li comptabilité (temps CPU, date d'exécution, <em>etc.</em>)
 
-  section.split
+  section
     h1 Changement de processus
     .side
       .center
@@ -67,7 +67,7 @@ block document
       p Ce transfert peut être réalisé après une interruption de l'exécution du premier processus à l'aide d'un appel
         |  système.
 
-  section.single
+  section
     h1 Anatomie d'un processus
     p La mémoire occupée par un processus est divisée en plusieurs sections&nbsp;:
     ul.skip
@@ -82,7 +82,7 @@ block document
     p En plus de ces données, si le programme est interrompu, il faut également sauvegarder le compteur d'exécution
       |  ainsi que les valeurs contenues dans les registres du processeur
 
-  section.split
+  section
     h1 size
     .side
       pre
@@ -116,14 +116,14 @@ block document
           |  (la zone correspondant à <code>bss</code> est initialisée à 0)
         li Les variables globales ne peuvent pas avoir une taille variable (définie à l'exécution)
 
-  section.single
+  section
     h1 text
     p.skip La section <code>text</code> de la mémoire contient la séquence d'instructions à exécuter
     ul
       li Chargée au démarrage du programme et protégée en écriture
       li Un registre du processeur contient l'adresse de l'instruction en cours (<em>program counter</em> ou PC)
 
-  section.split
+  section
     h1 Limites
     .side
       pre
@@ -146,7 +146,7 @@ block document
       p La fonction <code>ulimit</code> permet d'obtenir les limitations de taille imposées par le système
         |  d'exploitation.
 
-  section.split
+  section
     h1 Allocation dynamique
     .side
       pre
@@ -178,7 +178,7 @@ block document
       p La taille du tas disponible pour un processus n'est en général pas limitée, et c'est donc là que doivent
         |  être placés les objets de grande taille.</p>
 
-  section.split
+  section
     h1 La pile
     .side
       .center
@@ -206,7 +206,7 @@ block document
         p Lorsque la fonction termine, le résultat est placé sur la pile pour être traité par la fonction
           |  précédente.
 
-  section.split
+  section
     h1
       span(style="display: inline-block; text-align: center; width: 50%") Pile
       span(style="display: inline-block; text-align: center; width: 50%") Tas
@@ -225,7 +225,7 @@ block document
         li Doit être libéré explicitement
         li Objets peuvent être redimensionnés (<code>realloc</code>)
 
-  section.split
+  section
     h1 Virtualisation
     .side
       img(src="cours05/cours05-memoireVirtuelle.svg" style="width: 80%" alt="mémoire virtuelle")

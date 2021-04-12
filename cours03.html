@@ -14,7 +14,7 @@
       <div class="author">Victor Poupet</div>
       <time>2020-03-15</time>
     </section>
-    <section class="single">
+    <section>
       <h1>Parallélisme</h1>
       <p>Les OS modernes sont tous capables d'exécuter plusieurs tâches en parallèle</p>
       <ul>
@@ -24,7 +24,7 @@
           pour les faire avancer en parallèle, le processeur alloue de petits intervalles de temps à chaque processus, en alternance (ordonnancement)</li>
       </ul>
     </section>
-    <section class="split">
+    <section>
       <h1>Cycle d'un processus</h1>
       <div class="side"><img src="cours03/cours03-cycle.svg" style="width: 100%" alt="cycle d'un processus"></div>
       <div class="side">
@@ -40,7 +40,7 @@
         </ul>
       </div>
     </section>
-    <section class="single">
+    <section>
       <h1>Bloc de contrôle</h1>
       <p>
         Le <em>bloc de contrôle</em> d'un processus (<em>process control bloc</em> ou PCB) est une structure de données utilisée par l'OS pour représenter ses informations :</p>
@@ -65,7 +65,7 @@
         </ul>
       </ul>
     </section>
-    <section class="split">
+    <section>
       <h1>Changement de processus</h1>
       <div class="side">
         <div class="center"><img src="cours03/cours03-switch.svg" style="width: 70%" alt="changement de processus"></div>
@@ -81,7 +81,7 @@
           Ce transfert peut être réalisé après une interruption de l'exécution du premier processus à l'aide d'un appel système.</p>
       </div>
     </section>
-    <section class="single">
+    <section>
       <h1>Anatomie d'un processus</h1>
       <p>La mémoire occupée par un processus est divisée en plusieurs sections&nbsp;:</p>
       <ul class="skip">
@@ -96,7 +96,7 @@
       <p>
         En plus de ces données, si le programme est interrompu, il faut également sauvegarder le compteur d'exécution ainsi que les valeurs contenues dans les registres du processeur</p>
     </section>
-    <section class="split">
+    <section>
       <h1>size</h1>
       <div class="side">
         <pre><code class="cpp">int tab[5000];
@@ -129,7 +129,7 @@ text data bss   dec   hex  filename
         </ul>
       </div>
     </section>
-    <section class="single">
+    <section>
       <h1>text</h1>
       <p class="skip">La section <code>text</code> de la mémoire contient la séquence d'instructions à exécuter</p>
       <ul>
@@ -137,7 +137,7 @@ text data bss   dec   hex  filename
         <li>Un registre du processeur contient l'adresse de l'instruction en cours (<em>program counter</em> ou PC)</li>
       </ul>
     </section>
-    <section class="split">
+    <section>
       <h1>Limites</h1>
       <div class="side">
         <pre><code>$ ulimit -a
@@ -159,7 +159,7 @@ virtual memory (kbytes, -v) unlimited</code></pre>
           La fonction <code>ulimit</code> permet d'obtenir les limitations de taille imposées par le système d'exploitation.</p>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Allocation dynamique</h1>
       <div class="side">
         <pre><code class="cpp">int *fibo (int n) {
@@ -191,7 +191,7 @@ int main() {
           La taille du tas disponible pour un processus n'est en général pas limitée, et c'est donc là que doivent être placés les objets de grande taille.</p></p>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>La pile</h1>
       <div class="side">
         <div class="center"><img src="cours03/cours03-pile.svg" style="width:70%" alt="pile"></div>
@@ -222,7 +222,7 @@ int main() {
         </div>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1><span style="display: inline-block; text-align: center; width: 50%">Pile</span><span style="display: inline-block; text-align: center; width: 50%">Tas</span></h1>
       <div class="side">
         <ul>
@@ -242,7 +242,7 @@ int main() {
         </ul>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Virtualisation</h1>
       <div class="side"><img src="cours05/cours05-memoireVirtuelle.svg" style="width: 80%" alt="mémoire virtuelle"></div>
       <div class="side">

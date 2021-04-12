@@ -5,7 +5,7 @@ append preamble
   - title = "Cours n°1 :<br>Introduction au C";
 
 block document
-  section.single
+  section
     h1 Généralités
     ul
       li Langage bas niveau (accès direct aux instructions du système)
@@ -13,7 +13,7 @@ block document
       li Langage impératif
       li La syntaxe du C a fortement inspiré celle de nombreux langages par la suite (par exemple Java)
 
-  section.split
+  section
     h1 Premier programme
     .side
       pre
@@ -32,7 +32,7 @@ block document
         li commentaires sur une ligne indiqués par <code>//</code>, sur plusieurs lignes entre
           |  <code>/*</code> et <code>*/</code>
 
-  section.split
+  section
     h1 Instructions
     .side
       pre
@@ -48,7 +48,7 @@ block document
         li Les instructions se terminent par un point virgule
         li On peut grouper plusieurs instructions entre accolades
 
-  section.split
+  section
     h1 Compilation
     .side
       pre
@@ -68,7 +68,7 @@ block document
             li compilation (génération de code machine)
             li édition de liens (production d'un exécutable en combinant les fonctions)
 
-  section.split
+  section
     h1 Précompilation
     .side
       pre
@@ -94,7 +94,7 @@ block document
         li.skip Inclusion de fichiers (<code>#include</code>)
         li Remplacement de constantes et macros (<code>#define</code>)
 
-  section.split
+  section
     h1 Fonctions
     .side
       pre
@@ -117,7 +117,7 @@ block document
       p Le prototype sert à définir le cadre d'utilisation de la fonction
       p Exemple: <a href="cours01/stdioh.html"><code>stdio.h</code></a>
 
-  section.split
+  section
     h1 La fonction main
     .side
       pre
@@ -145,7 +145,7 @@ block document
             li un entier indiquant le nombre d'arguments
             li un tableau contenant des chaînes de caractères (les arguments)
 
-  section.split
+  section
     h1 Types de base
     .side
       pre
@@ -167,7 +167,7 @@ block document
           |  correctement sa valeur
         li Il existe plusieurs types de données «&nbsp;élémentaires&nbsp;» prédéfinis
 
-  section.single
+  section
     h1 Les types de base en mémoire
     p Les différents types de base n'occupent pas le même espace mémoire.
     p En général&nbsp;:
@@ -183,7 +183,7 @@ block document
       |  qu'un <code>int</code>).
     p On peut utiliser l'instruction <code>sizeof</code> pour obtenir la taille en octets d'une variable
 
-  section.split
+  section
     h1 Structure de contrôle
     .side
       pre
@@ -232,11 +232,11 @@ block document
         li <code>for</code> est une syntaxe spéciale qui génère une boucle <code>while</code>
         li <code>switch</code> permet d'exécuter des instructions en fonction de la valeur d'une expression
 
-  section.single
+  section
     h1 Un exemple
     p &rarr; <a href="cours01/binome.html">Programme de calcul de racine d'un polynôme de degré 2</a>
 
-  section.split
+  section
     h1 Conversion de type
     .side
       pre
@@ -265,7 +265,7 @@ block document
         li la conversion d'un <code>float</code> en <code>int</code> élimine la partie fractionnaire (arrondi
           |  inférieur en positif, et supérieur en négatif)
 
-  section.split
+  section
     h1 Tableaux
     .side
       pre
@@ -296,7 +296,7 @@ block document
         li Pour trouver la valeur en position <em>i</em> dans le tableau, il faut aller à l'adresse de la première
           |  case, et se déplacer de <em>i</em> fois la taille d'un élément
 
-  section.single
+  section
     h1 Tableaux
     p Suite à l'instruction<br><code style="margin-left: 5mm">int tab[4];</code>
     ul
@@ -310,7 +310,7 @@ block document
     br
     img(src="cours01/cours01-tableaux.svg" style="width: 100%" alt="tableaux")
 
-  section.split
+  section
     h1 Pointeurs
     .side
       pre
@@ -333,7 +333,7 @@ block document
         li La notation <code>&a</code> désigne l'adresse à laquelle est stockée la variable <code>a</code>
         li Dès que l'on manipule des objets plus complexes que les types de base, les variables contiennent des pointeurs vers les objets et non pas les objets eux-mêmes
 
-  section.single
+  section
     h1 Pointeurs
     pre
       code.cpp
@@ -358,7 +358,7 @@ block document
     img(src="cours01/cours01-pointeurs-8.svg" class="only" style="width: 100%" alt="pointeurs")
     img(src="cours01/cours01-pointeurs-9.svg" class="only" style="width: 100%" alt="pointeurs")
 
-  section.split
+  section
     h1 Valeur ou référence
     .side
       pre
@@ -386,7 +386,7 @@ block document
         li Si deux pointeurs sont égaux, toute modification du contenu de l'un modifie également le contenu de
           |  l'autre
 
-  section.single
+  section
     h1 Tableaux et pointeurs
     p Les opérations sur les tableaux reviennent à manipuler des pointeurs&nbsp;:
     br
@@ -395,7 +395,7 @@ block document
         |  tableau n'est pas définie et l'espace n'est pas réservé en mémoire)
       li pour accéder à une case du tableau, <code>t[5]</code> est équivalent à <code>*(t+5)</code>
 
-  section.split
+  section
     h1 Chaînes de caractères
     .side
       pre
@@ -426,7 +426,7 @@ block document
         li Lorsque l'on réserve l'espace mémoire manuellement, il faut faire attention à prendre une case de plus
           |  pour le caractère <code>'\0'</code>
 
-  section.split
+  section
     h1 Structures
     .side
       pre

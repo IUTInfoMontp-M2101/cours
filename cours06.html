@@ -14,7 +14,7 @@
       <div class="author">Victor Poupet</div>
       <time>2019-03-19</time>
     </section>
-    <section class="single">
+    <section>
       <h1>Signaux</h1>
       <p>Interruptions logicielles envoyées à un processus pour indiquer un événement exceptionnel</p>
       <ul class="skip">
@@ -29,7 +29,7 @@
         <li>Terminaison du processus par l'utilisateur ou le système</li>
       </ul>
     </section>
-    <section class="split">
+    <section>
       <h1>Présentation</h1>
       <div class="side">
         <div class="only" data-step="0"><a href="cours06/signal.html"><code>sys/signal.h</code></a>
@@ -92,7 +92,7 @@ No    Name         Default Action
         </ul>
       </div>
     </section>
-    <section class="single">
+    <section>
       <h1>Exemples</h1>
       <p>Quelques signaux courants :</p>
       <ul>
@@ -109,7 +109,7 @@ No    Name         Default Action
         <li><code>SIGUSR1</code> et <code>SIGUSR2</code> (30, 31) À définir par l'utilisateur</li>
       </ul>
     </section>
-    <section class="split">
+    <section>
       <h1>Dans le terminal</h1>
       <div class="side">
         <div class="only" data-step="0">
@@ -141,7 +141,7 @@ $ kill -9 1234
 [1]+  Killed: 9               ./a.out</code></pre>
       </div>
     </section>
-    <section class="single">
+    <section>
       <h1>Liste</h1>
       <p>La commande <code>kill -l</code> liste les signaux disponibles</p>
       <pre><code>$ kill -l
@@ -154,7 +154,7 @@ $ kill -9 1234
 25) SIGXFSZ      26) SIGVTALRM    27) SIGPROF      28) SIGWINCH
 29) SIGINFO      30) SIGUSR1      31) SIGUSR2</code></pre>
     </section>
-    <section class="split">
+    <section>
       <h1>Gestion des signaux</h1>
       <div class="side"><img class="only" data-step="0" src="cours06/pending0.svg" alt="pending and blocked signals"><img class="only" src="cours06/pending1.svg" alt="pending and blocked signals"><img class="only" src="cours06/pending2.svg" alt="pending and blocked signals"></div>
       <div class="side">
@@ -177,7 +177,7 @@ $ kill -9 1234
         </div>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Handlers</h1>
       <div class="side">
         <pre class="only" data-step="0"><code class="cpp">struct sigaction {
@@ -277,7 +277,7 @@ J'ai fini de travailler
         </ul>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Signal</h1>
       <div class="side">
         <pre><code class="cpp">typedef void (*sig_t) (int);
@@ -309,7 +309,7 @@ int main() {
         </div>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Signaux prioritaires</h1>
       <div class="side">
         <pre><code class="cpp">void handler(int sig) {
@@ -343,7 +343,7 @@ $ fg
 Killed: 9                  <span class="highlight">kill -SIGKILL</span></code></pre>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Envoi de signaux</h1>
       <div class="side">
         <pre class="only" data-step="0"><code class="cpp">pid_t pid = getpid();
@@ -391,7 +391,7 @@ int main() {
         </ul>
       </div>
     </section>
-    <section class="split">
+    <section>
       <h1>Le retour des zombies</h1>
       <div class="side">
         <pre><code class="only cpp" data-step="0">static void handler(int sig) {

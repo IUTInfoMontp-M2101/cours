@@ -1,12 +1,12 @@
 extends coursXX.pug
 
 append preamble
-  - date = "2019-03-11";
+  - date = "2021-04-12";
   - title = "Cours n°5 :<br>Processus légers<br>(threads)";
 
 block document
 
-  section.single
+  section
     h1 Processus légers
     .only(data-step=0)
       p.skip Si l'on veut exécuter plusieurs tâches en parallèle, on peut utiliser des processus différents
@@ -25,7 +25,7 @@ block document
           |  processeurs différents)
         li Les threads sont terminés lorsque le processus termine
 
-  section.split
+  section
     h1 Processus légers
     .side
       .center
@@ -40,7 +40,7 @@ block document
         li Chaque thread a ses propres pointeurs de pile et d'exécution, ainsi que l'état des registres du
           |  processeur
 
-  section.split
+  section
     h1 En C
     .side
       pre
@@ -64,9 +64,9 @@ block document
           ul
             li <code>value_ptr</code> est un pointeur où écrire le résultat de la fonction du thread qui a terminé
         li.uncover <code>pthread_exit</code> permet de terminer un thread (appelée automatiquement si la fonction
-              |  <code>start_routine</code> termine)
+          |  <code>start_routine</code> termine)
 
-  section.split
+  section
     h1 Exemple
     .side
       pre
@@ -163,7 +163,7 @@ block document
           |   return 0;
           | }
 
-  section.split
+  section
     h1 Concurrence
     .side
       pre
@@ -201,7 +201,7 @@ block document
             li mutex
             li barrières
 
-  section.split
+  section
     h1 Thread safety
     .side
       pre
@@ -232,7 +232,7 @@ block document
         li difficile à tester (certains effets se produisent rarement)
         li les verrouillages ralentissent le parallélisme (goulot d'étranglement)
 
-  section.split
+  section
     h1 Réentrance
     .side
       pre
@@ -272,7 +272,7 @@ block document
         li exécution lors d'une interruption
         li exécution concurrente (threads)
 
-  section.split
+  section
     h1 Compilation
     .side
       pre
@@ -297,7 +297,7 @@ block document
         li la plupart du temps, cela correspond à <br><code>-lpthread -D_REENTRANT</code>
 
 
-  section.split
+  section
     h1
       span(style="display: inline-block; text-align: center; width: 50%") Processus
       span(style="display: inline-block; text-align: center; width: 50%") Thread
