@@ -12,7 +12,7 @@
       <h1>Cours n°1 :<br>Introduction au C</h1>
       <div class="context">M2101 - Architecture et programmation bas niveau</div>
       <div class="author">Victor Poupet</div>
-      <time>2021-01-25</time>
+      <time>2022-01-30</time>
     </section>
     <section>
       <h1>Généralités</h1>
@@ -354,7 +354,38 @@ a++;
       </div>
     </section>
     <section>
-      <h1>Pointeurs</h1>
+      <h1>Arithmétique pointeur</h1>
+      <div class="side">
+        <pre><code class="cpp">int *p1;      // supposons p1 = 2100
+int *p2;      // supposons p2 = 3300
+sizeof(int);  // 4
+p1 + 5;       // 2120
+p1 - 3;       // 2088
+p1++;         // p1 = 2104
+p1--;         // p1 = 2100
+p2 - p1;      // 300
+
+void *p3 = p1;
+char *p4 = p1;
+p3 + 3;       // 2103
+p4 - 5;       // 2095</code></pre>
+      </div>
+      <div class="side">
+        <p>On peut faire des opérations arithmétiques sur les pointeurs :</p>
+        <ul>
+          <li>pointeur + entier</li>
+          <li>entier + pointeur</li>
+          <li>pointeur - entier</li>
+          <li>pointeur++</li>
+          <li>pointeur--</li>
+          <li>pointeur - pointeur</li>
+        </ul>
+        <p>Les autres opérations ne sont pas valides</p><br>
+        <p><strong>Attention :</strong> Pour toutes ces opérations, l'unité correspond à la taille en mémoire du type pointé</p>
+      </div>
+    </section>
+    <section>
+      <h1>En mémoire</h1>
       <pre><code class="cpp">float a = 3.14;        (float) a : 1234
 <span class="uncover">float *p;              (float*) p : 1842</span>
 <span class="uncover">p = &amp;a;</span>                <span class="uncover">(int*) tab : 834</span>
@@ -363,7 +394,8 @@ a++;
 <span class="uncover">tab[2] = 10;</span>
 <span class="uncover">*(t+3) = 20;</span>
 <span class="uncover">t = p;</span>
-<span class="uncover">*p = 2.72;</span></code></pre><br><img class="only" src="cours01/cours01-pointeurs-1.svg" data-step="0" style="width: 100%" alt="pointeurs"><img class="only" src="cours01/cours01-pointeurs-2.svg" style="width: 100%" alt="pointeurs"><img class="only" src="cours01/cours01-pointeurs-3.svg" style="width: 100%" alt="pointeurs"><img class="only" src="cours01/cours01-pointeurs-4.svg" style="width: 100%" alt="pointeurs"><img class="only" src="cours01/cours01-pointeurs-5.svg" style="width: 100%" alt="pointeurs"><img class="only" src="cours01/cours01-pointeurs-6.svg" style="width: 100%" alt="pointeurs"><img class="only" src="cours01/cours01-pointeurs-7.svg" style="width: 100%" alt="pointeurs"><img class="only" src="cours01/cours01-pointeurs-8.svg" style="width: 100%" alt="pointeurs"><img class="only" src="cours01/cours01-pointeurs-9.svg" style="width: 100%" alt="pointeurs">
+<span class="uncover">*p = 2.72;</span>
+</code></pre><br><img class="only" src="cours01/cours01-pointeurs-1.svg" data-step="0" style="width: 100%" alt="pointeurs"><img class="only" src="cours01/cours01-pointeurs-2.svg" style="width: 100%" alt="pointeurs"><img class="only" src="cours01/cours01-pointeurs-3.svg" style="width: 100%" alt="pointeurs"><img class="only" src="cours01/cours01-pointeurs-4.svg" style="width: 100%" alt="pointeurs"><img class="only" src="cours01/cours01-pointeurs-5.svg" style="width: 100%" alt="pointeurs"><img class="only" src="cours01/cours01-pointeurs-6.svg" style="width: 100%" alt="pointeurs"><img class="only" src="cours01/cours01-pointeurs-7.svg" style="width: 100%" alt="pointeurs"><img class="only" src="cours01/cours01-pointeurs-8.svg" style="width: 100%" alt="pointeurs"><img class="only" src="cours01/cours01-pointeurs-9.svg" style="width: 100%" alt="pointeurs">
     </section>
     <section>
       <h1>Valeur ou référence</h1>
@@ -468,7 +500,7 @@ struct Voiture v3 = {2, "Fiat"};</code></pre>
       </div>
     </section>
     <script src="highlight.pack.js"></script>
-    <script language="Javascript">
+    <script type="text/javascript">
       document.addEventListener('DOMContentLoaded', (event) => {
         hljs.configure({
           languages: [],  // disable automatic language detection
