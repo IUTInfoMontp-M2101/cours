@@ -1,7 +1,7 @@
 extends coursXX.pug
 
 append preamble
-  - date = "2021-02-08";
+  - date = "2022-02-14";
   - title = "Cours n°2 :<br>Appels systèmes<br>et entrée / sortie";
 
 block document
@@ -86,7 +86,7 @@ block document
           |
           | main() {
           |   int fd;
-          |   fd = <span class="highlight">open</span>("test.txt", O_RDONLY);
+          |   fd = <span class="highlight">open</span>("test.txt", O_WRONLY | O_TRUNC);
           |   printf("%d\n", fd);
           | }
     .side
@@ -244,7 +244,7 @@ block document
     h1 Ouvertures multiples
     .side
       pre
-        code.cpp.only(data-end=1)
+        code.cpp.only(data-start=0 data-end=1)
           | int main() {
           |   int fd1, fd2;
           |
@@ -285,7 +285,7 @@ block document
         code.cpp
           | main() {
           |   char c;
-          |   while (read(0, & c, 1) == 1) {
+          |   while (read(0, &c, 1) == 1) {
           |     write(1, &c, 1);
           |   }
           | }

@@ -12,7 +12,7 @@
       <h1>Cours n°2 :<br>Appels systèmes<br>et entrée / sortie</h1>
       <div class="context">Réseau et Prog. Bas Niveau</div>
       <div class="author">Victor Poupet</div>
-      <time>2021-02-08</time>
+      <time>2022-02-14</time>
     </section>
     <section>
       <h1>Système d'exploitation</h1>
@@ -97,7 +97,7 @@ DESCRIPTION
 
 main() {
   int fd;
-  fd = <span class="highlight">open</span>("test.txt", O_RDONLY);
+  fd = <span class="highlight">open</span>("test.txt", O_WRONLY | O_TRUNC);
   printf("%d\n", fd);
 }</code></pre>
       </div>
@@ -257,7 +257,7 @@ main() {
     <section>
       <h1>Ouvertures multiples</h1>
       <div class="side">
-        <pre><code class="cpp only" data-end="1">int main() {
+        <pre><code class="cpp only" data-start="0" data-end="1">int main() {
   int fd1, fd2;
 
   fd1 = open("test.txt", O_WRONLY | O_CREAT | O_TRUNC);
@@ -294,7 +294,7 @@ main() {
       <div class="side">
         <pre><code class="cpp">main() {
   char c;
-  while (read(0, & c, 1) == 1) {
+  while (read(0, &c, 1) == 1) {
     write(1, &c, 1);
   }
 }</code></pre>
