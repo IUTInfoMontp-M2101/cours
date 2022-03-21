@@ -1,7 +1,7 @@
 extends coursXX.pug
 
 append preamble
-  - date = "2022-03-14";
+  - date = "2022-03-21";
   - title = "Cours n°4 :<br>Création de processus";
 
 block document
@@ -95,7 +95,7 @@ block document
         pre
           code.cpp
             | // fork bomb !
-            | int main(int argc, char **argv) {
+            | int main() {
             |   while (1) fork();
             | }
           .center
