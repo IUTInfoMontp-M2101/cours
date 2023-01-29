@@ -12,9 +12,6 @@
                 "reveal": "always",
             },
             "problemMatcher": [],
-            "runOptions": {
-                "runOn": "folderOpen",
-            },
         },
     ]
 }
