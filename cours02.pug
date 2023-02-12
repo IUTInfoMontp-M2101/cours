@@ -1,7 +1,7 @@
 extends coursXX.pug
 
 append preamble
-  - date = "2022-02-14";
+  - date = "2023-02-13";
   - title = "Cours n°2 :<br>Appels systèmes<br>et entrée / sortie";
 
 block document
@@ -210,7 +210,7 @@ block document
         li <code>fd</code> est le descripteur du fichier où écrire
         li <code>buf</code> est un pointeur vers un tableau de caractères à écrire
         li <code>size</code> correspond au nombre de caractères du tableau <code>buf</code> à écrire
-        li le résultat est le nombre d'octets effectivement écrits (devrait toujours être égal à <code>size</code>)
+        li le résultat est le nombre d'octets effectivement écrits (devrait toujours être égal à <code>size</code>) ou -1 en cas d'erreur
 
   section
     h1 Pointeur de fichier
