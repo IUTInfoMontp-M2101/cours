@@ -1,7 +1,7 @@
 extends coursXX.pug
 
 append preamble
-  - date = "2022-03-21";
+  - date = "2023-03-06";
   - title = "Cours n°4 :<br>Création de processus";
 
 block document
@@ -130,8 +130,7 @@ block document
         p Les commandes <code>wait</code> et <code>waitpid</code> demandent à un processus d'attendre que ses
           |  processus fils changent d'état
         ul
-          li Lorsqu'un fils se termine, la commande <code>wait</code> permet au parent de recevoir le code de
-            |  retour du fils
+          li Lorsqu'un fils se termine, la commande <code>wait</code> permet au parent de recevoir des informations sur la terminaision du fils (code de retour entre autres)
           li Le fils est supprimé de la table de processus quand son père reçoit le code de retour
 
   section

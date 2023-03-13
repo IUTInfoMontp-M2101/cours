@@ -1,7 +1,7 @@
 extends coursXX.pug
 
 append preamble
-  - date = "2022-03-28";
+  - date = "2023-03-13";
   - title = "Cours n°5 :<br>Processus légers<br>(threads)";
 
 block document
@@ -59,7 +59,7 @@ block document
         li.uncover <code>pthread_create</code> pour démarrer un nouveau thread
           ul
             li <code>start_routine</code> est la fonction à exécuter dans le thread
-            li cette fonction prend un unique argument <code>arg</code> de type <code>void*</code>
+            li <code>start_routine</code> prend un unique argument <code>arg</code> de type <code>void*</code>
         li.uncover <code>pthread_join</code> pour attendre la fin d'un thread en cours
           ul
             li <code>value_ptr</code> est un pointeur où écrire le résultat de la fonction du thread qui a terminé

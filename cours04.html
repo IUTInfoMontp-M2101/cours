@@ -12,7 +12,7 @@
       <h1>Cours n°4 :<br>Création de processus</h1>
       <div class="context">Réseau et Prog. Bas Niveau</div>
       <div class="author">Victor Poupet</div>
-      <time>2022-03-21</time>
+      <time>2023-03-06</time>
     </section>
     <section>
       <h1>Hiérarchie de processus</h1>
@@ -136,8 +136,7 @@ int main() {
         <p>
           Les commandes <code>wait</code> et <code>waitpid</code> demandent à un processus d'attendre que ses processus fils changent d'état</p>
         <ul>
-          <li>
-            Lorsqu'un fils se termine, la commande <code>wait</code> permet au parent de recevoir le code de retour du fils</li>
+          <li>Lorsqu'un fils se termine, la commande <code>wait</code> permet au parent de recevoir des informations sur la terminaision du fils (code de retour entre autres)</li>
           <li>Le fils est supprimé de la table de processus quand son père reçoit le code de retour</li>
         </ul>
       </div>
