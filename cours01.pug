@@ -1,7 +1,7 @@
 extends coursXX.pug
 
 append preamble
-  - date = "2023-01-30";
+  - date = "2024-01-15";
   - title = "Cours n°1 :<br>Introduction au C";
 
 block document
@@ -423,7 +423,7 @@ block document
     ul
       li la déclaration <code>int t[];</code> est équivalente à <code>int *t;</code> (dans ce cas la taille du
         |  tableau n'est pas définie et l'espace n'est pas réservé en mémoire)
-      li pour accéder à une case du tableau, <code>t[5]</code> est équivalent à <code>*(t+5)</code>
+      li pour accéder à une case du tableau, <code>t[5]</code> est équivalent à <code>*(t+5)</code> (et même à <code>5[t]</code>)
 
   section
     h1 Chaînes de caractères
