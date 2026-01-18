@@ -12,7 +12,7 @@
       <h1>Cours n°1 :<br>Introduction au C</h1>
       <div class="context">Réseau et Prog. Bas Niveau</div>
       <div class="author">Victor Poupet</div>
-      <time>2025-01-13</time>
+      <time>2026-01-19</time>
     </section>
     <section>
       <h1>Généralités</h1>
@@ -268,11 +268,11 @@ x = a / b;
 y = <span class="highlight">(float)</span> a / b;
 // x = 1, y = 1.5
 
-a = <span class="highlight">(int)</span> 3.9;
+a = <span class="highlight">(int)</span> 4.2;
 b = -1;
 u = <span class="highlight">(unsigned short)</span> b;
 b = a + c;
-// a = 3, u = 65535, b = 68</code></pre>
+// a = 4, u = 65535, b = 69</code></pre>
       </div>
       <div class="side">
         <p>Dans certains cas, il est possible de convertir une variable d'un type en un autre (<em>cast</em>)&nbsp;:</p>
@@ -280,8 +280,7 @@ b = a + c;
           <li>la plupart des types de base sont interconvertibles car ils représentent tous des nombres</li>
           <li>pour demander la conversion explicite en un type, on préfixe la variable du type entre parenthèse</li>
           <li>certaines conversions sont faites implicitement lors d'opérations entre deux types différents</li>
-          <li>
-            la conversion d'un <code>float</code> en <code>int</code> élimine la partie fractionnaire (arrondi inférieur en positif, et supérieur en négatif)</li>
+          <li>la conversion d'un <code>float</code> en <code>int</code> élimine la partie fractionnaire (arrondi vers 0)</li>
         </ul>
       </div>
     </section>
