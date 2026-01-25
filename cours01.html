@@ -348,8 +348,9 @@ a++;
           <li>Un pointeur est une variable qui contient l'adresse mémoire d'un objet (et qui connaît le type de l'objet pointé)</li>
           <li>La notation <code>*p</code> désigne la valeur qui se trouve à l'adresse <code>p</code></li>
           <li>La notation <code>&a</code> désigne l'adresse à laquelle est stockée la variable <code>a</code></li>
-          <li>Dès que l'on manipule des objets plus complexes que les types de base, les variables contiennent des pointeurs vers les objets et non pas les objets eux-mêmes</li>
         </ul>
+        <div class="skip"></div>
+        <p class="uncover"><strong>Rmq :</strong> Dès que l'on manipule des objets plus complexes que les types de base ou des structures (<code>struct</code>), les variables contiennent des pointeurs vers les objets et non pas les objets eux-mêmes</p>
       </div>
     </section>
     <section>
@@ -458,8 +459,7 @@ int main() {
       </div>
       <div class="side">
         <ul>
-          <li>
-            Les chaînes de caractères sont des tableaux de caractères, dont la dernière case contient<code>'\0'</code></li>
+          <li>Les chaînes de caractères sont des tableaux de caractères, dont la dernière case contient <code>'\0'</code></li>
           <li>En général il n'est donc pas nécessaire de mémoriser la longueur d'une chaîne de caractères</li>
           <li>
             Lorsque l'on réserve l'espace mémoire manuellement, il faut faire attention à prendre une case de plus pour le caractère <code>'\0'</code></li>
@@ -485,7 +485,11 @@ struct Voiture v2 = {
   .marque = "Volvo",
 };
 
-struct Voiture v3 = {2, "Fiat"};</code></pre>
+struct Voiture v3 = {2, "Fiat"};
+
+sizeof(struct Voiture);
+// au moins 12 = 4 (int) + 8 (pointeur)
+// (mais souvent 16 à cause de l'alignement en mémoire)</code></pre>
       </div>
       <div class="side">
         <ul>
@@ -493,7 +497,7 @@ struct Voiture v3 = {2, "Fiat"};</code></pre>
           <li>La définition d'une structure donne un type et un nom à chaque champ</li>
           <li>On accède aux champs à l'aide de la notation pointée</li>
           <li>Les valeurs des champs d'une structure sont stockés à la suite en mémoire</li>
-          <li>La taille occupée en mémoire par une structure est égale à la somme des tailles des différents champs</li>
+          <li>La taille occupée en mémoire par une structure correspond à la somme des tailles des différents champs</li>
           <li>On peut utiliser <code>sizeof</code> pour trouver la taille</li>
         </ul>
       </div>
